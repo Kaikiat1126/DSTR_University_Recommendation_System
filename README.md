@@ -1,5 +1,11 @@
 # DSTR_University_Recommendation_System
 
+### Download Project
+
+``` bash
+$ git clone https://github.com/Kaikiat1126/DSTR_University_Recommendation_System.git
+```
+
 ### Project TODOs/ Roadmap
 * [TODOs](https://github.com/Kaikiat1126/DSTR_University_Recommendation_System/blob/master/TODO.md)
 

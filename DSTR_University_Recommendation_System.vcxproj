@@ -129,6 +129,11 @@
   <ItemGroup>
     <ClCompile Include="DSTR_University_Recommendation_System.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DateTime.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Message.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

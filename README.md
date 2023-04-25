@@ -7,7 +7,10 @@ $ git clone https://github.com/Kaikiat1126/DSTR_University_Recommendation_System
 ```
 
 ### Project TODOs/ Roadmap
-* [TODOs](https://github.com/Kaikiat1126/DSTR_University_Recommendation_System/blob/master/TODO.md)
+* [TODOs](https://github.com/Kaikiat1126/DSTR_University_Recommendation_System/blob/master/Docs/TODO.md)
+
+### APIs
+* [APIs_EN](https://github.com/Kaikiat1126/DSTR_University_Recommendation_System/blob/master/Docs/APIs_EN.md)
 
 ### System workflow
 * [Overall System Workflow](https://app.diagrams.net/#G1SkexziPFBx_sdbsLe8NMRXGx2Tdd2WTd)

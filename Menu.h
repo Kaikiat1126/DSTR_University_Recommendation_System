@@ -31,7 +31,7 @@ int Menu::validOption(std::string input, int maxOption)
 	//if option is not in range
 	if (option < 1 || option > maxOption)
 	{
-		Message::error("Input option out of range!");
+		Message::warning("Input option out of range!");
 		return -1;
 	}
 
@@ -57,6 +57,26 @@ int Menu::mainMenu() {
 		std::cin >> input;
 		int option = validOption(input, 4);
 		if (option != -1) 
+			return option;
+	}
+}
+
+int Menu::registerPage() {
+	std::string input = "";
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "******                 Registration Page                ******" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. Register as User" << std::endl;
+	std::cout << "2. Back to Main Menu" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 2);
+		if (option != -1)
 			return option;
 	}
 }

@@ -2,9 +2,9 @@
 
 ## Each Pages Menu
 - [ ] Each pages menu 
-- [ ] Main Menu (Landing)
+- [x] Main Menu (Landing)
 - [ ] Login Menu
-- [ ] Register Menu
+- [x] Register Menu
 - [ ] User Page 
 - [ ] Admin Page
 - [ ] Search University Menu (Register User)
@@ -19,6 +19,7 @@
 `...any more additional features`
 
 ## Pages Function
+- [x] after register direct login
 
 `... in progress`
 
@@ -26,6 +27,7 @@
 - [ ] User class/ struct
 - [ ] Feedback Class/ struct
 - [ ] University Class/ Struct
+- [ ] Favourite Class/ struct
 
 `...any more additional features`
 

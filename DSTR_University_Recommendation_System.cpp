@@ -15,6 +15,7 @@ void go_to_main_menu();
 void go_to_search_university();
 void go_to_register();
 void go_to_login();
+void direct_login();
 
 int main()
 {
@@ -60,7 +61,11 @@ void go_to_register()
     if (option == 1)
     {
         //TODOs -> direct register form
-		registrationForm();
+		bool res = registrationForm();
+        if (res)
+            go_to_login();
+        else
+		    go_to_main_menu();
     }
     else if (option == 2)
     {

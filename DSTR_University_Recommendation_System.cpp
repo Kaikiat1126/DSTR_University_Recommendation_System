@@ -8,6 +8,7 @@
 #include "DateTime.h"
 #include "Menu.h"
 #include "Form.h"
+#include "StatusContainer.h"
 
 using namespace std;
 
@@ -15,6 +16,8 @@ void go_to_main_menu();
 void go_to_search_university();
 void go_to_register();
 void go_to_login();
+void go_to_user_menu();
+// void direct_login();
 
 int main()
 {
@@ -60,7 +63,12 @@ void go_to_register()
     if (option == 1)
     {
         //TODOs -> direct register form
-		registrationForm();
+		bool res = registrationForm();
+        if (res)
+            system("cls");
+            go_to_user_menu();
+        else
+		    go_to_main_menu();
     }
     else if (option == 2)
     {
@@ -73,3 +81,7 @@ void go_to_login()
     cout << "This is login page" << endl;
 }
 
+void go_to_user_menu()
+{
+    cout << "This is user menu page" << endl;
+}

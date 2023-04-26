@@ -5,6 +5,8 @@
 #include "Message.h"
 #include "Menu.h"
 #include "DateTime.h"
+#include "StatusContainer.h"
+#include "User.h"
 
 #define NAME_REGEX "^[a-zA-Z0-9]{4,}$"
 #define EMAIL_REGEX "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
@@ -13,7 +15,7 @@
 
 std::string validInput(std::string, std::string, std::string);
 bool registrationForm();
-bool proceedLogin();
+bool proceedNext(std::string);
 
 std::string validateInput(const std::string& prompt, const std::string& hint,const std::string& regexStr) {
     std::string input;
@@ -73,16 +75,15 @@ bool registrationForm()
 
 	Message::success("Registration successful!");
     std::cout << std::endl;
-	std::cout << "Name: " << name << std::endl;
-	std::cout << "Email: " << email << std::endl;
-	std::cout << "Contact Number: " << contactNum << std::endl;
-	std::cout << "Password: " << password << std::endl;
-
-    // return true;
+	// std::cout << "Name: " << name << std::endl;
+	// std::cout << "Email: " << email << std::endl;
+	// std::cout << "Contact Number: " << contactNum << std::endl;
+	// std::cout << "Password: " << password << std::endl;
 
     // TODOs: store data
-    if(proceedLogin()) {
+    if(proceedNext("Proceed to login")) {
         // TODOs: set data to StatusContainer
+        StatusContainer::currentUser.setDetails(name, email, contactNum, password);
         // TODOs: login
         return true;
     } 
@@ -90,10 +91,10 @@ bool registrationForm()
         return false;
 }
 
-bool proceedLogin() {
+bool proceedNext(std::string message) {
     std::string input;
     while (true) {
-        Message::notice("Proceed to login? (Y/N)");
+        Message::notice(message + "? (Y/N)");
         std::cout << "> ";
         std::cin >> input;
         if (input == "Y" || input == "y" || input == "Yes" || input == "yes" || input == "YES") {

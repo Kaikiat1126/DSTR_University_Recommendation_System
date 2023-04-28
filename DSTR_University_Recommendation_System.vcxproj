@@ -130,6 +130,7 @@
     <ClCompile Include="DSTR_University_Recommendation_System.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Authentication.h" />
     <ClInclude Include="DateTime.h" />
     <ClInclude Include="Form.h" />
     <ClInclude Include="Menu.h" />

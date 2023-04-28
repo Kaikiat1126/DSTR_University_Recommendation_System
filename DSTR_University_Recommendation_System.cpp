@@ -10,6 +10,7 @@
 #include "Form.h"
 #include "StatusContainer.h"
 #include "Authentication.h"
+#include "Visitor.h"
 
 using namespace std;
 

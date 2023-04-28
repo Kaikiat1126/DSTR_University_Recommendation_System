@@ -80,3 +80,23 @@ int Menu::registerPage() {
 			return option;
 	}
 }
+
+int Menu::loginPage(){
+	std::string input = "";
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "******                     Login Page                   ******" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. Proceed Login" << std::endl;
+	std::cout << "2. Back to Main Menu" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 2);
+		if (option != -1)
+			return option;
+	}
+}

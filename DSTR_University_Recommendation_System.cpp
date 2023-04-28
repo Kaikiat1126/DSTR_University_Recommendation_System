@@ -16,14 +16,14 @@ void go_to_main_menu();
 void go_to_search_university();
 void go_to_register();
 void go_to_login();
+void login_process();
 void go_to_user_menu();
-// void direct_login();
 
 int main()
 {
     //std::cout << "Hello University Recommendation System!\n";
-    // go_to_main_menu();
-	go_to_register();
+    go_to_main_menu();
+	// go_to_register();
 }
 
 void go_to_main_menu()
@@ -41,7 +41,6 @@ void go_to_main_menu()
     }
     else if(option == 3)
     {
-        // TODOs
         go_to_login();
     }
     else if(option == 4)
@@ -78,7 +77,54 @@ void go_to_register()
 
 void go_to_login()
 {
-    cout << "This is login page" << endl;
+    int option = Menu::loginPage();
+    system("cls");
+    if (option == 1)
+    {
+        login_process();
+    }
+    else if (option == 2)
+    {
+        go_to_main_menu();
+    }
+}
+
+void login_process()
+{
+    string username, password;
+
+    cout << "Enter your username: " << endl;
+    while(true)
+    {
+        cout << "> ";
+        cin >> username;
+        if(username == "")
+        {
+            Message::warning("Username cannot be empty!");
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    cout << "Enter your password: " << endl;
+    while(true)
+    {
+        cout << "> ";
+        cin >> password;
+        if(password == "")
+        {
+            Message::warning("Password cannot be empty!");
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    // TODOs -> check login
+    // int login_code = login(username, password);
 }
 
 void go_to_user_menu()

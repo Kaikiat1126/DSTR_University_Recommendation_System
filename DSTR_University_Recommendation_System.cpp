@@ -9,6 +9,7 @@
 #include "Menu.h"
 #include "Form.h"
 #include "StatusContainer.h"
+#include "Authentication.h"
 
 using namespace std;
 
@@ -16,8 +17,9 @@ void go_to_main_menu();
 void go_to_search_university();
 void go_to_register();
 void go_to_login();
-void login_process();
 void go_to_user_menu();
+void go_to_admin_menu();
+void verify_second_menu();
 
 int main()
 {
@@ -64,10 +66,14 @@ void go_to_register()
         //TODOs -> direct register form
 		bool res = registrationForm();
         if (res)
+        {
             system("cls");
             go_to_user_menu();
+        }
         else
-		    go_to_main_menu();
+        {
+            go_to_main_menu();
+        }
     }
     else if (option == 2)
     {
@@ -81,7 +87,18 @@ void go_to_login()
     system("cls");
     if (option == 1)
     {
-        login_process();
+        int login_code = Menu::loginProcess();
+        if(login_code == 200)
+        {
+            Sleep(1000);
+            verify_second_menu();
+        }
+        else
+        {
+            Sleep(1000);
+            system("cls");
+            go_to_login();
+        }
     }
     else if (option == 2)
     {
@@ -89,45 +106,30 @@ void go_to_login()
     }
 }
 
-void login_process()
+void verify_second_menu()
 {
-    string username, password;
-
-    cout << "Enter your username: " << endl;
-    while(true)
+    system("cls");
+    string role = StatusContainer::currentUser.getRole();
+    if(role == "admin")
     {
-        cout << "> ";
-        cin >> username;
-        if(username == "")
-        {
-            Message::warning("Username cannot be empty!");
-        }
-        else
-        {
-            break;
-        }
+        go_to_admin_menu();
     }
-
-    cout << "Enter your password: " << endl;
-    while(true)
+    else if(role == "user")
     {
-        cout << "> ";
-        cin >> password;
-        if(password == "")
-        {
-            Message::warning("Password cannot be empty!");
-        }
-        else
-        {
-            break;
-        }
+        go_to_user_menu();
     }
-
-    // TODOs -> check login
-    // int login_code = login(username, password);
+    else
+    {
+        Message::error("Unknown role!");
+    }
 }
 
 void go_to_user_menu()
 {
     cout << "This is user menu page" << endl;
+}
+
+void go_to_admin_menu()
+{
+    cout << "This is admin menu page" << endl;
 }

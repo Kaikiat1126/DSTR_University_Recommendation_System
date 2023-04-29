@@ -10,6 +10,7 @@
 #include "Form.h"
 #include "StatusContainer.h"
 #include "Authentication.h"
+#include "DataHandler.h"
 
 using namespace std;
 
@@ -21,11 +22,23 @@ void go_to_user_menu();
 void go_to_admin_menu();
 void verify_second_menu();
 
+void testInitData();
+
 int main()
 {
-    //std::cout << "Hello University Recommendation System!\n";
-    go_to_main_menu();
+    testInitData();
+    //std::cout << "Hello University Recommendatio0n System!\n";
+    //go_to_main_menu();
 	// go_to_register();
+}
+
+void testInitData()
+{
+    //initUserList();
+    //StatusContainer::userList.displayUserList();
+
+	initUniversityList();
+	StatusContainer::universityList.displayUniversityList();
 }
 
 void go_to_main_menu()

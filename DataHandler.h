@@ -3,6 +3,8 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <locale>
+#include <codecvt>
 #include "Structure.h"
 #include "UserList.h"
 #include "UniversityList.h"
@@ -16,6 +18,7 @@ void readFiletoStruture();
 void initUserList();
 void initUniversityList();
 IsVector<std::string> splitComma(std::string rowStr);
+std::string replaceAccentLetters(std::string rowStr);
 
 void readFiletoStruture()
 {
@@ -113,11 +116,12 @@ void initUniversityList()
 
 IsVector<std::string> splitComma(std::string rowStr)
 {
+    std::string cleanStr = replaceAccentLetters(rowStr);
     IsVector<std::string> row;
     std::string field = "";
 
 	bool inQuotes = false;
-	for (char& c : rowStr)
+	for (char& c : cleanStr)
 	{
 		if (c == '\"')
 			inQuotes = !inQuotes;
@@ -131,4 +135,35 @@ IsVector<std::string> splitComma(std::string rowStr)
 	}
 	row.push_back(field);
 	return row;
+}
+
+std::string replaceAccentLetters(std::string rowStr)
+{
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+    std::wstring wstr = converter.from_bytes(rowStr);
+    std::wstring result = L"";
+    for (wchar_t c : wstr)
+    {
+        if (c == L'á' || c == L'ã' || c == L'à' || c == L'ä' || c == L'â' || c == L'ä' || c == L'ã')
+            result += L"a";
+        else if (c == L'ç')
+            result += L"c";
+        else if (c == L'é' || c == L'è')
+            result += L"e";
+        else if (c == L'ó')
+            result += L"o";
+        else if (c == L'ü')
+            result += L"u";
+        else if (c == L'š')
+            result += L"s";
+        else if (c == L'É')
+            result += L"E";
+        else if (c == L'Ž')
+            result += L"Z";
+        else if (c == L'Ü')
+            result += L"U";
+        else
+            result += c;
+    }
+    return converter.to_bytes(result);
 }

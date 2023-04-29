@@ -7,12 +7,15 @@
 #include "UserList.h"
 #include "UniversityList.h"
 #include "StatusContainer.h"
+#include "IsVector.h"
 
 const std::string UNIVERSITYFILE = "University.csv";
 const std::string USERFILE = "User.csv";
 
 void readFiletoStruture();
 void initUserList();
+void initUniversityList();
+IsVector<std::string> splitComma(std::string rowStr);
 
 void readFiletoStruture()
 {
@@ -67,99 +70,65 @@ void initUniversityList()
     
 	while (getline(file, str))
 	{
-		std::istringstream iss(str);
-		std::string field;
-
-		getline(iss, field, ',');
-		university.rank = stoi(field);
-		getline(iss, university.institution, ',');
-		getline(iss, university.locationCode, ',');
-		getline(iss, university.location, ',');
-		
-		/*getline(iss, field, ',');
-		university.ArScore = stod(field);
-		getline(iss, field, ',');
-		university.ArRank = stoi(field);
-		getline(iss, field, ',');
-		university.ErScore = stod(field);
-		getline(iss, field, ',');
-		university.ErRank = stoi(field);
-		getline(iss, field, ',');
-		university.FsrScore = stod(field);
-		getline(iss, field, ',');
-		university.FsrRank = stoi(field);
-		getline(iss, field, ',');
-		university.CpfScore = stod(field);
-		getline(iss, field, ',');
-		university.CpfRank = stoi(field);
-		getline(iss, field, ',');
-		university.IfrScore = stod(field);
-		getline(iss, field, ',');
-		university.IfrRank = stoi(field);
-		getline(iss, field, ',');
-		university.IsrScore = stod(field);
-		getline(iss, field, ',');
-		university.IsrRank = stoi(field);
-		getline(iss, field, ',');
-		university.IrnScore = stod(field);
-		getline(iss, field, ',');
-		university.IrnRank = stoi(field);
-		getline(iss, field, ',');
-		university.GerScore = stod(field);
-		getline(iss, field, ',');
-		university.GerRank = stoi(field);*/
+		IsVector<std::string> row = splitComma(str);
+		university.rank = stoi(row.at(0));
+		university.institution = row.at(1);
+		university.locationCode = row.at(2);
+		university.location = row.at(3);
 
         double scoreValues[] = { 
             university.ArScore, university.ErScore, university.FsrScore, 
             university.CpfScore, university.IfrScore, university.IsrScore, 
             university.IrnScore, university.GerScore 
         };
-        
+
         int rankValues[] = { university.ArRank, university.ErRank,
             university.FsrRank, university.CpfRank, university.IfrRank,
             university.IsrRank, university.IrnRank, university.GerRank
         };
 
         for (int j = 0; j < 8; j++) {
-            getline(iss, field, ',');
-			if (field != "")
-				scoreValues[j] = stod(field);
+            if (row.at(j + 4) != "")
+                scoreValues[j] = stod(row.at(j + 4));
             else
-				scoreValues[j] = NULL;
+                scoreValues[j] = NULL;
             
-            getline(iss, field, ',');
-			if (field != "" && field != "-")
-				rankValues[j] = stoi(field);
+            if (row.at(j + 5) != "")
+                if(row.at(j + 5).find("+") != std::string::npos)
+                    rankValues[j] = stoi(row.at(j + 5).substr(0, row.at(j + 5).length() - 1));
+                else
+                    rankValues[j] = stoi(row.at(j + 5));
 			else
 				rankValues[j] = NULL;
         }
 
-        university.ArScore = scoreValues[0];
-        university.ErScore = scoreValues[1];
-        university.FsrScore = scoreValues[2];
-        university.CpfScore = scoreValues[3];
-        university.IfrScore = scoreValues[4];
-        university.IsrScore = scoreValues[5];
-        university.IrnScore = scoreValues[6];
-        university.GerScore = scoreValues[7];
-
-        university.ArRank = rankValues[0];
-        university.ErRank = rankValues[1];
-        university.FsrRank = rankValues[2];
-        university.CpfRank = rankValues[3];
-        university.IfrRank = rankValues[4];
-        university.IsrRank = rankValues[5];
-        university.IrnRank = rankValues[6];
-        university.GerRank = rankValues[7];
-		
-		getline(iss, field);
-		if (field != "" && field != "-")
-		    university.ScoreScaled = stod(field);
-        else {
+		if (row.at(20) != "" && row.at(20) != "-")
+			university.ScoreScaled = stod(row.at(20));
+		else
 			university.ScoreScaled = NULL;
-        }
-        
-		if (field != "")
-			StatusContainer::universityList.insertToEndOfList(university);
+            
+        StatusContainer::universityList.insertToEndOfList(university);
 	}
+}
+
+IsVector<std::string> splitComma(std::string rowStr)
+{
+    IsVector<std::string> row;
+    std::string field = "";
+
+	bool inQuotes = false;
+	for (char& c : rowStr)
+	{
+		if (c == '\"')
+			inQuotes = !inQuotes;
+		else if (c == ',' && !inQuotes)
+		{
+			row.push_back(field);
+			field = "";
+		}
+		else
+			field += c;
+	}
+	row.push_back(field);
+	return row;
 }

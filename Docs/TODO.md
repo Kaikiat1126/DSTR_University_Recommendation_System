@@ -3,7 +3,7 @@
 ## Each Pages Menu
 - [ ] Each pages menu 
 - [x] Main Menu (Landing)
-- [ ] Login Menu
+- [x] Login Menu
 - [x] Register Menu
 - [ ] User Page 
 - [ ] Admin Page
@@ -24,15 +24,15 @@
 `... in progress`
 
 ## Class & Struct
-- [ ] User class/ struct
+- [x] User class/ struct
 - [ ] Feedback Class/ struct
-- [ ] University Class/ Struct
+- [x] University Class/ Struct
 - [ ] Favourite Class/ struct
 
 `...any more additional features`
 
 ## Tools/ Functions
-- [ ] Read File (read csv)
+- [x] Read File (read csv)
 - [ ] Wirte File (output log)
 - [ ] Status Container
 - [x] Message 

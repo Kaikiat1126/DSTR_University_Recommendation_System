@@ -144,10 +144,10 @@ std::string replaceAccentLetters(std::string institution)
 
 	//use replace to replace all the accent letters
     
-	std::string accentLetters[] = { "é","è","É","ā","á","à","â","ä","ã","ó","ò","ö","ô","Ó","Ü","ü","ú","š","Š","ç","í","ý","ğ","ń","ñ","Ž"};
-	std::string replaceLetters[] = { "e","e","E","a","a","a","a","a","a","o","o","o","o","O","U","u","u","s","S","c","i","y","g","n","n","Z"};
+	std::string accentLetters[] = { "é","è","É","ā","á","à","â","ä","ã","ó","ò","ö","ô","Ó","Ü","ü","ú","š","Š","ç","í","ý","ğ","ń","ñ","Ž","ø","ʻ"," "};
+	std::string replaceLetters[] = { "e","e","E","a","a","a","a","a","a","o","o","o","o","O","U","u","u","s","S","c","i","y","g","n","n","Z","","\'"," "};
 
-    for (int i = 0; i < 26; i++)
+    for (int i = 0; i < 29; i++)
     {
 		size_t pos = institution.find(accentLetters[i]);
 		while (pos != std::string::npos)
@@ -164,8 +164,6 @@ std::string replaceAccentLetters(std::string institution)
     accentLetters.insert("è", "e");
     accentLetters.insert("á", "a");
     accentLetters.insert("ó", "o");*/
-    
-    
     
 	return institution;
 }

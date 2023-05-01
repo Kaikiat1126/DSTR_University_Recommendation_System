@@ -134,6 +134,7 @@
     <ClInclude Include="DataHandler.h" />
     <ClInclude Include="DateTime.h" />
     <ClInclude Include="Form.h" />
+    <ClInclude Include="IsHash.h" />
     <ClInclude Include="IsVector.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Message.h" />

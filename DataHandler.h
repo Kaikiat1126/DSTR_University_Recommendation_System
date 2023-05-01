@@ -10,6 +10,7 @@
 #include "UniversityList.h"
 #include "StatusContainer.h"
 #include "IsVector.h"
+#include "IsHash.h"
 
 const std::string UNIVERSITYFILE = "University.csv";
 const std::string USERFILE = "User.csv";
@@ -75,7 +76,8 @@ void initUniversityList()
 	{
 		IsVector<std::string> row = splitComma(str);
 		university.rank = stoi(row.at(0));
-		university.institution = row.at(1);
+		std::string temp = replaceAccentLetters(row.at(1));
+		university.institution = temp;
 		university.locationCode = row.at(2);
 		university.location = row.at(3);
 
@@ -116,12 +118,12 @@ void initUniversityList()
 
 IsVector<std::string> splitComma(std::string rowStr)
 {
-    std::string cleanStr = replaceAccentLetters(rowStr);
+    //std::string cleanStr = replaceAccentLetters(rowStr);
     IsVector<std::string> row;
     std::string field = "";
 
 	bool inQuotes = false;
-	for (char& c : cleanStr)
+	for (char& c : rowStr)
 	{
 		if (c == '\"')
 			inQuotes = !inQuotes;
@@ -137,33 +139,33 @@ IsVector<std::string> splitComma(std::string rowStr)
 	return row;
 }
 
-std::string replaceAccentLetters(std::string rowStr)
+std::string replaceAccentLetters(std::string institution)
 {
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-    std::wstring wstr = converter.from_bytes(rowStr);
-    std::wstring result = L"";
-    for (wchar_t c : wstr)
+
+	//use replace to replace all the accent letters
+    
+	std::string accentLetters[] = { "é","è","É","ā","á","à","â","ä","ã","ó","ò","ö","ô","Ó","Ü","ü","ú","š","Š","ç","í","ý","ğ","ń","ñ","Ž"};
+	std::string replaceLetters[] = { "e","e","E","a","a","a","a","a","a","o","o","o","o","O","U","u","u","s","S","c","i","y","g","n","n","Z"};
+
+    for (int i = 0; i < 26; i++)
     {
-        if (c == L'á' || c == L'ã' || c == L'à' || c == L'ä' || c == L'â' || c == L'ä' || c == L'ã')
-            result += L"a";
-        else if (c == L'ç')
-            result += L"c";
-        else if (c == L'é' || c == L'è')
-            result += L"e";
-        else if (c == L'ó')
-            result += L"o";
-        else if (c == L'ü')
-            result += L"u";
-        else if (c == L'š')
-            result += L"s";
-        else if (c == L'É')
-            result += L"E";
-        else if (c == L'Ž')
-            result += L"Z";
-        else if (c == L'Ü')
-            result += L"U";
-        else
-            result += c;
+		size_t pos = institution.find(accentLetters[i]);
+		while (pos != std::string::npos)
+		{
+			institution.replace(pos, accentLetters[i].length(), replaceLetters[i]);
+			pos = institution.find(accentLetters[i], pos + 1);
+		}
     }
-    return converter.to_bytes(result);
+
+    // TODOs
+    // turn the above array as hash map with using IsHashMap
+    /*IsHashMap<std::string, std::string> accentLetters;
+    accentLetters.insert("é", "e");
+    accentLetters.insert("è", "e");
+    accentLetters.insert("á", "a");
+    accentLetters.insert("ó", "o");*/
+    
+    
+    
+	return institution;
 }

@@ -53,3 +53,115 @@ Get the current user details
 Set the current user details
 
 - `StatusContainer::currentUser.setXXX()`
+
+Get the User List (Linkedlist)
+
+- `StatusContainer::userList()`
+
+Ge the University List (Linkedlist)
+
+- `StatusContainer::universityList`
+
+
+## Struture
+
+Define a University's structure
+
+- `struct UniversityStruct`
+
+Define a University's Node
+
+- `struct UniversityNode`
+
+Define a User's structure
+
+- `struct UserStruct`
+
+Define a User's Node
+
+- `struct UserNode`
+
+
+## University List
+
+Create a new node on university linkedlist
+
+- `UniversityNode* createNewNode(UniversityStruct university)`
+
+Insert a new node to the end of University Linkedlist
+
+- `void insertToEndOfList(UniversityStruct university)`
+
+Search the university by rank, return a University Node
+
+- `UniversityNode* searchByRank(int rank)`
+
+Search the university by institution, return a University Node
+
+- `UniversityNode* searchByInstitution(std::string institution);`
+
+Display the university list
+
+- `void displayUniversityList()`
+
+
+## IsVector 
+
+< Self implement vector structure
+
+Define a vector
+
+- `IsVector<type> vector`
+
+Insert value into vector
+
+- `vector.insert(int index, T element)`
+
+Push back value into vector
+
+- `vector.push_back(T element)`
+
+Get vector's size
+
+- `vector.getSize()`
+
+Clear vector
+
+- `vector.clear()`
+
+
+## IsUnorderedMap
+
+< Self implement unordered_map structure
+
+Define a unordered_map
+
+- `IsUnorderedMap<type, type, size> map`
+
+Insert key, value into unordered map
+
+- `map.insert(KeyType key, ValueType value)`
+
+Get unordered map's size
+
+- `map.getSize()`
+
+Remove value from unordered map by key
+
+- `map.remove(KeyType key)`
+
+Get value by key
+
+- `map.getValue(KeyType key)`
+
+Get value by index
+
+- `map.getValue(int index)`
+
+Get key by value
+
+- `map.getKey(ValueType value)`
+
+Get key by index
+
+- `map.getKey(int index)`

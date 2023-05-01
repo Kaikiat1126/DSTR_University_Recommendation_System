@@ -86,6 +86,7 @@ UniversityNode* UniversityList::searchByRank(int rank)
 			temp = temp->next;
 		}
 	}
+	return NULL;
 }
 
 UniversityNode* UniversityList::searchByInstitution(std::string institution)
@@ -99,6 +100,7 @@ UniversityNode* UniversityList::searchByInstitution(std::string institution)
 		}
 		temp = temp->next;
 	}
+	return NULL;
 }
 
 void UniversityList::displayUniversityList()

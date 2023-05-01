@@ -56,7 +56,7 @@
     <ClInclude Include="UserList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IsHash.h">
+    <ClInclude Include="IsUnorderedMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -10,10 +10,15 @@
 #include "UniversityList.h"
 #include "StatusContainer.h"
 #include "IsVector.h"
-#include "IsHash.h"
+#include "IsUnorderedMap.h"
 
 const std::string UNIVERSITYFILE = "University.csv";
 const std::string USERFILE = "User.csv";
+
+const std::string accentLetters[] = { "é","è","É","ā","á","à","â","ä","ã","ó","ò","ö","ô","Ó","Ü","ü","ú","š","Š","ç","í","ý","ğ","ń","ñ","Ž","ø","ʻ"," " };
+const std::string replaceLetters[] = { "e","e","E","a","a","a","a","a","a","o","o","o","o","O","U","u","u","s","S","c","i","y","g","n","n","Z","","\'"," " };
+
+IsUnorderedMap<std::string, std::string, 29> map = StatusContainer::accentLettersMap;
 
 void readFiletoStruture();
 void initUserList();
@@ -118,7 +123,6 @@ void initUniversityList()
 
 IsVector<std::string> splitComma(std::string rowStr)
 {
-    //std::string cleanStr = replaceAccentLetters(rowStr);
     IsVector<std::string> row;
     std::string field = "";
 
@@ -141,13 +145,7 @@ IsVector<std::string> splitComma(std::string rowStr)
 
 std::string replaceAccentLetters(std::string institution)
 {
-
-	//use replace to replace all the accent letters
-    
-	std::string accentLetters[] = { "é","è","É","ā","á","à","â","ä","ã","ó","ò","ö","ô","Ó","Ü","ü","ú","š","Š","ç","í","ý","ğ","ń","ñ","Ž","ø","ʻ"," "};
-	std::string replaceLetters[] = { "e","e","E","a","a","a","a","a","a","o","o","o","o","O","U","u","u","s","S","c","i","y","g","n","n","Z","","\'"," "};
-
-    for (int i = 0; i < 29; i++)
+    /*for (int i = 0; i < 29; i++)
     {
 		size_t pos = institution.find(accentLetters[i]);
 		while (pos != std::string::npos)
@@ -155,15 +153,24 @@ std::string replaceAccentLetters(std::string institution)
 			institution.replace(pos, accentLetters[i].length(), replaceLetters[i]);
 			pos = institution.find(accentLetters[i], pos + 1);
 		}
+    }*/
+    if (map.getSize() == 0)
+    {
+        for (int i = 0; i < 29; i++)
+        {
+            map.insert(accentLetters[i], replaceLetters[i]);
+        }
     }
-
-    // TODOs
-    // turn the above array as hash map with using IsHashMap
-    /*IsHashMap<std::string, std::string> accentLetters;
-    accentLetters.insert("é", "e");
-    accentLetters.insert("è", "e");
-    accentLetters.insert("á", "a");
-    accentLetters.insert("ó", "o");*/
+    
+	for (int i = 0; i < map.getSize(); i++)
+	{
+		size_t pos = institution.find(map.getKey(i));
+		while (pos != std::string::npos)
+		{
+			institution.replace(pos, map.getKey(i).length(), map.getValue(i));
+			pos = institution.find(map.getKey(i), pos + 1);
+		}
+	}
     
 	return institution;
 }

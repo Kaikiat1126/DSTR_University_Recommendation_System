@@ -8,7 +8,7 @@
 - [ ] User Page 
 - [ ] Admin Page
 - [ ] Search University Menu (Register User)
-- [ ] Search University Menu (under Landing)
+- [x] Search University Menu (under Landing)
 - [ ] Feedback Menu (User) increase write feedback opt menu
 - [ ] Favourite (User)
 - [ ] Manage Feedback (Admin)
@@ -20,6 +20,7 @@
 
 ## Pages Function
 - [x] after register direct login
+- [x] landing's search university display university list
 
 `... in progress`
 
@@ -44,4 +45,5 @@
 ## Algorithmns and Data Structer
 - [ ] Merge Sort (Sort Algorithms)
 - [ ] Quick Sort (Sort Algorithms)
-- [ ] (Search Algo)x2
+- [ ] B Plus Tree (Search Algorithms)
+- [ ] (Search Algo)x1

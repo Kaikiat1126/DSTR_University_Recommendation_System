@@ -14,6 +14,7 @@ public:
 	static int registerPage();
 	static int loginPage();
 	static int loginProcess();
+	static int landingUniMenu();
 };
 
 
@@ -157,4 +158,22 @@ int Menu::loginProcess(){
 	}
 
 	return login_code;
+}
+
+int Menu::landingUniMenu() {
+	std::string input = "";
+	std::cout << std::endl;
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. Search Individual University Details by Universtiy Name" << std::endl;
+	std::cout << "2. Display Sorting Result in Ascending Order by University Name" << std::endl;
+	std::cout << "3. Back to Main Menu" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 3);
+		if (option != -1)
+			return option;
+	}
 }

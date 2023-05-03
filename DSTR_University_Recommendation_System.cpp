@@ -11,6 +11,7 @@
 #include "StatusContainer.h"
 #include "Authentication.h"
 #include "DataHandler.h"
+#include "Visitor.h"
 
 using namespace std;
 
@@ -21,6 +22,8 @@ void go_to_login();
 void go_to_user_menu();
 void go_to_admin_menu();
 void verify_second_menu();
+void landing_search();
+void landing_sort();
 
 void testInitData();
 
@@ -28,7 +31,7 @@ int main()
 {
     testInitData();
     //std::cout << "Hello University Recommendatio0n System!\n";
-    //go_to_main_menu();
+    go_to_main_menu();
 	// go_to_register();
 }
 
@@ -38,13 +41,12 @@ void testInitData()
     //StatusContainer::userList.displayUserList();
 
 	initUniversityList();
-	StatusContainer::universityList.displayUniversityList();
+	// StatusContainer::universityList.displayUniversityList();
 }
 
 void go_to_main_menu()
 {
     int option = Menu::mainMenu();
-    // cout << "You choose: " << option << endl;
     system("cls");
     if(option == 1)
     {
@@ -65,9 +67,24 @@ void go_to_main_menu()
     }
 }
 
-void go_to_search_university()
+void go_to_search_university()  //Landing page's search university (Vistor Function)
 {
-    cout << "This is search university page" << endl;
+    // cout << "This is search university page" << endl;
+	Visitor::displayAllUniversity();
+	int option = Menu::landingUniMenu();
+	//system("cls");
+    if (option == 1)
+    {
+        landing_search();
+    }
+    else if (option == 2)
+    {
+        landing_sort();
+    }
+    else if (option == 3)
+    {
+		go_to_main_menu();
+    }
 }
 
 void go_to_register()
@@ -135,6 +152,40 @@ void verify_second_menu()
     {
         Message::error("Unknown role!");
     }
+}
+
+void landing_search()
+{
+    string uniName = searchUniByName();
+
+    Visitor::chooseSearchAlgo();
+
+    cout << endl;
+    bool again = proceedNext("Continue searching for university details?");
+	if (again)
+	{
+		landing_search();
+	}
+	else
+	{
+		go_to_main_menu();
+	}
+}
+
+void landing_sort()
+{
+    Visitor::chooseSortAlgo();
+    
+	cout << endl;
+	bool again = proceedNext("Continue sorting university details?");
+	if (again)
+	{
+		landing_sort();
+	}
+	else
+	{
+		go_to_main_menu();
+	}
 }
 
 void go_to_user_menu()

@@ -130,8 +130,10 @@
     <ClCompile Include="DSTR_University_Recommendation_System.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Admin.h" />
     <ClInclude Include="Authentication.h" />
     <ClInclude Include="DataHandler.h" />
+    <ClInclude Include="Customer.h" />
     <ClInclude Include="DateTime.h" />
     <ClInclude Include="Form.h" />
     <ClInclude Include="IsUnorderedMap.h" />
@@ -140,13 +142,11 @@
     <ClInclude Include="Message.h" />
     <ClInclude Include="StatusContainer.h" />
     <ClInclude Include="Structure.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="UniversityList.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="UserList.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="University.csv" />
-    <None Include="User.csv" />
+    <ClInclude Include="Visitor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

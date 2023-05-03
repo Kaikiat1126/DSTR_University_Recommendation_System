@@ -11,6 +11,7 @@
 #include "StatusContainer.h"
 #include "Authentication.h"
 #include "DataHandler.h"
+#include "Visitor.h"
 
 using namespace std;
 

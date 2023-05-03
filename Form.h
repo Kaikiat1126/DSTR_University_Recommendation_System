@@ -7,6 +7,7 @@
 #include "DateTime.h"
 #include "StatusContainer.h"
 #include "User.h"
+#include "Visitor.h"
 
 #define NAME_REGEX "^[a-zA-Z0-9]{4,}$"
 #define EMAIL_REGEX "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
@@ -16,6 +17,7 @@
 std::string validInput(std::string, std::string, std::string);
 bool registrationForm();
 bool proceedNext(std::string);
+std::string searchUniByName();
 
 std::string validateInput(const std::string& prompt, const std::string& hint,const std::string& regexStr) {
     std::string input;
@@ -27,8 +29,9 @@ std::string validateInput(const std::string& prompt, const std::string& hint,con
             Message::notice(" (" + hint + ") ");
         if(prompt == "Email") std::cout << std::endl;
         std::cout << "> ";
-        std::cin >> input;
-		// std::getline(std::cin, input);
+        //std::cin >> input;
+        std::cin.ignore();
+		std::getline(std::cin, input);
 
         if (input == "Q" || input == "quit" || input == "q" || input == "Quit" || input == "QUIT") {
             Message::notice("You have quit the registration process...");
@@ -53,7 +56,7 @@ bool registrationForm()
     std::cout << std::endl;
 
 	//name, email, contact number, password
-	std::string name = validateInput("Username", "Don't leave space in your username",NAME_REGEX);
+	std::string name = validateInput("Username", "Don't include punctuations in your name",NAME_REGEX);
     if (name.empty()) {
         return false;
     }
@@ -105,4 +108,26 @@ bool proceedNext(std::string message) {
             Message::error("Invalid input. Please try again.");
         }
     }
+}
+
+std::string searchUniByName()
+{
+	std::string uniName;
+    std::cout << "Please enter the university name: " << std::endl;
+    while (true)
+    {
+        std::cout << "> ";
+		std::cin.ignore();
+		std::getline(std::cin, uniName);
+        if (uniName.empty()) {
+            Message::warning("Don't leave empty input!");
+        }
+        else
+        {
+			break;
+        }
+    }
+	std::cout << uniName << std::endl;
+	std::cout << std::endl;
+	return uniName;
 }

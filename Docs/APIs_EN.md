@@ -43,6 +43,10 @@ Asked for the option which need to proceed (Y/N), return is boolean
 
 - `bool proceedNext(string message) `
 
+Get user input's university name, return string 
+
+- `string searchUniByName()`
+
 
 ## StatusContainer & User
 
@@ -165,3 +169,29 @@ Get key by value
 Get key by index
 
 - `map.getKey(int index)`
+
+
+## Visitor
+
+Display all university list
+
+- `void displayAllUniversity()`
+
+Let user select with search algorithm to be used (Landing Search Universtiy)
+
+- `void chooseSearchAlgo()`
+
+Let user select with sort algorithm to be used (Landing Sort Universtiy)
+
+- `void chooseSortAlgo()`
+
+
+## Timer
+
+Used to get current time or function's start/end time, return auto time
+
+- `auto getCurrentTime()`
+
+Used to calculate the function's run time, return string
+
+- `string getRunTime(chrono::steady_clock::time_point start, chrono::steady_clock::time_point end)`

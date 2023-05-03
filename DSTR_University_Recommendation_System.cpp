@@ -23,6 +23,7 @@ void go_to_user_menu();
 void go_to_admin_menu();
 void verify_second_menu();
 void landing_search();
+void landing_sort();
 
 void testInitData();
 
@@ -78,7 +79,7 @@ void go_to_search_university()  //Landing page's search university (Vistor Funct
     }
     else if (option == 2)
     {
-        
+        landing_sort();
     }
     else if (option == 3)
     {
@@ -164,6 +165,22 @@ void landing_search()
 	if (again)
 	{
 		landing_search();
+	}
+	else
+	{
+		go_to_main_menu();
+	}
+}
+
+void landing_sort()
+{
+    Visitor::chooseSortAlgo();
+    
+	cout << endl;
+	bool again = proceedNext("Continue sorting university details?");
+	if (again)
+	{
+		landing_sort();
 	}
 	else
 	{

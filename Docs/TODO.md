@@ -46,4 +46,4 @@
 - [ ] Merge Sort (Sort Algorithms)
 - [ ] Quick Sort (Sort Algorithms)
 - [ ] B Plus Tree (Search Algorithms)
-- [ ] (Search Algo)x1
+- [ ] Red Black Tree (Search Algorithms)

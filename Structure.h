@@ -37,3 +37,13 @@ struct UniversityNode
 	UniversityStruct university;
 	UniversityNode* next;
 } *uniHead, * tail;
+
+struct UniversityRBTreeNode {
+	UniversityStruct* element;
+	RBTColor color;
+	UniversityRBTreeNode* leftChild;
+	UniversityRBTreeNode* rightChild;
+	UniversityRBTreeNode* parent;
+	UniversityRBTreeNode(UniversityStruct* e, RBTColor c, UniversityRBTreeNode* l, UniversityRBTreeNode* r, UniversityRBTreeNode* p) :
+		element(e), color(c), leftChild(l), rightChild(r), parent(p) {};
+};

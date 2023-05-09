@@ -132,6 +132,7 @@
   <ItemGroup>
     <ClInclude Include="Admin.h" />
     <ClInclude Include="Authentication.h" />
+    <ClInclude Include="BTree.h" />
     <ClInclude Include="DataHandler.h" />
     <ClInclude Include="Customer.h" />
     <ClInclude Include="DateTime.h" />

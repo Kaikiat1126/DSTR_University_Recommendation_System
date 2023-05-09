@@ -45,7 +45,7 @@ void testInitData()
     //StatusContainer::userList.displayUserList();
 
 	initUniversityList();
-	// StatusContainer::universityList.displayUniversityList();
+	 StatusContainer::universityList.displayUniversityList();
 }
 
 void go_to_main_menu()

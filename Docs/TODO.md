@@ -45,5 +45,5 @@
 ## Algorithmns and Data Structer
 - [ ] Merge Sort (Sort Algorithms)
 - [ ] Quick Sort (Sort Algorithms)
-- [ ] B Plus Tree (Search Algorithms)
+- [ ] B Tree (Search Algorithms)
 - [ ] Red Black Tree (Search Algorithms)

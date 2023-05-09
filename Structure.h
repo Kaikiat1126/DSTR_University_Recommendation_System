@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
 
+#define MAX 4
+#define MIN 2
+
 struct UserStruct
 {
 	int userID;
@@ -37,3 +40,10 @@ struct UniversityNode
 	UniversityStruct university;
 	UniversityNode* next;
 } *uniHead, * tail;
+
+struct UniversityBTreeNode
+{
+	int count; //节点数量
+	UniversityStruct university[MAX + 1];
+	UniversityBTreeNode* child[MAX + 1]; //子节点
+};

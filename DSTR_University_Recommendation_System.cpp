@@ -35,7 +35,7 @@ int main()
 {
     testInitData();
     //std::cout << "Hello University Recommendatio0n System!\n";
-    go_to_main_menu();
+    //go_to_main_menu();
 	// go_to_register();
 }
 
@@ -45,7 +45,9 @@ void testInitData()
     //StatusContainer::userList.displayUserList();
 
 	initUniversityList();
-	 StatusContainer::universityList.displayUniversityList();
+	//StatusContainer::universityList.displayUniversityList();
+
+	//StatusContainer::universityBTree.traversal();
 }
 
 void go_to_main_menu()

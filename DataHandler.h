@@ -118,6 +118,7 @@ void initUniversityList()
 			university.ScoreScaled = NULL;
             
         StatusContainer::universityList.insertToEndOfList(university);
+		StatusContainer::universityBTree.insertValueInBTree(university);
 	}
 }
 

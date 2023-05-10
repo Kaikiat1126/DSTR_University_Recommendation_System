@@ -12,7 +12,7 @@
 #include "IsVector.h"
 #include "IsUnorderedMap.h"
 
-const std::string UNIVERSITYFILE = "University.csv";
+const std::string UNIVERSITYFILE = "C:\\Usersuser\\source\\repos\\Kaikiat1126\\DSTR_University_Recommendation_System\\University.csv";
 const std::string USERFILE = "User.csv";
 
 const std::string accentLetters[] = { "é","è","É","ā","á","à","â","ä","ã","ó","ò","ö","ô","Ó","Ü","ü","ú","š","Š","ç","í","ý","ğ","ń","ñ","Ž","ø","ʻ"," " };
@@ -66,7 +66,8 @@ void initUserList()
 
 void initUniversityList()
 {
-    std::ifstream file(UNIVERSITYFILE);
+    //std::ifstream file(UNIVERSITYFILE);
+    std::ifstream file("C:\\Assignment\\Year 2 Sem 2\\Data Structure\\university\\university\\2023_QS_World_University_Rankings.csv");
     if (!file.is_open())
     {
         std::cout << "Unable to open file" << std::endl;

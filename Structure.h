@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
 
+
+enum RBTColor { Black, Red };
+
 struct UserStruct
 {
 	int userID;
@@ -47,3 +50,4 @@ struct UniversityRBTreeNode {
 	UniversityRBTreeNode(UniversityStruct* e, RBTColor c, UniversityRBTreeNode* l, UniversityRBTreeNode* r, UniversityRBTreeNode* p) :
 		element(e), color(c), leftChild(l), rightChild(r), parent(p) {};
 };
+

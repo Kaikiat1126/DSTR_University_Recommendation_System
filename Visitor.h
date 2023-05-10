@@ -4,6 +4,8 @@
 #include <string>
 #include <chrono>
 #include "StatusContainer.h"
+#include "Structure.h"
+#include "UniversityBTree.h"
 
 class Visitor
 {
@@ -11,11 +13,11 @@ private:
 	static int validOption(std::string, int);
 	static void quickAscOrder();
 	static void mergeAscOrder();
-	static void algo1Search();
-	static void algo2Search();
+	static void BTreeSearch(std::string institution);
+	static void RedBlackTreeSearch();
 public:
 	static void displayAllUniversity();
-	static void chooseSearchAlgo();
+	static void chooseSearchAlgo(std::string uniName);
 	static void chooseSortAlgo();
 };
 
@@ -49,27 +51,27 @@ void Visitor::displayAllUniversity()
 	StatusContainer::universityList.displayUniversityList();
 }
 
-void Visitor::chooseSearchAlgo()
+void Visitor::chooseSearchAlgo(std::string institution)
 {
-	std::cout << std::endl;
+	/*std::cout << std::endl;*/
 	std::cout << "Please select a search algorithm: " << std::endl;
-	std::cout << "1. Search 1" << "\t\t" << "2. Search 2" << std::endl;
+	std::cout << "1. B Tree" << "\t\t" << "2. Red Black Tree" << std::endl;
 	
 	std::string input = "";
 	while (true) {
 		std::cout << "> ";
-		std::cin.ignore();
+		//std::cin.ignore();
 		std::cin >> input;
 		int option = validOption(input, 2);
 		if (option != -1)
 		{
 			if (option == 1)
 			{
-				algo1Search();
+				BTreeSearch(institution);
 			}
 			else if (option == 2)
 			{
-				algo2Search();
+				RedBlackTreeSearch();
 			}
 			break;
 		}
@@ -78,7 +80,7 @@ void Visitor::chooseSearchAlgo()
 
 void Visitor::chooseSortAlgo()
 {
-	std::cout << std::endl;
+	//std::cout << std::endl;
 	std::cout << "Please select a sort algorithm: " << std::endl;
 	std::cout << "1. Quick Sort" << "\t\t" << "2. Merge Sort" << std::endl;
 
@@ -116,13 +118,17 @@ void Visitor::mergeAscOrder()
 	// TODOs
 }
 
-void Visitor::algo1Search()
+void Visitor::BTreeSearch(std::string institution)
 {
-	std::cout << "Algorithm 1 search" << std::endl;
+	std::cout << std::endl;
+	std::cout << institution << std::endl;
+	//std::cout << "B Tree search" << std::endl;
 	// TODOs
+	StatusContainer::universityBTree.searchUniversityByName(institution);
+	
 }
 
-void Visitor::algo2Search()
+void Visitor::RedBlackTreeSearch()
 {
 	std::cout << "Algorithm 2 search" << std::endl;
 	// TODOs

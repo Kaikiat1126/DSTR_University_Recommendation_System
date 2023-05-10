@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <algorithm>
 #include "Structure.h"
 #include "Message.h"
 #include "BTree.h"
@@ -36,6 +37,7 @@ public:
 	void insertValueInBTree(UniversityStruct university);
 	//void deleteValueFromBTree(int rank);
 	void searchValueInBTree(int rank, int* pos, UniversityBTreeNode* node);
+	void searchUniversityByName(std::string institution);
 	void traversal();
 	void preOrder();
 	void postOrder();
@@ -455,5 +457,37 @@ void UniversityBTree::searchValueInBTree(int rank, int* pos, UniversityBTreeNode
 		Message::warning(msg);
 	}
 	searchValueInBTree(rank, pos, node->child[*pos]);
+	return;
+}
+
+void UniversityBTree::searchUniversityByName(std::string institution)
+{
+	UniversityBTreeNode* cursor = root;
+	int i;
+	bool found = false;
+	while (cursor)
+	{
+		for (i = 0; i <= cursor->count; i++)
+		{
+			if (cursor->university[i+1].institution == institution)
+			{
+				found = true;
+				break;
+			}
+			if (cursor->university[i+1].institution > institution)
+			{
+				std::cout << "pass here" << std::endl;
+				break;
+			}
+		}
+		if (found)
+		{
+			std::string msg = "UniversityStruct with name " + institution + " found";
+			Message::notice(msg);
+			return;
+		}
+		cursor = cursor->child[i];
+	}
+	Message::warning("UniversityStruct with name " + institution + " not found");
 	return;
 }

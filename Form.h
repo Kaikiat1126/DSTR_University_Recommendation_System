@@ -112,14 +112,15 @@ bool proceedNext(std::string message) {
 
 std::string searchUniByName()
 {
-	std::string uniName;
+    std::cout << std::endl;
+	std::string institution;
     std::cout << "Please enter the university institution: " << std::endl;
     while (true)
     {
         std::cout << "> ";
 		std::cin.ignore();
-		std::getline(std::cin, uniName);
-        if (uniName.empty()) {
+		std::getline(std::cin, institution);
+        if (institution.empty()) {
             Message::warning("Don't leave empty input!");
         }
         else
@@ -127,7 +128,7 @@ std::string searchUniByName()
 			break;
         }
     }
-	std::cout << uniName << std::endl;
+	std::cout << institution << std::endl;
 	std::cout << std::endl;
-	return uniName;
+	return institution;
 }

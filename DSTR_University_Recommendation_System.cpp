@@ -33,7 +33,7 @@ void testInitData();
 
 int main()
 {
-    testInitData();
+    //testInitData();
     //std::cout << "Hello University Recommendatio0n System!\n";
     go_to_main_menu();
 	// go_to_register();
@@ -219,11 +219,11 @@ void go_to_admin_menu()
 void go_to_manage_user()
 {
     int option = Menu::manageUserPage();
+    bool again = true;
 
     system("cls");
     if (option == 1)
     {
-        bool again = true;
         while (again) 
         {
             system("cls");
@@ -236,8 +236,15 @@ void go_to_manage_user()
     }
     else if (option == 2)
     {
-        //TODOs
-        //Display Inactive User (Delete)
+        while (again)
+        {
+            system("cls");
+            Menu::inactiveUserPage();
+            again = proceedNext("Continue delete user?");
+        }
+
+        system("cls");
+        go_to_manage_user();
     }
     else if (option == 3)
     {

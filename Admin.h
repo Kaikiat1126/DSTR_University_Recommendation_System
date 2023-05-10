@@ -16,8 +16,10 @@ public:
     Admin(std::string username, std::string password, std::string email, std::string contactNum, std::string role);
 
 	static void displayAllUser();
+	static void displayInactiveUser();
 	static int chooseModify();
 	static void modifyUser(User&, int);
+	static void deleteUser(int);
 };
 
 Admin::Admin(std::string username, std::string password) : User(username, password)
@@ -56,6 +58,12 @@ void Admin::displayAllUser()
 {
 	//TODOs
 	StatusContainer::userList.displayUserList();
+}
+
+void Admin::displayInactiveUser()
+{
+	//TODO
+	std::cout << "User list is empty." << std::endl;
 }
 
 int Admin::chooseModify()
@@ -105,4 +113,9 @@ void Admin::modifyUser(User& user, int option)
 	std::cout << "Email     : " << user.getEmail() << std::endl;
 	std::cout << std::endl;
 		
+}
+
+void Admin::deleteUser(int userId)
+{
+	StatusContainer::userList.deleteByUserID(userId);
 }

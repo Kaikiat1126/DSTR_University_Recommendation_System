@@ -5,6 +5,7 @@
 #include "DateTime.h"
 #include "Authentication.h"
 #include "Admin.h"
+#include "Validation.h"
 
 class Menu
 {
@@ -19,6 +20,7 @@ public:
 	static int adminPage();
 	static int manageUserPage();
 	static void modifyUserPage();
+	static void inactiveUserPage();
 };
 
 
@@ -228,22 +230,8 @@ void Menu::modifyUserPage() {
 
 	Admin::displayAllUser();
 	std::cout << "**************************************************************" << std::endl;
-	std::cout << "Modify Existing User Detail";
-	Message::notice(" (Enter User ID)");
 
-	while (true)
-	{
-		std::cout << "> ";
-		std::cin >> userId;
-		if (userId == "")
-		{
-			Message::warning("User ID cannot be empty!");
-		}
-		else
-		{
-			break;
-		}
-	}
+	userId = validation("Modify Existing User Detail", "Enter User ID", USER_ID_REGEX);
 
 	//TODO: search user
 	//if user found
@@ -268,4 +256,19 @@ void Menu::modifyUserPage() {
 	{
 		Message::error("User not found!");
 	}
+}
+
+void Menu::inactiveUserPage()
+{
+	std::string userId = "";
+
+	std::cout << "                        Inactive User                         " << std::endl;
+	std::cout << "**************************************************************" << std::endl;
+	Admin::displayInactiveUser();
+	std::cout << "**************************************************************" << std::endl;
+
+	userId = validation("Delete Inactive User", "Enter User ID", USER_ID_REGEX);
+
+	int id = stoi(userId);
+	Admin::deleteUser(id);
 }

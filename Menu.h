@@ -4,6 +4,8 @@
 #include "Message.h"
 #include "DateTime.h"
 #include "Authentication.h"
+#include "Admin.h"
+#include "Validation.h"
 
 class Menu
 {
@@ -15,6 +17,10 @@ public:
 	static int loginPage();
 	static int loginProcess();
 	static int landingUniMenu();
+	static int adminPage();
+	static int manageUserPage();
+	static void modifyUserPage();
+	static void inactiveUserPage();
 };
 
 
@@ -176,4 +182,93 @@ int Menu::landingUniMenu() {
 		if (option != -1)
 			return option;
 	}
+}
+
+int Menu::adminPage() {
+	std::string input = "";
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "******                     Admin Page                   ******" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. Manage User" << std::endl;
+	std::cout << "2. Manage Feedback" << std::endl;
+	std::cout << "3. Generate Report" << std::endl;
+	std::cout << "4. Logout" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 4);
+		if (option != -1)
+			return option;
+	}
+}
+
+int Menu::manageUserPage() {
+	std::string input = "";
+
+	Admin::displayAllUser();
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. Modify User Details" << std::endl;
+	std::cout << "2. Display Inactive User" << std::endl;
+	std::cout << "3. Back to Admin Page" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 3);
+		if (option != -1)
+			return option;
+	}
+}
+
+void Menu::modifyUserPage() {
+	std::string userId = "";
+
+	Admin::displayAllUser();
+	std::cout << "**************************************************************" << std::endl;
+
+	userId = validation("Modify Existing User Detail", "Enter User ID", USER_ID_REGEX);
+
+	//TODO: search user
+	//if user found
+	bool found = true;
+	User user("user123","123456","user@mail.com","0123456789","user");
+
+	if (found) {
+		system("cls");
+		//displaySelectedUserDetail
+		std::cout << std::endl;
+		std::cout << "          User Details            " << std::endl;
+		std::cout << "**********************************" << std::endl;
+		std::cout << "Username  : " << user.getUsername() << std::endl;
+		std::cout << "Contact   : " << user.getContactNum() << std::endl;
+		std::cout << "Email     : " << user.getEmail() << std::endl;
+		std::cout << std::endl;
+
+		int option = Admin::chooseModify();
+		Admin::modifyUser(user, option);
+	}
+	else
+	{
+		Message::error("User not found!");
+	}
+}
+
+void Menu::inactiveUserPage()
+{
+	std::string userId = "";
+
+	std::cout << "                        Inactive User                         " << std::endl;
+	std::cout << "**************************************************************" << std::endl;
+	Admin::displayInactiveUser();
+	std::cout << "**************************************************************" << std::endl;
+
+	userId = validation("Delete Inactive User", "Enter User ID", USER_ID_REGEX);
+
+	int id = stoi(userId);
+	Admin::deleteUser(id);
 }

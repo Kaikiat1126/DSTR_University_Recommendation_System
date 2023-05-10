@@ -12,6 +12,7 @@
 #include "Authentication.h"
 #include "DataHandler.h"
 #include "Visitor.h"
+#include "Admin.h"
 
 using namespace std;
 
@@ -24,12 +25,15 @@ void go_to_admin_menu();
 void verify_second_menu();
 void landing_search();
 void landing_sort();
+void go_to_manage_user();
+void go_to_manage_feedback();
+void go_to_generate_report();
 
 void testInitData();
 
 int main()
 {
-    testInitData();
+    //testInitData();
     //std::cout << "Hello University Recommendatio0n System!\n";
     go_to_main_menu();
 	// go_to_register();
@@ -195,5 +199,65 @@ void go_to_user_menu()
 
 void go_to_admin_menu()
 {
-    cout << "This is admin menu page" << endl;
+    int option = Menu::adminPage();
+
+    system("cls");
+    if (option == 1) {
+        go_to_manage_user();
+    }
+    else if (option == 2) {
+        go_to_manage_feedback();
+    }
+    else if (option == 3) {
+        go_to_generate_report();
+    }
+    else if (option == 4) {
+        go_to_login();
+    }
+}
+
+void go_to_manage_user()
+{
+    int option = Menu::manageUserPage();
+    bool again = true;
+
+    system("cls");
+    if (option == 1)
+    {
+        while (again) 
+        {
+            system("cls");
+            Menu::modifyUserPage();
+            again = proceedNext("Continue modify user detail");
+        }
+
+        system("cls");
+        go_to_manage_user();
+    }
+    else if (option == 2)
+    {
+        while (again)
+        {
+            system("cls");
+            Menu::inactiveUserPage();
+            again = proceedNext("Continue delete user?");
+        }
+
+        system("cls");
+        go_to_manage_user();
+    }
+    else if (option == 3)
+    {
+        go_to_admin_menu();
+    }
+}
+
+void go_to_manage_feedback()
+{
+    cout << "Manage feedback page" << endl;
+}
+
+void go_to_generate_report()
+{
+    cout << "Generate report page" << endl;
 }

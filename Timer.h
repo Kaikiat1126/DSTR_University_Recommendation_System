@@ -6,17 +6,11 @@
 class Timer
 {
 public:
-	static auto getStartTime();
-	static auto getEndTime();
+	static auto getCurrentTime();
 	static std::string getRunTime(std::chrono::steady_clock::time_point start, std::chrono::steady_clock::time_point end);
 };
 
-auto Timer::getStartTime()
-{
-	return std::chrono::high_resolution_clock::now();
-}
-
-auto Timer::getEndTime()
+auto Timer::getCurrentTime()
 {
 	return std::chrono::high_resolution_clock::now();
 }

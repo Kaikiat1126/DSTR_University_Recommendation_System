@@ -6,13 +6,13 @@
 - [x] Login Menu
 - [x] Register Menu
 - [ ] User Page 
-- [ ] Admin Page
+- [x] Admin Page
 - [ ] Search University Menu (Register User)
 - [x] Search University Menu (under Landing)
 - [ ] Feedback Menu (User) increase write feedback opt menu
 - [ ] Favourite (User)
 - [ ] Manage Feedback (Admin)
-- [ ] Manage User
+- [x] Manage User
 - [ ] Generate Report Menu
 - [ ] Logout Menu
 

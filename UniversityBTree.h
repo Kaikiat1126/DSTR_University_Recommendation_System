@@ -22,19 +22,19 @@ private:
 	void splitNode(UniversityStruct university, UniversityStruct* pval, int pos, UniversityBTreeNode* node, UniversityBTreeNode* child, UniversityBTreeNode** newNode);
 	int setValueIntoNode(UniversityStruct university, UniversityStruct* pval, UniversityBTreeNode* node, UniversityBTreeNode** child);
 	void copySuccessor(UniversityBTreeNode* node, int pos);
-	void removeValue(UniversityBTreeNode* node, int pos);
+	//void removeValue(UniversityBTreeNode* node, int pos);
 	void rightShift(UniversityBTreeNode* node, int pos);
 	void leftShift(UniversityBTreeNode* node, int pos);
 	void mergeLeaves(UniversityBTreeNode* node, int pos);
 	void adjustNode(UniversityBTreeNode* node, int pos);
-	int deleteValueFromNode(int rank, UniversityBTreeNode* node);
+	//int deleteValueFromNode(int rank, UniversityBTreeNode* node);
 
 public:
 	UniversityBTreeNode* root;
 	UniversityBTree();
 	~UniversityBTree();
 	void insertValueInBTree(UniversityStruct university);
-	void deleteValueFromBTree(int rank);
+	//void deleteValueFromBTree(int rank);
 	void searchValueInBTree(int rank, int* pos, UniversityBTreeNode* node);
 	void traversal();
 	void preOrder();
@@ -233,6 +233,7 @@ void UniversityBTree::copySuccessor(UniversityBTreeNode* node, int pos)
 	node->university[pos] = dummy->university[1];
 }
 
+/*
 void UniversityBTree::removeValue(UniversityBTreeNode* node, int pos)
 {
 	int i = pos + 1;
@@ -244,6 +245,7 @@ void UniversityBTree::removeValue(UniversityBTreeNode* node, int pos)
 	}
 	node->count--;
 }
+*/
 
 void UniversityBTree::rightShift(UniversityBTreeNode* node, int pos)
 {
@@ -360,6 +362,7 @@ void UniversityBTree::adjustNode(UniversityBTreeNode* node, int pos)
 	}
 }
 
+/*
 int UniversityBTree::deleteValueFromNode(int rank, UniversityBTreeNode* node)
 {
 	int pos, flag = 0;
@@ -429,6 +432,7 @@ void UniversityBTree::deleteValueFromBTree(int rank)
 		}
 	}
 }
+*/
 
 void UniversityBTree::searchValueInBTree(int rank, int* pos, UniversityBTreeNode* node)
 {

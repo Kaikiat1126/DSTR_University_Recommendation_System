@@ -130,7 +130,7 @@ T IsVector<T>::at(int index)
 {
 	if (index < 0 || index >= size)
 	{
-		return NULL;
+		return nullptr;
 	}
 	return arr[index];
 }

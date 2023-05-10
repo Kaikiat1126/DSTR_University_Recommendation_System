@@ -46,8 +46,10 @@ void testInitData()
 
 	initUniversityList();
 	//StatusContainer::universityList.displayUniversityList();
-
-	//StatusContainer::universityBTree.traversal();
+    
+	StatusContainer::universityBTree.traversal();
+    //StatusContainer::universityBTree.preOrder();
+	//StatusContainer::universityBTree.postOrder();
 }
 
 void go_to_main_menu()

@@ -144,6 +144,7 @@
     <ClInclude Include="StatusContainer.h" />
     <ClInclude Include="Structure.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="UniversityBTree.h" />
     <ClInclude Include="UniversityList.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="UserList.h" />

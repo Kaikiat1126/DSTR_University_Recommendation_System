@@ -21,6 +21,10 @@
 ## Pages Function
 - [x] after register direct login
 - [x] landing's search university display university list
+- [x] search university by name with BTree (landing)
+- [ ] search university by name with Red Black Tree (landing)
+- [ ] merge sort by name with university linkedlist (landing)
+- [ ] quick sort by name with university linkedlist (landing)
 
 `... in progress`
 

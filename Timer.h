@@ -19,5 +19,6 @@ std::string Timer::getRunTime(std::chrono::high_resolution_clock::time_point sta
 	std::chrono::high_resolution_clock::time_point endTime)
 {
 	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count();
-	return std::to_string(duration) + " ms";
+	//duration /= 1000000;
+	return std::to_string(duration) + " microseconds";
 }

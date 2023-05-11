@@ -11,7 +11,7 @@ int login(std::string username, std::string password)
 {
     //TODOs
     //check username and password
-    std::string name = "user123";
+    std::string institution = "user123";
     std::string pass = "123456";
 
     bool found = false;
@@ -21,7 +21,7 @@ int login(std::string username, std::string password)
     // traversal the user list, find the username, password, role
     // update last modify date
 
-    if(name == username)
+    if(institution == username)
     {
         found = true;
         if(pass == password)

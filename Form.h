@@ -55,9 +55,9 @@ bool registrationForm()
 	Message::warning("you may quit at any time by entering 'Q/quit'");
     std::cout << std::endl;
 
-	//name, email, contact number, password
-	std::string name = validateInput("Username", "Don't include punctuations in your name",NAME_REGEX);
-    if (name.empty()) {
+	//institution, email, contact number, password
+	std::string institution = validateInput("Username", "Don't include punctuations in your institution",NAME_REGEX);
+    if (institution.empty()) {
         return false;
     }
 
@@ -78,7 +78,7 @@ bool registrationForm()
 
 	Message::success("Registration successful!");
     std::cout << std::endl;
-	// std::cout << "Name: " << name << std::endl;
+	// std::cout << "Name: " << institution << std::endl;
 	// std::cout << "Email: " << email << std::endl;
 	// std::cout << "Contact Number: " << contactNum << std::endl;
 	// std::cout << "Password: " << password << std::endl;
@@ -86,7 +86,7 @@ bool registrationForm()
     // TODOs: store data
     if(proceedNext("Proceed to login")) {
         // TODOs: set data to StatusContainer
-        StatusContainer::currentUser.setDetails(name, email, contactNum, password);
+        StatusContainer::currentUser.setDetails(institution, email, contactNum, password);
         // TODOs: login
         return true;
     } 
@@ -112,14 +112,15 @@ bool proceedNext(std::string message) {
 
 std::string searchUniByName()
 {
-	std::string uniName;
-    std::cout << "Please enter the university name: " << std::endl;
+    std::cout << std::endl;
+	std::string institution;
+    std::cout << "Please enter the university institution: " << std::endl;
     while (true)
     {
         std::cout << "> ";
 		std::cin.ignore();
-		std::getline(std::cin, uniName);
-        if (uniName.empty()) {
+		std::getline(std::cin, institution);
+        if (institution.empty()) {
             Message::warning("Don't leave empty input!");
         }
         else
@@ -127,7 +128,7 @@ std::string searchUniByName()
 			break;
         }
     }
-	std::cout << uniName << std::endl;
+	//std::cout << institution << std::endl;
 	std::cout << std::endl;
-	return uniName;
+	return institution;
 }

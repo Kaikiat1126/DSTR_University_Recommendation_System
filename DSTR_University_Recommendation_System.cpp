@@ -54,6 +54,7 @@ void testInitData()
 
 void go_to_main_menu()
 {
+	system("cls");
     int option = Menu::mainMenu();
     system("cls");
     if(option == 1)
@@ -166,8 +167,6 @@ void verify_second_menu()
 void landing_search()
 {
     string uniName = searchUniByName();
-
-    StatusContainer::universityBTree.traversal();
 
     Visitor::chooseSearchAlgo(uniName);
 

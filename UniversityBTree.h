@@ -369,21 +369,29 @@ void UniversityBTree::adjustNode(UniversityBTreeNode* node, int pos)
 
 void UniversityBTree::traversalSearchName(UniversityBTreeNode* node, std::string institution)
 {
+	bool found = false;
 	if (!node) return;
+
 	for (int i = 1; i <= node->count; i++)
 	{
-		if (node->university[i].institution == institution)
+		std::string data = node->university[i].institution;
+		data.erase(std::remove(data.begin(), data.end(), ' '), data.end());
+
+		//std::cout << node->university[i].institution << std::endl;
+		if (data == institution)
 		{
 			//std::cout << node->university[i].institution << " " << node->university[i].rank << std::endl;
+			found = true;
 			universityList.push_back(node->university[i]);
-			std::cout << "Size of list: " << universityList.getSize() << std::endl;
+			//std::cout << "Size of list: " << universityList.getSize() << std::endl;
+			break;
 		}
 	}
 
+	if (found) return;
+	
 	for (int i = 0; i <= node->count; i++)
-	{
 		traversalSearchName(node->child[i], institution);
-	}
 }
 
 /*
@@ -484,34 +492,33 @@ void UniversityBTree::searchValueInBTree(int rank, int* pos, UniversityBTreeNode
 
 void UniversityBTree::searchUniversityByName(std::string institution)
 {
+	universityList.clear();
 	UniversityBTreeNode* cursor = root;
-	/*int i;
-	bool found = false;
-	while (cursor)
+	
+	std::string input = institution;
+	input.erase(std::remove(input.begin(), input.end(), ' '), input.end());
+
+	traversalSearchName(cursor, input);
+
+	std::string msg = "University with name ";
+	
+	if (universityList.getSize() == 0)
 	{
-		for (i = 0; i <= cursor->count; i++)
-		{
-			if (cursor->university[i+1].institution == institution)
-			{
-				found = true;
-				break;
-			}
-			if (cursor->university[i+1].institution > institution)
-			{
-				std::cout << "pass here" << std::endl;
-				break;
-			}
-		}
-		if (found)
-		{
-			std::string msg = "UniversityStruct with name " + institution + " found";
-			Message::notice(msg);
-			return;
-		}
-		cursor = cursor->child[i];
+		msg = msg + institution + " not found!";
+		Message::warning(msg);
+		return;
 	}
-	Message::warning("UniversityStruct with name " + institution + " not found");
-	return;*/
-	traversalSearchName(cursor, institution);
-	std::cout << universityList.getSize() << " results found" << std::endl;
+	else
+	{
+		msg = msg + institution + " found!";
+		Message::success(msg);
+
+		UniversityStruct university = universityList.at(0);
+		std::cout << std::endl;
+		std::cout << "Rank \tInstitution \t\tLocationCode \tLocation \tArScore \tArRank" <<
+			"\tErScore \tErRank \tFsrScore \tFsrRank" << std::endl;
+		std::cout << university.rank << "\t" << university.institution << "\t" << university.locationCode << "\t\t"
+			<< university.location << "\t" << university.ArScore << "\t" << university.ArRank << "\t" << university.ErScore
+			<< "\t" << university.ErRank << "\t" << university.FsrScore << "\t" << university.FsrRank << std::endl;
+	}
 }

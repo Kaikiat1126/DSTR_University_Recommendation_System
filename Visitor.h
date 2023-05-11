@@ -53,7 +53,6 @@ void Visitor::displayAllUniversity()
 
 void Visitor::chooseSearchAlgo(std::string institution)
 {
-	/*std::cout << std::endl;*/
 	std::cout << "Please select a search algorithm: " << std::endl;
 	std::cout << "1. B Tree" << "\t\t" << "2. Red Black Tree" << std::endl;
 	
@@ -121,11 +120,8 @@ void Visitor::mergeAscOrder()
 void Visitor::BTreeSearch(std::string institution)
 {
 	std::cout << std::endl;
-	std::cout << institution << std::endl;
 	//std::cout << "B Tree search" << std::endl;
-	// TODOs
 	StatusContainer::universityBTree.searchUniversityByName(institution);
-	
 }
 
 void Visitor::RedBlackTreeSearch()

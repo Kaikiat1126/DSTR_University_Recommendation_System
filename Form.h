@@ -128,7 +128,7 @@ std::string searchUniByName()
 			break;
         }
     }
-	std::cout << institution << std::endl;
+	//std::cout << institution << std::endl;
 	std::cout << std::endl;
 	return institution;
 }

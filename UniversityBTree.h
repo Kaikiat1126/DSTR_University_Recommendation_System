@@ -7,6 +7,7 @@
 #include "Message.h"
 #include "BTree.h"
 #include "Timer.h"
+#include "IsVector.h"
 
 #define MAX 4
 #define MIN 2
@@ -15,6 +16,7 @@
 class UniversityBTree : public BTree
 {
 private:
+	IsVector<UniversityStruct> universityList;
 	void traversal(UniversityBTreeNode* node);
 	void preOrder(UniversityBTreeNode* node);
 	void postOrder(UniversityBTreeNode* node);
@@ -29,7 +31,8 @@ private:
 	void mergeLeaves(UniversityBTreeNode* node, int pos);
 	void adjustNode(UniversityBTreeNode* node, int pos);
 	//int deleteValueFromNode(int rank, UniversityBTreeNode* node);
-
+	void traversalSearchName(UniversityBTreeNode* node, std::string name);
+		
 public:
 	UniversityBTreeNode* root;
 	UniversityBTree();
@@ -364,6 +367,25 @@ void UniversityBTree::adjustNode(UniversityBTreeNode* node, int pos)
 	}
 }
 
+void UniversityBTree::traversalSearchName(UniversityBTreeNode* node, std::string institution)
+{
+	if (!node) return;
+	for (int i = 1; i <= node->count; i++)
+	{
+		if (node->university[i].institution == institution)
+		{
+			//std::cout << node->university[i].institution << " " << node->university[i].rank << std::endl;
+			universityList.push_back(node->university[i]);
+			std::cout << "Size of list: " << universityList.getSize() << std::endl;
+		}
+	}
+
+	for (int i = 0; i <= node->count; i++)
+	{
+		traversalSearchName(node->child[i], institution);
+	}
+}
+
 /*
 int UniversityBTree::deleteValueFromNode(int rank, UniversityBTreeNode* node)
 {
@@ -463,7 +485,7 @@ void UniversityBTree::searchValueInBTree(int rank, int* pos, UniversityBTreeNode
 void UniversityBTree::searchUniversityByName(std::string institution)
 {
 	UniversityBTreeNode* cursor = root;
-	int i;
+	/*int i;
 	bool found = false;
 	while (cursor)
 	{
@@ -489,5 +511,7 @@ void UniversityBTree::searchUniversityByName(std::string institution)
 		cursor = cursor->child[i];
 	}
 	Message::warning("UniversityStruct with name " + institution + " not found");
-	return;
+	return;*/
+	traversalSearchName(cursor, institution);
+	std::cout << universityList.getSize() << " results found" << std::endl;
 }

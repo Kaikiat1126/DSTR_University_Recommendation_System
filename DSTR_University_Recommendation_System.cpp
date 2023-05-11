@@ -44,12 +44,17 @@ void testInitData()
     //initUserList();
     //StatusContainer::userList.displayUserList();
 
-	initUniversityList();
-	// StatusContainer::universityList.displayUniversityList();
+	initUniversityData();
+	//StatusContainer::universityList.displayUniversityList();
+    
+	//StatusContainer::universityBTree.traversal();
+    //StatusContainer::universityBTree.preOrder();
+	//StatusContainer::universityBTree.postOrder();
 }
 
 void go_to_main_menu()
 {
+	system("cls");
     int option = Menu::mainMenu();
     system("cls");
     if(option == 1)
@@ -75,6 +80,7 @@ void go_to_search_university()  //Landing page's search university (Vistor Funct
 {
     // cout << "This is search university page" << endl;
 	Visitor::displayAllUniversity();
+    cout << endl;
 	int option = Menu::landingUniMenu();
 	//system("cls");
     if (option == 1)
@@ -162,10 +168,10 @@ void landing_search()
 {
     string uniName = searchUniByName();
 
-    Visitor::chooseSearchAlgo();
+    Visitor::chooseSearchAlgo(uniName);
 
     cout << endl;
-    bool again = proceedNext("Continue searching for university details?");
+    bool again = proceedNext("Continue searching for university details");
 	if (again)
 	{
 		landing_search();
@@ -181,7 +187,7 @@ void landing_sort()
     Visitor::chooseSortAlgo();
     
 	cout << endl;
-	bool again = proceedNext("Continue sorting university details?");
+	bool again = proceedNext("Continue sorting university details");
 	if (again)
 	{
 		landing_sort();

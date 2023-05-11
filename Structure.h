@@ -1,6 +1,13 @@
 #pragma once
 #include <string>
 
+#define MAX 4
+#define MIN 2
+
+struct DataStruct
+{
+	
+};
 
 struct UserStruct
 {
@@ -20,7 +27,7 @@ struct UserNode
 	UserNode* next;
 } *head;
 
-struct UniversityStruct
+struct UniversityStruct : public DataStruct
 {
 	int rank;
 	std::string institution;
@@ -39,3 +46,14 @@ struct UniversityNode
 	UniversityNode* next;
 } *uniHead, * tail;
 
+struct BTreeNode
+{
+	int count;
+};
+
+struct UniversityBTreeNode : public BTreeNode
+{
+	//int count; 
+	UniversityStruct university[MAX + 1];
+	UniversityBTreeNode* child[MAX + 1];
+};

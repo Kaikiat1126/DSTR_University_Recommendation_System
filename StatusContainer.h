@@ -3,6 +3,8 @@
 #include "UserList.h"
 #include "UniversityList.h"
 #include "IsUnorderedMap.h"
+#include "BTree.h"
+#include "UniversityBTree.h"
 
 class StatusContainer
 {
@@ -11,9 +13,13 @@ public:
 	static UserList userList;
 	static UniversityList universityList;
 	static IsUnorderedMap<std::string, std::string, 29> accentLettersMap;
+	static UniversityBTree universityBTree;
+protected:
+	
 };
 
 User StatusContainer::currentUser = User("", "");
 UserList StatusContainer::userList = UserList();
 UniversityList StatusContainer::universityList = UniversityList();
 IsUnorderedMap<std::string, std::string, 29> StatusContainer::accentLettersMap = IsUnorderedMap<std::string, std::string, 29>();
+UniversityBTree StatusContainer::universityBTree = UniversityBTree();

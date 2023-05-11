@@ -515,10 +515,25 @@ void UniversityBTree::searchUniversityByName(std::string institution)
 
 		UniversityStruct university = universityList.at(0);
 		std::cout << std::endl;
-		std::cout << "Rank \tInstitution \t\tLocationCode \tLocation \tArScore \tArRank" <<
-			"\tErScore \tErRank \tFsrScore \tFsrRank" << std::endl;
+		std::cout << "Rank \tInstitution \t\tLocationCode \tLocation \tArScore ArRank " <<
+			" ErScore ErRank FsrScore FsrRank CpfScore CpfRank IfrScore IfrRank IsrScore IsrRank IrnScore IrnRank GerScore GerRank ScoreScaled" << std::endl;
+
+		//check each of the rank of the university is Null or not, if null then fill with '-'
+		/*std::string IfrScore = university.IfrScore == NULL ? "-" : std::to_string(university.IfrScore);
+		std::string IfrRank = university.IfrRank == NULL ? "-" : std::to_string(university.IfrRank);
+		std::string IsrScore = university.IsrScore == NULL ? "-" : std::to_string(university.IsrScore);
+		std::string IsrRank = university.IsrRank == NULL ? "-" : std::to_string(university.IsrRank);
+		std::string IrnScore = university.IrnScore == NULL ? "-" : std::to_string(university.IrnScore);
+		std::string IrnRank = university.IrnRank == NULL ? "-" : std::to_string(university.IrnRank);
+		std::string GerScore = university.GerScore == NULL ? "-" : std::to_string(university.GerScore);
+		std::string GerRank = university.GerRank == NULL ? "-" : std::to_string(university.GerRank);*/
+		std::string ScoreScaled = university.ScoreScaled == NULL ? "-" : std::to_string(university.ScoreScaled);
+		
+		
 		std::cout << university.rank << "\t" << university.institution << "\t" << university.locationCode << "\t\t"
-			<< university.location << "\t" << university.ArScore << "\t" << university.ArRank << "\t" << university.ErScore
-			<< "\t" << university.ErRank << "\t" << university.FsrScore << "\t" << university.FsrRank << std::endl;
+			<< university.location << "\t\t" << university.ArScore << "\t" << university.ArRank << "\t" << university.ErScore
+			<< "\t" << university.ErRank << "\t" << university.FsrScore << "\t" << university.FsrRank << "\t" << university.CpfScore << "\t" << university.CpfRank
+			<< "\t" << university.IfrScore << "\t" << university.IfrRank << "\t" << university.IsrScore << "\t" << university.IsrRank << "\t" << university.IrnScore
+			<< "\t" << university.IrnRank << "\t" << university.GerScore << "\t" << university.GerRank << "\t" << ScoreScaled << std::endl;
 	}
 }

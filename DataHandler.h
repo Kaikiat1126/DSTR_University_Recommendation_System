@@ -22,8 +22,9 @@ IsUnorderedMap<std::string, std::string, 29> map = StatusContainer::accentLetter
 
 void readFiletoStruture();
 void initUserList();
-void initUniversityList();
+void initUniversityData();
 IsVector<std::string> splitComma(std::string rowStr);
+void assignValue(double* score, int* rank, const std::string& value, const std::string& rankValue, int index);
 std::string replaceAccentLetters(std::string rowStr);
 
 void readFiletoStruture()
@@ -64,7 +65,7 @@ void initUserList()
 	file.close();
 }
 
-void initUniversityList()
+void initUniversityData()
 {
     std::ifstream file(UNIVERSITYFILE);
     if (!file.is_open())
@@ -79,6 +80,7 @@ void initUniversityList()
     
 	while (getline(file, str))
 	{
+		//std::cout << str << std::endl;
 		IsVector<std::string> row = splitComma(str);
 		university.rank = stoi(row.at(0));
 		std::string temp = replaceAccentLetters(row.at(1));
@@ -86,30 +88,32 @@ void initUniversityList()
 		university.locationCode = row.at(2);
 		university.location = row.at(3);
 
-        double scoreValues[] = { 
-            university.ArScore, university.ErScore, university.FsrScore, 
-            university.CpfScore, university.IfrScore, university.IsrScore, 
-            university.IrnScore, university.GerScore 
+        double* scoreValues[] = { 
+            &university.ArScore, &university.ErScore, &university.FsrScore, 
+            &university.CpfScore, &university.IfrScore, &university.IsrScore, 
+            &university.IrnScore, &university.GerScore 
         };
 
-        int rankValues[] = { university.ArRank, university.ErRank,
-            university.FsrRank, university.CpfRank, university.IfrRank,
-            university.IsrRank, university.IrnRank, university.GerRank
+        int* rankValues[] = { 
+            &university.ArRank, &university.ErRank, &university.FsrRank,
+            &university.CpfRank, &university.IfrRank, &university.IsrRank,
+            &university.IrnRank, &university.GerRank
         };
+
 
         for (int j = 0; j < 8; j++) {
-            if (row.at(j + 4) != "")
-                scoreValues[j] = stod(row.at(j + 4));
+            if (row.at(j*2 + 4) != "")
+				*scoreValues[j] = stod(row.at(j*2 + 4));
             else
-                scoreValues[j] = NULL;
+                *scoreValues[j] = NULL;
             
-            if (row.at(j + 5) != "")
-                if(row.at(j + 5).find("+") != std::string::npos)
-                    rankValues[j] = stoi(row.at(j + 5).substr(0, row.at(j + 5).length() - 1));
+            if (row.at(j*2 + 5) != "")
+                if(row.at(j*2 + 5).find("+") != std::string::npos)
+                    *rankValues[j] = stoi(row.at(j*2 + 5).substr(0, row.at(j*2 + 5).length() - 1));
                 else
-                    rankValues[j] = stoi(row.at(j + 5));
+                    *rankValues[j] = stoi(row.at(j*2 + 5));               
 			else
-				rankValues[j] = NULL;
+				*rankValues[j] = NULL;
         }
 
 		if (row.at(20) != "" && row.at(20) != "-")
@@ -117,6 +121,7 @@ void initUniversityList()
 		else
 			university.ScoreScaled = NULL;
             
+		//std::cout << university.institution << " : " << university.ArScore << std::endl;
         StatusContainer::universityList.insertToEndOfList(university);
 		StatusContainer::universityBTree.insertValueInBTree(university);
 	}
@@ -142,6 +147,23 @@ IsVector<std::string> splitComma(std::string rowStr)
 	}
 	row.push_back(field);
 	return row;
+}
+
+void assignValue(double* score, int* rank, const std::string& value, const std::string& rankValue, int index)
+{
+    if (value != "")
+        score[index] = stod(value);
+    else
+        score[index] = 0.0;
+
+    if (rankValue != "") {
+        if (rankValue.find("+") != std::string::npos)
+            rank[index] = stoi(rankValue.substr(0, rankValue.length() - 1));
+        else
+            rank[index] = stoi(rankValue);
+    }
+    else
+        rank[index] = 0;
 }
 
 std::string replaceAccentLetters(std::string institution)

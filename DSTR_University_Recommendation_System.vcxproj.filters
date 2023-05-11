@@ -81,4 +81,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="University.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="User.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

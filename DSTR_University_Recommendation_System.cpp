@@ -44,7 +44,7 @@ void testInitData()
     //initUserList();
     //StatusContainer::userList.displayUserList();
 
-	initUniversityList();
+	initUniversityData();
 	//StatusContainer::universityList.displayUniversityList();
     
 	//StatusContainer::universityBTree.traversal();

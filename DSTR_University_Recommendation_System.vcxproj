@@ -151,6 +151,10 @@
     <ClInclude Include="Validation.h" />
     <ClInclude Include="Visitor.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="University.csv" />
+    <None Include="User.csv" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

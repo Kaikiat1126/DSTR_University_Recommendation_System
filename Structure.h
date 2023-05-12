@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "IsVector.h"
 
 #define MAX 4
 #define MIN 2
@@ -18,7 +19,7 @@ struct UserStruct
 	std::string password;
 	std::string lastModifyDate;
 	std::string role;
-	std::string favourite;
+	IsVector<std::string> favourite;
 };
 
 struct UserNode

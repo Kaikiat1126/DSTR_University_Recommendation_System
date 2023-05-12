@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "IsVector.h"
 
 class User
 {
@@ -8,9 +9,12 @@ private:
     std::string password;
     std::string email;
     std::string contactNum;
-    //std::string role;
+    std::string role;
 	//std::string role = "user";
-    std::string role = "admin";
+    //std::string role = "admin";
+
+	IsVector<std::string> favourite;
+    
 public:
     User(std::string username, std::string password);
     User(std::string username, std::string password, std::string email, std::string contactNum, std::string role);

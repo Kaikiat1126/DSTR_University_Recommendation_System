@@ -33,18 +33,18 @@ void testInitData();
 
 int main()
 {
-    //testInitData();
+    testInitData();
     //std::cout << "Hello University Recommendatio0n System!\n";
-    go_to_main_menu();
+    //go_to_main_menu();
 	// go_to_register();
 }
 
 void testInitData()
 {
-    //initUserList();
+    initUserList();
     //StatusContainer::userList.displayUserList();
 
-	initUniversityData();
+	//initUniversityData();
 	//StatusContainer::universityList.displayUniversityList();
     
 	//StatusContainer::universityBTree.traversal();
@@ -149,7 +149,7 @@ void go_to_login()
 void verify_second_menu()
 {
     system("cls");
-    string role = StatusContainer::currentUser.getRole();
+    string role = StatusContainer::currentUser->getRole();
     if(role == "admin")
     {
         go_to_admin_menu();

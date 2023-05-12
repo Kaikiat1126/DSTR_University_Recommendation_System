@@ -86,7 +86,7 @@ bool registrationForm()
     // TODOs: store data
     if(proceedNext("Proceed to login")) {
         // TODOs: set data to StatusContainer
-        StatusContainer::currentUser.setDetails(institution, email, contactNum, password);
+        StatusContainer::currentUser->setDetails(institution, email, contactNum, password);
         // TODOs: login
         return true;
     } 

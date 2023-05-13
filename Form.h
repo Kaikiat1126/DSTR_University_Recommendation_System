@@ -89,7 +89,7 @@ bool registrationForm()
 	newUser.contactNum = contactNum;
 	newUser.password = password;
 	newUser.role = "user";
-	newUser.lastModifyDate = DateTime::changeDateFormat(DateTime::getCurrentDateTime());
+	newUser.lastModifyDate = DateTime::getCurrentDateTime();
     newUser.favourite = {};
     
     //store data

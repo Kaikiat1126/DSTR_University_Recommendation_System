@@ -25,12 +25,10 @@ private:
 	void splitNode(UniversityStruct university, UniversityStruct* pval, int pos, UniversityBTreeNode* node, UniversityBTreeNode* child, UniversityBTreeNode** newNode);
 	int setValueIntoNode(UniversityStruct university, UniversityStruct* pval, UniversityBTreeNode* node, UniversityBTreeNode** child);
 	void copySuccessor(UniversityBTreeNode* node, int pos);
-	//void removeValue(UniversityBTreeNode* node, int pos);
 	void rightShift(UniversityBTreeNode* node, int pos);
 	void leftShift(UniversityBTreeNode* node, int pos);
 	void mergeLeaves(UniversityBTreeNode* node, int pos);
 	void adjustNode(UniversityBTreeNode* node, int pos);
-	//int deleteValueFromNode(int rank, UniversityBTreeNode* node);
 	void traversalSearchName(UniversityBTreeNode* node, std::string name);
 		
 public:
@@ -38,7 +36,6 @@ public:
 	UniversityBTree();
 	~UniversityBTree();
 	void insertValueInBTree(UniversityStruct university);
-	//void deleteValueFromBTree(int rank);
 	void searchValueInBTree(int rank, int* pos, UniversityBTreeNode* node);
 	void searchUniversityByName(std::string institution);
 	void traversal();
@@ -238,20 +235,6 @@ void UniversityBTree::copySuccessor(UniversityBTreeNode* node, int pos)
 	node->university[pos] = dummy->university[1];
 }
 
-/*
-void UniversityBTree::removeValue(UniversityBTreeNode* node, int pos)
-{
-	int i = pos + 1;
-	while (i <= node->count)
-	{
-		node->university[i - 1] = node->university[i];
-		node->child[i - 1] = node->child[i];
-		i++;
-	}
-	node->count--;
-}
-*/
-
 void UniversityBTree::rightShift(UniversityBTreeNode* node, int pos)
 {
 	UniversityBTreeNode* x = node->child[pos];
@@ -393,78 +376,6 @@ void UniversityBTree::traversalSearchName(UniversityBTreeNode* node, std::string
 	for (int i = 0; i <= node->count; i++)
 		traversalSearchName(node->child[i], institution);
 }
-
-/*
-int UniversityBTree::deleteValueFromNode(int rank, UniversityBTreeNode* node)
-{
-	int pos, flag = 0;
-	if (node)
-	{
-		if (rank < node->university[1].rank)
-		{
-			pos = 0;
-			flag = 0;
-		}
-		else
-		{
-			for (pos = node->count; (rank < node->university[pos].rank && pos > 1); pos--);
-			if (rank == node->university[pos].rank)
-			{
-				flag = 1;
-			}
-			else
-			{
-				flag = 0;
-			}
-		}
-		if (flag)
-		{
-			if (node->child[pos - 1])
-			{
-				copySuccessor(node, pos);
-				flag = deleteValueFromNode(node->university[pos].rank, node->child[pos]);
-				if (flag == 0)
-				{
-					Message::warning("Given data is not present in B-Tree");
-				}
-			}
-			else
-			{
-				removeValue(node, pos);
-			}
-		}
-		else
-		{
-			flag = deleteValueFromNode(rank, node->child[pos]);
-		}
-		if (node->child[pos])
-		{
-			if (node->child[pos]->count < MIN)
-				adjustNode(node, pos);
-		}
-	}
-	return flag;
-}
-
-void UniversityBTree::deleteValueFromBTree(int rank)
-{
-	UniversityBTreeNode* temp;
-	if (!deleteValueFromNode(rank, root))
-	{
-		Message::error("Value not found");
-		return;
-	}
-	else
-	{
-		if (root->count == 0)
-		{
-			temp = root;
-			root = root->child[0];
-			free(temp);
-		}
-	}
-}
-*/
 
 void UniversityBTree::searchValueInBTree(int rank, int* pos, UniversityBTreeNode* node)
 {

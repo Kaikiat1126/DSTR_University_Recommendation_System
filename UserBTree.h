@@ -33,7 +33,7 @@ private:
 	void adjustNode(UserBTreeNode* node, int pos);
 	int deleteValueFromNode(int id, UserBTreeNode* node);
 	void traversalSearchUserMatch(UserBTreeNode* node, IsVector<UserStruct>* users, const std::string& username);
-	void updateLastModifyDate(UserBTreeNode* node, int id, int* pos, std::string date);
+	void updateValueByID(UserBTreeNode* node, int id, int* pos, std::string type, std::string value);
 	
 public:
 	UserBTreeNode* root;
@@ -41,13 +41,12 @@ public:
 	~UserBTree();
 	void insertValueInBTree(UserStruct user);
 	void deleteValueFromBTree(int id);
-	void searchValueInBTree(int id, int* pos, UserBTreeNode* node);
 	void searchUserMatch(IsVector<UserStruct>* users, const std::string& username);
-	void updateLastModifyDate(int id);
 	void traversal();
 	void preOrder();
 	void postOrder();
 	int getTreeNodeCount();
+	void updateValueByID(int id, std::string type, std::string value);
 };
 
 UserBTree::UserBTree()
@@ -426,6 +425,11 @@ int UserBTree::deleteValueFromNode(int id, UserBTreeNode* node)
 	return flag;
 }
 
+int UserBTree::getTreeNodeCount()
+{
+	return nodeCount;
+}
+
 void UserBTree::deleteValueFromBTree(int id)
 {
 	UserBTreeNode* temp;
@@ -444,69 +448,6 @@ void UserBTree::deleteValueFromBTree(int id)
 		}
 	}
 }
-
-void UserBTree::searchValueInBTree(int id, int* pos, UserBTreeNode* node)
-{
-	if (!node)
-		return;
-
-	if (id < node->user[1].userID)
-		*pos = 0;
-	else
-	{
-		std::string msg = "User with ID ";
-		for (*pos = node->count; (id < node->user[*pos].userID && *pos > 1); (*pos)--);
-		if (id == node->user[*pos].userID)
-		{
-			msg = msg + std::to_string(id) + " found";
-			Message::notice(msg);
-			return;
-		}
-		msg = msg + std::to_string(id) + " not found";
-		Message::warning(msg);
-	}
-	searchValueInBTree(id, pos, node->child[*pos]);
-	return;
-}
-
-// user found => 200
-// username found but password wrong => 300
-// user not found => 404
-// unknown error => 500
-//int UserBTree::verifyUserLogin(const std::string& username, const std::string& password)
-//{
-//	bool found = false;
-//	bool passwordMatch = false;
-//	
-//	userList.clear();
-//	std::string input = username;
-//	input.erase(std::remove(input.begin(), input.end(), ' '), input.end());
-//	
-//	traversalSearchName(root, input);
-//
-//	if (userList.getSize() == 0)
-//		return 404;
-//	
-//	for (int i = 0; i < userList.getSize(); i++)
-//	{
-//		if (userList.at(i).username == username)
-//		{
-//			found = true;
-//			if (userList.at(i).password == password)
-//			{
-//				passwordMatch = true;
-//				break;
-//			}
-//		}
-//	}
-//
-//	if (found && passwordMatch)
-//		return 200;
-//	else if (found && !passwordMatch)
-//		return 300;
-//	else
-//		return 500;
-//}
 
 void UserBTree::searchUserMatch(IsVector<UserStruct>* users, const std::string& username)
 {
@@ -537,15 +478,29 @@ void UserBTree::traversalSearchUserMatch(UserBTreeNode* node, IsVector<UserStruc
 		traversalSearchUserMatch(node->child[i], users, username);
 }
 
-void UserBTree::updateLastModifyDate(int id)
+// type: "date", "contact", "email"
+void UserBTree::updateValueByID(int id, std::string type, std::string value)
 {
-	std::string date = DateTime::changeDateFormat(DateTime::getCurrentDateTime());
-	updateLastModifyDate(root, id, &id, date);
+	if (type != "date" && type != "contact" && type != "email")
+	{
+		Message::error("Invalid update type");
+		return;
+	}
+	//start time
+	updateValueByID(root, id, &id, type, value);
+	//end time
 }
 
-void UserBTree::updateLastModifyDate(UserBTreeNode* node, int id, int*pos, std::string date)
+void UserBTree::updateValueByID(UserBTreeNode* node, int id, int* pos, std::string type, std::string value)
 {
-	if (!node) return;
+	bool found = false;
+
+	if (!node) 
+	{
+		std::string msg = "User with ID " + std::to_string(id) + " not found";
+		Message::error(msg);
+		return;
+	}
 
 	if (id < node->user[1].userID)
 		*pos = 0;
@@ -554,18 +509,20 @@ void UserBTree::updateLastModifyDate(UserBTreeNode* node, int id, int*pos, std::
 		for (*pos = node->count; (id < node->user[*pos].userID && *pos > 1); (*pos)--);
 		if (id == node->user[*pos].userID)
 		{
-			//std::cout << "User Last modify date: " << node->user[*pos].lastModifyDate << std::endl;
-			node->user[*pos].lastModifyDate = date;
-			//std::cout << "Last modify date updated" << std::endl;
-			//std::cout << "New last modify date: " << node->user[*pos].lastModifyDate << std::endl;
+			std::string msg = "User with ID " + std::to_string(id) + "'s details updated";
+			if(type == "date")
+				node->user[*pos].lastModifyDate = value;
+			else if (type == "contact")
+				node->user[*pos].contactNum = value;
+			else if (type == "email")
+				node->user[*pos].email = value;
+			found = true;
+			Message::notice(msg);
 			return;
 		}
 	}
-	
-	updateLastModifyDate(node->child[*pos], id, pos, date);
-}
 
-int UserBTree::getTreeNodeCount()
-{
-	return nodeCount;
+	if (found) return;
+
+	updateValueByID(node->child[*pos], id, pos, type, value);
 }

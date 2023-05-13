@@ -35,6 +35,7 @@ int login(std::string username, std::string password)
             {
                 passwordMatch = true;
 				//TODO: update last modify date
+				StatusContainer::userBTree.updateLastModifyDate(users->at(i).userID);
 				setLoginStatus(users->at(i));
                 break;
             }

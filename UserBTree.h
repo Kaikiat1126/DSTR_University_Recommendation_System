@@ -8,6 +8,7 @@
 #include "Message.h"
 #include "Timer.h"
 #include "IsVector.h"
+#include "DateTime.h"
 
 #define MAX 4
 #define MIN 2
@@ -31,6 +32,8 @@ private:
 	void adjustNode(UserBTreeNode* node, int pos);
 	int deleteValueFromNode(int id, UserBTreeNode* node);
 	void traversalSearchUserMatch(UserBTreeNode* node, IsVector<UserStruct>* users, const std::string& username);
+	void updateLastModifyDate(UserBTreeNode* node, int id, int* pos, std::string date);
+	
 public:
 	UserBTreeNode* root;
 	UserBTree();
@@ -39,6 +42,7 @@ public:
 	void deleteValueFromBTree(int id);
 	void searchValueInBTree(int id, int* pos, UserBTreeNode* node);
 	void searchUserMatch(IsVector<UserStruct>* users, const std::string& username);
+	void updateLastModifyDate(int id);
 	void traversal();
 	void preOrder();
 	void postOrder();
@@ -446,7 +450,7 @@ void UserBTree::searchValueInBTree(int id, int* pos, UserBTreeNode* node)
 		*pos = 0;
 	else
 	{
-		std::string msg = "UserStruct with ID ";
+		std::string msg = "User with ID ";
 		for (*pos = node->count; (id < node->user[*pos].userID && *pos > 1); (*pos)--);
 		if (id == node->user[*pos].userID)
 		{
@@ -527,4 +531,32 @@ void UserBTree::traversalSearchUserMatch(UserBTreeNode* node, IsVector<UserStruc
 
 	for (int i = 0; i <= node->count; i++)
 		traversalSearchUserMatch(node->child[i], users, username);
+}
+
+void UserBTree::updateLastModifyDate(int id)
+{
+	std::string date = DateTime::changeDateFormat(DateTime::getCurrentDateTime());
+	updateLastModifyDate(root, id, &id, date);
+}
+
+void UserBTree::updateLastModifyDate(UserBTreeNode* node, int id, int*pos, std::string date)
+{
+	if (!node) return;
+
+	if (id < node->user[1].userID)
+		*pos = 0;
+	else
+	{
+		for (*pos = node->count; (id < node->user[*pos].userID && *pos > 1); (*pos)--);
+		if (id == node->user[*pos].userID)
+		{
+			std::cout << "User Last modify date: " << node->user[*pos].lastModifyDate << std::endl;
+			node->user[*pos].lastModifyDate = date;
+			std::cout << "Last modify date updated" << std::endl;
+			std::cout << "New last modify date: " << node->user[*pos].lastModifyDate << std::endl;
+			return;
+		}
+	}
+	
+	updateLastModifyDate(node->child[*pos], id, pos, date);
 }

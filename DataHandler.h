@@ -11,6 +11,7 @@
 #include "StatusContainer.h"
 #include "IsVector.h"
 #include "IsUnorderedMap.h"
+#include "DateTime.h"
 
 const std::string UNIVERSITYFILE = "University.csv";
 const std::string USERFILE = "User.csv";
@@ -57,7 +58,8 @@ void initUserData()
         getline(iss, user.email, ',');
         getline(iss, user.contactNum, ',');
         getline(iss, user.password, ',');
-        getline(iss, user.lastModifyDate, ',');
+        getline(iss, field, ',');
+        user.lastModifyDate = DateTime::changeDateFormat(field);
         getline(iss, user.role, ',');
 		getline(iss, favourites);
         

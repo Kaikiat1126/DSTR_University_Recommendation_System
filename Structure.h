@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "IsVector.h"
 
 #define MAX 4
 #define MIN 2
@@ -18,7 +19,7 @@ struct UserStruct
 	std::string password;
 	std::string lastModifyDate;
 	std::string role;
-	std::string favourite;
+	IsVector<std::string> favourite;
 };
 
 struct UserNode
@@ -56,4 +57,11 @@ struct UniversityBTreeNode : public BTreeNode
 	//int count; 
 	UniversityStruct university[MAX + 1];
 	UniversityBTreeNode* child[MAX + 1];
+};
+
+struct UserBTreeNode : public BTreeNode
+{
+	//int count;
+	UserStruct user[MAX + 1];
+	UserBTreeNode* child[MAX + 1];
 };

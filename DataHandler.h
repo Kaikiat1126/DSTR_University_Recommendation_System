@@ -11,6 +11,7 @@
 #include "StatusContainer.h"
 #include "IsVector.h"
 #include "IsUnorderedMap.h"
+#include "DateTime.h"
 
 const std::string UNIVERSITYFILE = "University.csv";
 const std::string USERFILE = "User.csv";
@@ -21,7 +22,8 @@ const std::string replaceLetters[] = { "e","e","E","a","a","a","a","a","a","o","
 IsUnorderedMap<std::string, std::string, 29> map = StatusContainer::accentLettersMap;
 
 void readFiletoStruture();
-void initUserList();
+void initUserData();
+//void initUserBTree();
 void initUniversityData();
 IsVector<std::string> splitComma(std::string rowStr);
 void assignValue(double* score, int* rank, const std::string& value, const std::string& rankValue, int index);
@@ -32,7 +34,7 @@ void readFiletoStruture()
     //TODOs
 }
 
-void initUserList()
+void initUserData()
 {
 	std::ifstream file(USERFILE);
     if(!file.is_open())
@@ -42,7 +44,7 @@ void initUserList()
     }
 
 	UserStruct user;
-    std::string str;
+    std::string str, favourites;
     getline(file, str); //get the header line
     
     while (getline(file, str))
@@ -56,11 +58,31 @@ void initUserList()
         getline(iss, user.email, ',');
         getline(iss, user.contactNum, ',');
         getline(iss, user.password, ',');
-        getline(iss, user.lastModifyDate, ',');
+        getline(iss, field, ',');
+        user.lastModifyDate = DateTime::changeDateFormat(field);
         getline(iss, user.role, ',');
-        getline(iss, user.favourite);
+		getline(iss, favourites);
+        
+		favourites.erase(std::remove(favourites.begin(), favourites.end(), '\"'), favourites.end());
+        
+        IsVector<std::string> favs;
+		std::istringstream iss2(favourites);
+		std::string item;
+		while (getline(iss2, item, ','))
+		{
+			favs.push_back(item);
+		}
+
+        if (favs.at(0) == "null") user.favourite = {};
+		else user.favourite = favs;
+        
         if(field != "")
-            StatusContainer::userList.insertToEndOfList(user);
+        {
+            //StatusContainer::userList.insertToEndOfList(user);
+			StatusContainer::userBTree.insertValueInBTree(user);
+	    }
+
+        favs.clear();
     }
 	file.close();
 }

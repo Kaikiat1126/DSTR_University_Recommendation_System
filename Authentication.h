@@ -1,6 +1,13 @@
 #pragma once
 
 #include "StatusContainer.h"
+#include "IsVector.h"
+#include "Structure.h"
+#include "User.h"
+#include "Admin.h"
+
+int login(std::string username, std::string password);
+void setLoginStatus(UserStruct user);
 
 // user found => 200
 // username found but password wrong => 300
@@ -9,41 +16,51 @@
 
 int login(std::string username, std::string password)
 {
-    //TODOs
-    //check username and password
-    std::string institution = "user123";
-    std::string pass = "123456";
-
     bool found = false;
     bool passwordMatch = false;
 
-    // TODOs
-    // traversal the user list, find the username, password, role
-    // update last modify date
+	IsVector<UserStruct>* users = new IsVector<UserStruct>();
+	StatusContainer::userBTree.searchUserMatch(users, username);
 
-    if(institution == username)
-    {
-        found = true;
-        if(pass == password)
-        {
-            passwordMatch = true;
-        }
-    }
+	if (users->getSize() == 0)
+	{
+		return 404;
+	}
 
-    if (found)
+    for (int i = 0; i < users->getSize(); i++)
     {
-        if (passwordMatch)
+        if (users->at(i).username == username)
         {
-            return 200;
-        }
-        else
-        {
-            return 300;
+            found = true;
+            if (users->at(i).password == password)
+            {
+                passwordMatch = true;
+				//TODO: update last modify date
+				StatusContainer::userBTree.updateLastModifyDate(users->at(i).userID);
+				setLoginStatus(users->at(i));
+                break;
+            }
         }
     }
-    else
-    {
-        return 404;
-    }
-    return 500;
+    
+	if (found && passwordMatch)
+	{
+		return 200;
+	}
+	else if (found && !passwordMatch)
+	{
+		return 300;
+	}
+	else
+	{
+		return 500;
+	}
+}
+
+void setLoginStatus(UserStruct user)
+{
+	if (user.role == "user")
+		StatusContainer::currentUser = new User(user.userID, user.username, user.password, user.email, user.contactNum, user.role, user.favourite);
+	else
+		StatusContainer::currentUser = new Admin(user.userID, user.username, user.password, user.email, user.contactNum, user.role);
 }

@@ -43,7 +43,10 @@ IsVector<T>::IsVector(int capacity)
 template <class T>
 IsVector<T>::~IsVector()
 {
-	delete[] arr;
+	if (arr != nullptr) { // Check is nullptr or not
+		//delete[] arr;
+		arr = nullptr; // set ptr = nullptr, prevent dangling pointer
+	}
 }
 
 template <class T>

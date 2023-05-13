@@ -6,8 +6,7 @@
 #include "Menu.h"
 #include "DateTime.h"
 #include "StatusContainer.h"
-#include "User.h"
-#include "Visitor.h"
+#include "Structure.h"
 
 #define NAME_REGEX "^[a-zA-Z0-9]{4,}$"
 #define EMAIL_REGEX "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
@@ -50,14 +49,14 @@ std::string validateInput(const std::string& prompt, const std::string& hint,con
 }
 
 bool registrationForm()
-{
+{      
 	std::cout << "Please fill up the form below and ";
 	Message::warning("you may quit at any time by entering 'Q/quit'");
     std::cout << std::endl;
 
-	//institution, email, contact number, password
-	std::string institution = validateInput("Username", "Don't include punctuations in your institution",NAME_REGEX);
-    if (institution.empty()) {
+	//username, email, contact number, password
+	std::string username = validateInput("Username", "Don't include punctuations in your username",NAME_REGEX);
+    if (username.empty()) {
         return false;
     }
 
@@ -66,7 +65,7 @@ bool registrationForm()
         return false;
     }
 
-    std::string contactNum = validateInput("Contact Number", "only 8 digits allowed",CONTACT_NUM_REGEX);
+    std::string contactNum = validateInput("Contact Number", "only 9 digits allowed",CONTACT_NUM_REGEX);
     if (contactNum.empty()) {
         return false;
     }
@@ -78,16 +77,29 @@ bool registrationForm()
 
 	Message::success("Registration successful!");
     std::cout << std::endl;
-	// std::cout << "Name: " << institution << std::endl;
+	// std::cout << "Name: " << username << std::endl;
 	// std::cout << "Email: " << email << std::endl;
 	// std::cout << "Contact Number: " << contactNum << std::endl;
 	// std::cout << "Password: " << password << std::endl;
 
-    // TODOs: store data
+    UserStruct newUser;
+    newUser.userID = (StatusContainer::userBTree.getTreeNodeCount() + 1);
+	newUser.username = username;
+	newUser.email = email;
+	newUser.contactNum = contactNum;
+	newUser.password = password;
+	newUser.role = "user";
+	newUser.lastModifyDate = DateTime::changeDateFormat(DateTime::getCurrentDateTime());
+    newUser.favourite = {};
+    
+    //store data
+	StatusContainer::userBTree.insertValueInBTree(newUser);
+
     if(proceedNext("Proceed to login")) {
-        // TODOs: set data to StatusContainer
-        StatusContainer::currentUser.setDetails(institution, email, contactNum, password);
-        // TODOs: login
+        
+        StatusContainer::currentUser = new User(newUser.userID, newUser.username, newUser.password, newUser.email, newUser.contactNum, newUser.role, newUser.favourite);
+        //StatusContainer::currentUser->setDetails(username, email, contactNum, password);
+        
         return true;
     } 
     else 

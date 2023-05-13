@@ -147,6 +147,7 @@
     <ClInclude Include="UniversityBTree.h" />
     <ClInclude Include="UniversityList.h" />
     <ClInclude Include="User.h" />
+    <ClInclude Include="UserBTree.h" />
     <ClInclude Include="UserList.h" />
     <ClInclude Include="Validation.h" />
     <ClInclude Include="Visitor.h" />

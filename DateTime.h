@@ -20,8 +20,8 @@ std::string DateTime::getCurrentDateTime() {
 	localtime_s(&tm, &in_time_t);
 	
 	std::stringstream ss;
-	//ss << std::put_time(&tm, "%Y-%m-%d %H:%M:%S");
-	ss << std::put_time(&tm, "%m/%d/%Y %H:%M");
+	ss << std::put_time(&tm, "%Y-%m-%d %H:%M:%S");
+	//ss << std::put_time(&tm, "%d/%d/%Y %H:%M");
 	return ss.str();
 }
 

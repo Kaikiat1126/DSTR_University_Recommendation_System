@@ -4,6 +4,7 @@
 #include "IsVector.h"
 #include "Structure.h"
 #include "User.h"
+#include "Admin.h"
 
 int login(std::string username, std::string password);
 void setLoginStatus(UserStruct user);
@@ -61,5 +62,5 @@ void setLoginStatus(UserStruct user)
 	if (user.role == "user")
 		StatusContainer::currentUser = new User(user.userID, user.username, user.password, user.email, user.contactNum, user.role, user.favourite);
 	else
-		StatusContainer::currentUser = new User(user.userID, user.username, user.password, user.email, user.contactNum, user.role);
+		StatusContainer::currentUser = new Admin(user.userID, user.username, user.password, user.email, user.contactNum, user.role);
 }

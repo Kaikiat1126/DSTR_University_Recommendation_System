@@ -16,6 +16,7 @@
 class UserBTree : public BTree
 {
 private:
+	int nodeCount;
 	IsVector<UserStruct> userList;
 	void traversal(UserBTreeNode* node);
 	void preOrder(UserBTreeNode* node);
@@ -46,11 +47,13 @@ public:
 	void traversal();
 	void preOrder();
 	void postOrder();
+	int getTreeNodeCount();
 };
 
 UserBTree::UserBTree()
 {
 	root = nullptr;
+	nodeCount = 0;
 }
 
 UserBTree::~UserBTree() {}
@@ -220,6 +223,7 @@ int UserBTree::setValueIntoNode(UserStruct user, UserStruct* pval, UserBTreeNode
 			return 1;
 		}
 	}
+	nodeCount++;
 	return 0;
 }
 
@@ -550,13 +554,18 @@ void UserBTree::updateLastModifyDate(UserBTreeNode* node, int id, int*pos, std::
 		for (*pos = node->count; (id < node->user[*pos].userID && *pos > 1); (*pos)--);
 		if (id == node->user[*pos].userID)
 		{
-			std::cout << "User Last modify date: " << node->user[*pos].lastModifyDate << std::endl;
+			//std::cout << "User Last modify date: " << node->user[*pos].lastModifyDate << std::endl;
 			node->user[*pos].lastModifyDate = date;
-			std::cout << "Last modify date updated" << std::endl;
-			std::cout << "New last modify date: " << node->user[*pos].lastModifyDate << std::endl;
+			//std::cout << "Last modify date updated" << std::endl;
+			//std::cout << "New last modify date: " << node->user[*pos].lastModifyDate << std::endl;
 			return;
 		}
 	}
 	
 	updateLastModifyDate(node->child[*pos], id, pos, date);
+}
+
+int UserBTree::getTreeNodeCount()
+{
+	return nodeCount;
 }

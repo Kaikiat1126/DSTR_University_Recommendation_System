@@ -21,7 +21,7 @@ const std::string replaceLetters[] = { "e","e","E","a","a","a","a","a","a","o","
 IsUnorderedMap<std::string, std::string, 29> map = StatusContainer::accentLettersMap;
 
 void readFiletoStruture();
-void initUserList();
+void initUserData();
 //void initUserBTree();
 void initUniversityData();
 IsVector<std::string> splitComma(std::string rowStr);
@@ -33,7 +33,7 @@ void readFiletoStruture()
     //TODOs
 }
 
-void initUserList()
+void initUserData()
 {
 	std::ifstream file(USERFILE);
     if(!file.is_open())
@@ -75,14 +75,17 @@ void initUserList()
 		else user.favourite = favs;
         
         if(field != "")
-            StatusContainer::userList.insertToEndOfList(user);
+        {
+            //StatusContainer::userList.insertToEndOfList(user);
+			StatusContainer::userBTree.insertValueInBTree(user);
+	    }
 
-        for (int i = 0; i < user.favourite.getSize(); i++)
+        /*for (int i = 0; i < user.favourite.getSize(); i++)
         {
             std::cout << user.favourite.at(i) << " ";
         }
 
-        std::cout << std::endl;
+        std::cout << std::endl;*/
 
         favs.clear();
     }

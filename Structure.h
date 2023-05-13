@@ -58,3 +58,10 @@ struct UniversityBTreeNode : public BTreeNode
 	UniversityStruct university[MAX + 1];
 	UniversityBTreeNode* child[MAX + 1];
 };
+
+struct UserBTreeNode : public BTreeNode
+{
+	//int count;
+	UserStruct user[MAX + 1];
+	UserBTreeNode* child[MAX + 1];
+};

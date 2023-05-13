@@ -41,8 +41,9 @@ int main()
 
 void testInitData()
 {
-    initUserList();
+    initUserData();
     //StatusContainer::userList.displayUserList();
+	StatusContainer::userBTree.traversal();
 
 	//initUniversityData();
 	//StatusContainer::universityList.displayUniversityList();

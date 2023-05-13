@@ -4,6 +4,10 @@ Used to get the current DateTime, return YYYY-MM-DD HH:MM:SS
 
 - `DateTime::getCurrentDateTime()`
 
+Format the DateTime string from MM/DD/YYYY HH:MM to YYYY-MM-DD HH:MM:SS
+
+- `DateTime::changeDateFormat(string date)`
+
 
 ## Message
 

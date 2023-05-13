@@ -34,6 +34,7 @@ private:
 	int deleteValueFromNode(int id, UserBTreeNode* node);
 	void traversalSearchUserMatch(UserBTreeNode* node, IsVector<UserStruct>* users, const std::string& username);
 	void updateValueByID(UserBTreeNode* node, int id, int* pos, std::string type, std::string value);
+	void traversalGetUserList(UserBTreeNode* node, IsVector<UserStruct>* users);
 	
 public:
 	UserBTreeNode* root;
@@ -47,6 +48,7 @@ public:
 	void postOrder();
 	int getTreeNodeCount();
 	void updateValueByID(int id, std::string type, std::string value);
+	IsVector<UserStruct> getUserList();
 };
 
 UserBTree::UserBTree()
@@ -525,4 +527,27 @@ void UserBTree::updateValueByID(UserBTreeNode* node, int id, int* pos, std::stri
 	if (found) return;
 
 	updateValueByID(node->child[*pos], id, pos, type, value);
+}
+
+IsVector<UserStruct> UserBTree::getUserList()
+{
+	IsVector<UserStruct>* users = new IsVector<UserStruct>();
+	traversalGetUserList(root, users);
+	return *users;
+}
+
+void UserBTree::traversalGetUserList(UserBTreeNode* node, IsVector<UserStruct>* users)
+{
+	if (!node) return;
+
+	for (int i = 0; i <= node->count; i++)
+	{
+		std::string role = node->user[i].role;
+
+		if (role == "user")
+		{
+			users->push_back(node->user[i]);
+		}
+		traversalGetUserList(node->child[i], users);
+	}
 }

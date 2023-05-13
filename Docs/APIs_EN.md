@@ -48,7 +48,7 @@ Get user input's university name, return string
 - `string searchUniByName()`
 
 
-## StatusContainer & User
+## StatusContainer
 
 Get the current user details
 
@@ -62,9 +62,17 @@ Get the User List (Linkedlist)
 
 - `StatusContainer::userList()`
 
-Ge the University List (Linkedlist)
+Get the University List (Linkedlist)
 
 - `StatusContainer::universityList`
+
+Get the University BTree 
+
+- `StatusContainer::universityBTree`
+
+Get the User BTree
+
+- `StatusContainer::userBTree`
 
 
 ## Struture
@@ -84,6 +92,14 @@ Define a User's structure
 Define a User's Node
 
 - `struct UserNode`
+
+Define a University's BTreeNode
+
+- `struct UniversityBTreeNode`
+
+Define a User's BTreeNode
+
+- `struct UserBTreeNode`
 
 
 ## University List
@@ -185,6 +201,22 @@ Let user select with sort algorithm to be used (Landing Sort Universtiy)
 
 - `void chooseSortAlgo()`
 
+Using BTree to search University by name
+
+- `void BTreeSearch(string institution)`
+
+Using RedBlack Tree to search University by name
+
+- `void RedBlackTreeSearch(string institution)`
+
+Using Quick sort to Asc University name
+
+- `void quickAscOrder()`
+
+Using Merge sort to Asc University name
+
+- `void mergeAscOrder()`
+
 
 ## Timer
 
@@ -195,3 +227,27 @@ Used to get current time or function's start/end time, return auto time
 Used to calculate the function's run time, return string
 
 - `string getRunTime(chrono::steady_clock::time_point start, chrono::steady_clock::time_point end)`
+
+
+# UniversityBTree
+
+Traversal the tree
+
+- `void traversal()`
+
+Traversal by pre order
+
+- `void preOrder()`
+
+Traversal by post order
+
+- `void postOrder()`
+
+Search University by name
+
+- `void searchUniversityByName(string institution)`
+
+Create new node in BTree, input UniversityStruct
+
+- `void insertValueInBTree(UniversityStruct university)`
+

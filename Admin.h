@@ -13,7 +13,7 @@ private:
 	static int validOption(std::string, int);
 public:
     Admin(std::string username, std::string password);
-    Admin(std::string username, std::string password, std::string email, std::string contactNum, std::string role);
+	Admin(int userID, std::string username, std::string password, std::string email, std::string contactNum, std::string role);
 
 	static void displayAllUser();
 	static void displayInactiveUser();
@@ -26,9 +26,8 @@ Admin::Admin(std::string username, std::string password) : User(username, passwo
 {
 }
 
-Admin::Admin(std::string username, std::string password,
-    std::string email, std::string contactNum,
-    std::string role) : User(username, password, email, contactNum, role)
+Admin::Admin(int userID, std::string username, std::string password, std::string email, std::string contactNum, std::string role) 
+	: User(userID, username, password, email, contactNum, role)
 {
 }
 

@@ -80,13 +80,6 @@ void initUserData()
 			StatusContainer::userBTree.insertValueInBTree(user);
 	    }
 
-        /*for (int i = 0; i < user.favourite.getSize(); i++)
-        {
-            std::cout << user.favourite.at(i) << " ";
-        }
-
-        std::cout << std::endl;*/
-
         favs.clear();
     }
 	file.close();

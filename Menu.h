@@ -6,6 +6,7 @@
 #include "Authentication.h"
 #include "Admin.h"
 #include "Validation.h"
+#include "StatusContainer.h"
 
 class Menu
 {
@@ -236,7 +237,7 @@ void Menu::modifyUserPage() {
 	//TODO: search user
 	//if user found
 	bool found = true;
-	User user("user123","123456","user@mail.com","0123456789","user");
+	//User user("user123","123456","user@mail.com","0123456789","user");
 
 	if (found) {
 		system("cls");
@@ -244,13 +245,13 @@ void Menu::modifyUserPage() {
 		std::cout << std::endl;
 		std::cout << "          User Details            " << std::endl;
 		std::cout << "**********************************" << std::endl;
-		std::cout << "Username  : " << user.getUsername() << std::endl;
-		std::cout << "Contact   : " << user.getContactNum() << std::endl;
-		std::cout << "Email     : " << user.getEmail() << std::endl;
+		std::cout << "Username  : " << StatusContainer::currentUser->getUsername() << std::endl;
+		std::cout << "Contact   : " << StatusContainer::currentUser->getContactNum() << std::endl;
+		std::cout << "Email     : " << StatusContainer::currentUser->getEmail() << std::endl;
 		std::cout << std::endl;
 
 		int option = Admin::chooseModify();
-		Admin::modifyUser(user, option);
+		//Admin::modifyUser(user, option);
 	}
 	else
 	{

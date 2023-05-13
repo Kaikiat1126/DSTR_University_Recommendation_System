@@ -30,8 +30,7 @@ private:
 	void mergeLeaves(UserBTreeNode* node, int pos);
 	void adjustNode(UserBTreeNode* node, int pos);
 	int deleteValueFromNode(int id, UserBTreeNode* node);
-	void traversalSearchName(UserBTreeNode* node, std::string name);
-
+	void traversalSearchUserMatch(UserBTreeNode* node, IsVector<UserStruct>* users, const std::string& username);
 public:
 	UserBTreeNode* root;
 	UserBTree();
@@ -39,7 +38,7 @@ public:
 	void insertValueInBTree(UserStruct user);
 	void deleteValueFromBTree(int id);
 	void searchValueInBTree(int id, int* pos, UserBTreeNode* node);
-	void searchUserByName(std::string name);
+	void searchUserMatch(IsVector<UserStruct>* users, const std::string& username);
 	void traversal();
 	void preOrder();
 	void postOrder();
@@ -73,7 +72,7 @@ void UserBTree::traversal(UserBTreeNode* node)
 			
 			for (int j = 0;j < user.favourite.getSize();j++)
 			{
-				std::cout << user.favourite.at(0) << " ";
+				std::cout << user.favourite.at(j) << " ";
 			}
 			std::cout << std::endl;
 		}
@@ -368,34 +367,6 @@ void UserBTree::adjustNode(UserBTreeNode* node, int pos)
 	}
 }
 
-void UserBTree::traversalSearchName(UserBTreeNode* node, std::string username)
-{
-	bool found = false;
-	if (!node) return;
-
-	for (int i = 1; i <= node->count; i++)
-	{
-		std::string data = node->user[i].username;
-		data.erase(std::remove(data.begin(), data.end(), ' '), data.end());
-
-		//std::cout << node->university[i].institution << std::endl;
-		if (data == username)
-		{
-			//std::cout << node->university[i].institution << " " << node->university[i].rank << std::endl;
-			found = true;
-			userList.push_back(node->user[i]);
-			//std::cout << "Size of list: " << universityList.getSize() << std::endl;
-			break;
-		}
-	}
-
-	if (found) return;
-
-	for (int i = 0; i <= node->count; i++)
-		traversalSearchName(node->child[i], username);
-}
-
-
 int UserBTree::deleteValueFromNode(int id, UserBTreeNode* node)
 {
 	int pos, flag = 0;
@@ -490,27 +461,70 @@ void UserBTree::searchValueInBTree(int id, int* pos, UserBTreeNode* node)
 	return;
 }
 
-void UserBTree::searchUserByName(std::string name)
+// user found => 200
+// username found but password wrong => 300
+// user not found => 404
+// unknown error => 500
+//int UserBTree::verifyUserLogin(const std::string& username, const std::string& password)
+//{
+//	bool found = false;
+//	bool passwordMatch = false;
+//	
+//	userList.clear();
+//	std::string input = username;
+//	input.erase(std::remove(input.begin(), input.end(), ' '), input.end());
+//	
+//	traversalSearchName(root, input);
+//
+//	if (userList.getSize() == 0)
+//		return 404;
+//	
+//	for (int i = 0; i < userList.getSize(); i++)
+//	{
+//		if (userList.at(i).username == username)
+//		{
+//			found = true;
+//			if (userList.at(i).password == password)
+//			{
+//				passwordMatch = true;
+//				break;
+//			}
+//		}
+//	}
+//
+//	if (found && passwordMatch)
+//		return 200;
+//	else if (found && !passwordMatch)
+//		return 300;
+//	else
+//		return 500;
+//}
+
+void UserBTree::searchUserMatch(IsVector<UserStruct>* users, const std::string& username)
 {
-	userList.clear();
-	UserBTreeNode* cursor = root;
+	traversalSearchUserMatch(root, users, username);
+}
 
-	std::string input = name;
-	input.erase(std::remove(input.begin(), input.end(), ' '), input.end());
-
-	traversalSearchName(cursor, input);
-
-	std::string msg = "User with name ";
-
-	if (userList.getSize() == 0)
+void UserBTree::traversalSearchUserMatch(UserBTreeNode* node, IsVector<UserStruct>* users, const std::string& username)
+{
+	bool found = false;
+	if (!node) return;
+	
+	for (int i = 1; i <= node->count; i++)
 	{
-		msg = msg + name + " not found!";
-		Message::warning(msg);
-		return;
+		std::string data = node->user[i].username;
+		data.erase(std::remove(data.begin(), data.end(), ' '), data.end());
+
+		if (data == username)
+		{
+			found = true;
+			users->push_back(node->user[i]);
+			break;
+		}
 	}
-	else
-	{
-		msg = msg + name + " found!";
-		Message::success(msg);
-	}
+
+	if (found) return;
+
+	for (int i = 0; i <= node->count; i++)
+		traversalSearchUserMatch(node->child[i], users, username);
 }

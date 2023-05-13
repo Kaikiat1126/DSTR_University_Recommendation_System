@@ -5,6 +5,7 @@
 class User
 {
 private:
+	int userID;
     std::string username;
     std::string password;
     std::string email;
@@ -17,18 +18,21 @@ private:
     
 public:
     User(std::string username, std::string password);
-    User(std::string username, std::string password, std::string email, std::string contactNum, std::string role);
+    User(int userID, std::string username, std::string password, std::string email, std::string contactNum, std::string role);
+	User(int userID, std::string username, std::string password, std::string email, std::string contactNum, std::string role, IsVector<std::string> favourite);
     std::string getUsername();
     std::string getPassword();
     std::string getEmail();
     std::string getContactNum();
     std::string getRole();
+	IsVector<std::string> getFavourite();
     void setUsername(std::string username);
     void setPassword(std::string password);
     void setEmail(std::string email);
     void setContactNum(std::string contactNum);
     void setRole(std::string role);
     void setDetails(std::string username, std::string password, std::string email, std::string contactNum);
+	void setFavourite(IsVector<std::string> favourite);
 };
 
 User::User(std::string username, std::string password)
@@ -37,14 +41,26 @@ User::User(std::string username, std::string password)
     this->password = password;
 }
 
-User::User(std::string username, std::string password, 
-    std::string email, std::string contactNum, std::string role)
+User::User(int userID, std::string username, std::string password, std::string email, std::string contactNum, std::string role)
 {
+	this->userID = userID;
+	this->username = username;
+	this->password = password;
+	this->email = email;
+	this->contactNum = contactNum;
+	this->role = role;
+}
+
+User::User(int userID, std::string username, std::string password, 
+    std::string email, std::string contactNum, std::string role, IsVector<std::string> favourite)
+{
+	this->userID = userID;
     this->username = username;
     this->password = password;
     this->email = email;
     this->contactNum = contactNum;
     this->role = role;
+	this->favourite = favourite;
 }
 
 std::string User::getUsername()
@@ -70,6 +86,11 @@ std::string User::getContactNum()
 std::string User::getRole()
 {
 	return this->role;
+}
+
+IsVector<std::string> User::getFavourite()
+{
+	return this->favourite;
 }
 
 void User::setUsername(std::string username)
@@ -103,4 +124,9 @@ void User::setDetails(std::string username, std::string password, std::string em
     this->password = password;
     this->email = email;
     this->contactNum = contactNum;
+}
+
+void User::setFavourite(IsVector<std::string> favourite)
+{
+	this->favourite = favourite;
 }

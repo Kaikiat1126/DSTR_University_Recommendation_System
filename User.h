@@ -20,12 +20,14 @@ public:
     User(std::string username, std::string password);
     User(int userID, std::string username, std::string password, std::string email, std::string contactNum, std::string role);
 	User(int userID, std::string username, std::string password, std::string email, std::string contactNum, std::string role, IsVector<std::string> favourite);
+    int getUserID();
     std::string getUsername();
     std::string getPassword();
     std::string getEmail();
     std::string getContactNum();
     std::string getRole();
 	IsVector<std::string> getFavourite();
+    void setUserID(int userID);
     void setUsername(std::string username);
     void setPassword(std::string password);
     void setEmail(std::string email);
@@ -63,6 +65,11 @@ User::User(int userID, std::string username, std::string password,
 	this->favourite = favourite;
 }
 
+int User::getUserID()
+{
+    return this->userID;
+}
+
 std::string User::getUsername()
 {
     return this->username;
@@ -91,6 +98,11 @@ std::string User::getRole()
 IsVector<std::string> User::getFavourite()
 {
 	return this->favourite;
+}
+
+void User::setUserID(int userID)
+{
+    this->userID = userID;
 }
 
 void User::setUsername(std::string username)

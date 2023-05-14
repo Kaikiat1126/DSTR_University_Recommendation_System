@@ -22,7 +22,7 @@ public:
 	static int manageUserPage();
 	static void modifyUserPage();
 	static void inactiveUserPage();
-	static void userPage();
+	static int userPage();
 };
 
 
@@ -212,7 +212,7 @@ int Menu::manageUserPage() {
 	std::string input = "";
 
 	Admin::displayAllUser();
-	std::cout << "**************************************************************" << std::endl;
+
 	std::cout << "Please select an option below:" << std::endl;
 	std::cout << "1. Modify User Details" << std::endl;
 	std::cout << "2. Display Inactive User" << std::endl;
@@ -228,36 +228,23 @@ int Menu::manageUserPage() {
 }
 
 void Menu::modifyUserPage() {
-	std::string userId = "";
+	std::string username = "";
+	bool found = false;
 
 	Admin::displayAllUser();
-	std::cout << "**************************************************************" << std::endl;
 
-	userId = validation("Modify Existing User Detail", "Enter User ID", USER_ID_REGEX);
+	username = validation("Modify Existing User Detail", "Enter Username", NAME_REGEX);
+	User user = Admin::searchUser(username);
 
-	//TODO: search user
-	//if user found
-	bool found = true;
-	//User user("user123","123456","user@mail.com","0123456789","user");
-
-	if (found) {
+	if (user.getUsername() != "") {
 		system("cls");
-		//displaySelectedUserDetail
-		std::cout << std::endl;
-		std::cout << "          User Details            " << std::endl;
+		std::cout << "          User details            " << std::endl;
 		std::cout << "**********************************" << std::endl;
-		std::cout << "Username  : " << StatusContainer::currentUser->getUsername() << std::endl;
-		std::cout << "Contact   : " << StatusContainer::currentUser->getContactNum() << std::endl;
-		std::cout << "Email     : " << StatusContainer::currentUser->getEmail() << std::endl;
-		std::cout << std::endl;
-
+		Admin::displaySelectedUser(user);
 		int option = Admin::chooseModify();
-		//Admin::modifyUser(user, option);
+		Admin::modifyUser(user, option);
 	}
-	else
-	{
-		Message::error("User not found!");
-	}
+	
 }
 
 void Menu::inactiveUserPage()
@@ -277,24 +264,24 @@ void Menu::inactiveUserPage()
 
 int Menu::userPage()
 {
-	string input = "";
-	std::cout << "**************************************************************" << endl;
-	std::cout << "******                                                  ******" << endl;
-	std::cout << "******         University Recommendation System         ******" << endl;
-	std::cout << "******                                                  ******" << endl;
-	std::cout << "**************************************************************" << endl;
-	std::cout << "Welcome to the University Recommendation System" << endl;
-	std::cout << "Please select an option below:" << endl;
-	std::cout << "1. Search University" << endl;
-	std::cout << "2. Favorite University" << endl;
-	std::cout << "3. Feedback" << endl;
-	std::cout << "4. Logout" << endl;
-	std::cout << "5. Exit" << endl;
+	std::string input = "";
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "******         University Recommendation System         ******" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "Welcome to the University Recommendation System" << std::endl;
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. Search University" << std::endl;
+	std::cout << "2. Favorite University" << std::endl;
+	std::cout << "3. Feedback" << std::endl;
+	std::cout << "4. Logout" << std::endl;
+	std::cout << "5. Exit" << std::endl;
 	
 	while (true) {
 		std::cout << "> ";
-		cin >> input;
-		int option = getValidOption(input, 5);
+		std::cin >> input;
+		int option = validOption(input, 5);
 		if (option != -1)
 			return option;
 	}

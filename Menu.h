@@ -22,6 +22,7 @@ public:
 	static int manageUserPage();
 	static void modifyUserPage();
 	static void inactiveUserPage();
+	static void userPage();
 };
 
 
@@ -272,4 +273,29 @@ void Menu::inactiveUserPage()
 
 	int id = stoi(userId);
 	Admin::deleteUser(id);
+}
+
+int Menu::userPage()
+{
+	string input = "";
+	std::cout << "**************************************************************" << endl;
+	std::cout << "******                                                  ******" << endl;
+	std::cout << "******         University Recommendation System         ******" << endl;
+	std::cout << "******                                                  ******" << endl;
+	std::cout << "**************************************************************" << endl;
+	std::cout << "Welcome to the University Recommendation System" << endl;
+	std::cout << "Please select an option below:" << endl;
+	std::cout << "1. Search University" << endl;
+	std::cout << "2. Favorite University" << endl;
+	std::cout << "3. Feedback" << endl;
+	std::cout << "4. Logout" << endl;
+	std::cout << "5. Exit" << endl;
+	
+	while (true) {
+		std::cout << "> ";
+		cin >> input;
+		int option = getValidOption(input, 5);
+		if (option != -1)
+			return option;
+	}
 }

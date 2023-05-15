@@ -35,23 +35,24 @@ int main()
 {    
     testInitData();
     //std::cout << "Hello University Recommendatio0n System!\n";
-    go_to_main_menu();
+    //go_to_main_menu();
 	// go_to_register();
 }
 
 void testInitData()
 {
-    initUserData();
+    //initUserData();
     //StatusContainer::userList.displayUserList();
 	//StatusContainer::userBTree.traversal();
 
     //IsVector<UserStruct>* users = new IsVector<UserStruct>();
     //StatusContainer::userBTree.searchUserMatch(users, "John");
 
-	//initUniversityData();
+	initUniversityData();
 	//StatusContainer::universityList.displayUniversityList();
     
 	//StatusContainer::universityBTree.traversal();
+    StatusContainer::universityBTree.searchUniversityByRank(867);   //1-2ms 
     //StatusContainer::universityBTree.preOrder();
 	//StatusContainer::universityBTree.postOrder();
 }
@@ -207,12 +208,12 @@ void go_to_user_menu()
     cout << "This is user menu page" << endl;
 
     //Test getFavourite
-	/*IsVector<string> favs = StatusContainer::currentUser->getFavourite();
+	IsVector<string> favs = StatusContainer::currentUser->getFavourite();
     
 	for (int i = 0; i < favs.getSize(); i++)
 	{
 		cout << favs.at(i) << endl;
-	}*/
+	}
 }
 
 void go_to_admin_menu()

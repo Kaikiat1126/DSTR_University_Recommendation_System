@@ -35,6 +35,9 @@ private:
 	void traversalSearchUserMatch(UserBTreeNode* node, IsVector<UserStruct>* users, const std::string& username);
 	void updateValueByID(UserBTreeNode* node, int id, int* pos, std::string type, std::string value);
 	void traversalGetUserList(UserBTreeNode* node, IsVector<UserStruct>* users);
+	void traversalGetUsersFavourites(UserBTreeNode* node, IsVector<IsVector<std::string>>* favourites);
+	void selectUserByID(UserBTreeNode* node, IsVector<UserStruct>* users, int id, int* pos);
+	void selectUserByName(UserBTreeNode* node, IsVector<UserStruct>* users, const std::string& username);
 	
 public:
 	UserBTreeNode* root;
@@ -49,6 +52,8 @@ public:
 	int getTreeNodeCount();
 	void updateValueByID(int id, std::string type, std::string value);
 	IsVector<UserStruct> getUserList();
+	IsVector<std::string> getUsersFavourites();
+	IsVector<UserStruct> getUserByKey(std::string type, std::string key);
 };
 
 UserBTree::UserBTree()
@@ -520,6 +525,7 @@ void UserBTree::updateValueByID(UserBTreeNode* node, int id, int* pos, std::stri
 				node->user[*pos].email = value;
 			found = true;
 			Message::notice(msg);
+			std::cout << std::endl;
 			return;
 		}
 	}
@@ -550,4 +556,107 @@ void UserBTree::traversalGetUserList(UserBTreeNode* node, IsVector<UserStruct>* 
 		}
 		traversalGetUserList(node->child[i], users);
 	}
+}
+
+IsVector<std::string> UserBTree::getUsersFavourites()
+{
+	IsVector<IsVector<std::string>>* favourites = new IsVector<IsVector<std::string>>();
+	traversalGetUsersFavourites(root, favourites);
+
+	IsVector<std::string>* fav = new IsVector<std::string>();
+	
+	for (int i = 0; i < favourites->getSize(); i++)
+	{
+		for (int j = 0; j < favourites->at(i).getSize(); j++)
+		{
+			fav->push_back(favourites->at(i).at(j));
+		}
+	}
+	
+	return *fav;
+}
+
+void UserBTree::traversalGetUsersFavourites(UserBTreeNode* node, IsVector<IsVector<std::string>>* favourites)
+{
+	if (!node) return;
+
+	for (int i = 0; i <= node->count; i++)
+	{
+		std::string role = node->user[i].role;
+
+		if (role == "user")
+		{
+			favourites->push_back(node->user[i].favourite);
+		}
+
+		traversalGetUsersFavourites(node->child[i], favourites);
+	}
+}
+
+// type: "username", "id"
+IsVector<UserStruct> UserBTree::getUserByKey(std::string type, std::string key)
+{
+	//TODO
+	IsVector<UserStruct>* user = new IsVector<UserStruct>();
+	if (type == "id")
+	{
+		int id = std::stoi(key);
+		selectUserByID(root, user, id, &id);
+	}
+	else if (type == "username")
+	{
+		selectUserByName(root, user, key);
+	}
+	else
+	{
+		Message::error("Invalid search type");
+	}
+	return *user;
+}
+
+void UserBTree::selectUserByID(UserBTreeNode* node, IsVector<UserStruct>* users, int id, int* pos)
+{
+	bool found = false;
+	
+	if (!node) return;
+
+	if (id < node->user[1].userID)
+		*pos = 0;
+	else
+	{
+		for (*pos = node->count; (id < node->user[*pos].userID && *pos > 1); (*pos)--);
+		if (id == node->user[*pos].userID && node->user[*pos].role == "user")
+		{
+			users->push_back(node->user[*pos]);
+			found = true;
+			return;
+		}
+	}
+	
+	if (found) return;
+
+	selectUserByID(node->child[*pos], users, id, pos);
+}
+
+void UserBTree::selectUserByName(UserBTreeNode* node, IsVector<UserStruct>* users, const std::string& username)
+{
+	bool found = false;
+	if (!node) return;
+
+	for (int i = 1; i <= node->count; i++)
+	{
+		std::string data = node->user[i].username;
+		std::string role = node->user[i].role;
+		if (data == username && role == "user")
+		{
+			found = true;
+			users->push_back(node->user[i]);
+			break;
+		}
+	}
+
+	if (found) return;
+
+	for (int i = 0; i <= node->count; i++)
+		selectUserByName(node->child[i], users, username);
 }

@@ -267,21 +267,19 @@ int Menu::userPage()
 	std::string input = "";
 	std::cout << "**************************************************************" << std::endl;
 	std::cout << "******                                                  ******" << std::endl;
-	std::cout << "******         University Recommendation System         ******" << std::endl;
+	std::cout << "******                     User Page                    ******" << std::endl;
 	std::cout << "******                                                  ******" << std::endl;
 	std::cout << "**************************************************************" << std::endl;
-	std::cout << "Welcome to the University Recommendation System" << std::endl;
 	std::cout << "Please select an option below:" << std::endl;
 	std::cout << "1. Search University" << std::endl;
-	std::cout << "2. Favorite University" << std::endl;
+	std::cout << "2. Favourite University" << std::endl;
 	std::cout << "3. Feedback" << std::endl;
 	std::cout << "4. Logout" << std::endl;
-	std::cout << "5. Exit" << std::endl;
 	
 	while (true) {
 		std::cout << "> ";
-		std::cin >> input;
-		int option = validOption(input, 5);
+		cin >> input;
+		int option = getValidOption(input, 5);
 		if (option != -1)
 			return option;
 	}

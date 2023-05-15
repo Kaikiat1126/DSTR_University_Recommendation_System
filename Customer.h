@@ -10,7 +10,7 @@ class Customer : public User
 {
 private:
 	IsVector<std::string> favourite;
-	static int validOption(std::string, int)
+	static int validOption(std::string, int);
 public:
 	Customer(std::string username, std::string password);
 	Customer(int userID, std::string username, std::string password, std::string email, std::string contactNum, std::string role, IsVector<std::string> favourite);

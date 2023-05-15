@@ -20,6 +20,7 @@ public:
 	static int landingUniMenu();
 	static int adminPage();
 	static int manageUserPage();
+	static int manageFeedbackPage();
 	static void modifyUserPage();
 	static void inactiveUserPage();
 	static int userPage();
@@ -308,6 +309,27 @@ int Menu::userSearchUni()
 		std::cout << "> ";
 		std::cin >> input;
 		int option = validOption(input, 5);
+		if (option != -1)
+			return option;
+	}
+}
+
+int Menu::manageFeedbackPage() {
+	std::string input = "";
+	std::cout << "******                     Feedback                     ******" << std::endl;
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "Call latest function:: display latest feedback" << std::endl;
+
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. Reply" << std::endl;
+	std::cout << "2. Move Forward" << std::endl;
+	std::cout << "3. Move Backward" << std::endl;
+	std::cout << "4. Back to Admin Menu" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 4);
 		if (option != -1)
 			return option;
 	}

@@ -291,6 +291,24 @@ void go_to_manage_user()
 void go_to_manage_feedback()
 {
     cout << "Manage feedback page" << endl;
+
+    while (true) {
+        int option = Menu::manageFeedbackPage();
+        system("cls");
+        if (option == 1) {
+            std::cout << "Reply: ~~~~~~~~~~~~~~~~" << std::endl;
+        }
+        else if (option == 2) {
+            std::cout << "Next: :)))))))))))))))" << std::endl;
+        }
+        else if (option == 3) {
+            std::cout << "Previous: :((((((((((((((" << std::endl;
+        }
+        else if (option == 4) {
+            break;
+        }
+    }
+    go_to_admin_menu();
 }
 
 void go_to_generate_report()
@@ -298,3 +316,7 @@ void go_to_generate_report()
     cout << "Generate report page" << endl;
 }
 
+void go_to_customer_sort()
+{
+    // TODO
+}

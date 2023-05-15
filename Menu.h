@@ -275,11 +275,11 @@ int Menu::userPage()
 	std::cout << "2. Favourite University" << std::endl;
 	std::cout << "3. Feedback" << std::endl;
 	std::cout << "4. Logout" << std::endl;
-	
+
 	while (true) {
 		std::cout << "> ";
-		cin >> input;
-		int option = getValidOption(input, 5);
+		std::cin >> input;
+		int option = validOption(input, 4);
 		if (option != -1)
 			return option;
 	}

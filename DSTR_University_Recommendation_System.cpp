@@ -32,7 +32,7 @@ void go_to_generate_report();
 void testInitData();
 
 int main()
-{
+{    
     testInitData();
     //std::cout << "Hello University Recommendatio0n System!\n";
     go_to_main_menu();
@@ -48,7 +48,7 @@ void testInitData()
     //IsVector<UserStruct>* users = new IsVector<UserStruct>();
     //StatusContainer::userBTree.searchUserMatch(users, "John");
 
-	initUniversityData();
+	//initUniversityData();
 	//StatusContainer::universityList.displayUniversityList();
     
 	//StatusContainer::universityBTree.traversal();

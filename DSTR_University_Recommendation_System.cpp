@@ -207,7 +207,7 @@ void go_to_user_menu()
     cout << "This is user menu page" << endl;
 
     //Test getFavourite
-	/*IsVector<string> favs = StatusContainer::currentUsesr->getFavourite();
+	/*IsVector<string> favs = StatusContainer::currentUser->getFavourite();
     
 	for (int i = 0; i < favs.getSize(); i++)
 	{

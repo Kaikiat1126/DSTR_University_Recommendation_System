@@ -255,3 +255,38 @@ Create new node in BTree, input UniversityStruct
 
 - `void insertValueInBTree(UniversityStruct university)`
 
+
+# UserBTree
+
+Traversal the tree
+
+- `void traversal()`
+
+Create new node in UserBTree, input UserStruct
+
+- `void insertValueInBTree(UserStruct user)`
+
+Search user without role, for login, input is name, return a vector of UserStruct
+
+- `void searchUserMatch(IsVector<UserStruct>* users, const string& username)`
+
+Get UserTree's node count, return number
+
+- `int getTreeNodeCount()`
+
+Update user's details, input id, type, value. (type: "email","date", "contact")
+
+- `void updateValueByID(int id, string type, string value)`
+
+Get all users while role is user, return vector of UserStruct
+
+- `IsVector<UserStruct> getUserList()`
+
+Get all users' favourite university, return vector of string
+
+- `IsVector<string> getUsersFavourites()`
+
+Get User (role is user) by key, input type, key (type: "username","id") return a vector of UserStruct
+
+- `IsVector<UserStruct> getUserByKey(string type, string key)`
+

@@ -28,6 +28,8 @@ void landing_sort();
 void go_to_manage_user();
 void go_to_manage_feedback();
 void go_to_generate_report();
+void go_to_customer_sort();
+
 
 void testInitData();
 
@@ -204,7 +206,19 @@ void landing_sort()
 
 void go_to_user_menu()
 {
-    cout << "This is user menu page" << endl;
+
+    int option = Menu::userPage();
+
+    system("cls");
+    if (option == 1) {
+        go_to_customer_sort();
+    }
+    else if (option == 2) {
+        Menu::userSearchUni();
+    }
+    else if (option == 3) {
+        go_to_login();
+    }
 
     //Test getFavourite
 	/*IsVector<string> favs = StatusContainer::currentUser->getFavourite();
@@ -213,7 +227,11 @@ void go_to_user_menu()
 	{
 		cout << favs.at(i) << endl;
 	}*/
+
+    
 }
+
+
 
 void go_to_admin_menu()
 {
@@ -279,3 +297,4 @@ void go_to_generate_report()
 {
     cout << "Generate report page" << endl;
 }
+

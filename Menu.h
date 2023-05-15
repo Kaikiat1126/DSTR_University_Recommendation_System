@@ -23,6 +23,7 @@ public:
 	static void modifyUserPage();
 	static void inactiveUserPage();
 	static int userPage();
+	static int userSearchUni();
 };
 
 
@@ -56,7 +57,7 @@ int Menu::mainMenu() {
 	std::cout << "******         University Recommendation System         ******" << std::endl;
 	std::cout << "******                                                  ******" << std::endl;
 	std::cout << "**************************************************************" << std::endl;
-	std::cout << "Welecome to the University Recommendation System" << std::endl;
+	std::cout << "Welcome to the University Recommendation System" << std::endl;
 	std::cout << "Please select an option below:" << std::endl;
 	std::cout << "1. View University Details" << std::endl;
 	std::cout << "2. Register" << std::endl;
@@ -271,16 +272,44 @@ int Menu::userPage()
 	std::cout << "******                                                  ******" << std::endl;
 	std::cout << "**************************************************************" << std::endl;
 	std::cout << "Please select an option below:" << std::endl;
-	std::cout << "1. Search University" << std::endl;
-	std::cout << "2. Favourite University" << std::endl;
-	std::cout << "3. Feedback" << std::endl;
-	std::cout << "4. Logout" << std::endl;
+	std::cout << "1. Display Sorting Result in Descending Order:" << std::endl;
+	Message::notice("Academic Reputation Score,Faculty/Student Ratio Score and Employer Reputation Score");
+	std::cout << "2. Search University Based on Your Preferences" << std::endl;
+	std::cout << "3. Logout" << std::endl;
 
 	while (true) {
 		std::cout << "> ";
 		std::cin >> input;
-		int option = validOption(input, 4);
+		int option = validOption(input, 3);
 		if (option != -1)
 			return option;
 	}
 }
+
+int Menu::userSearchUni()
+{
+	std::string input = "";
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "******                     Search University            ******" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. Location" << std::endl;
+	std::cout << "2. Academic Reputation Score"<< std::endl;
+	Message::notice("1-100");
+	std::cout << "3. Faculty/Student Ratio Score" << std::endl;
+	Message::notice("1-100");
+	std::cout << "4. Employer Reputation Score" << std::endl;
+	Message::notice("1-100");
+	std::cout << "5. Back to User Page" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 5);
+		if (option != -1)
+			return option;
+	}
+}
+

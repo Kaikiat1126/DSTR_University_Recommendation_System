@@ -277,21 +277,21 @@ void Menu::inactiveUserPage()
 
 int Menu::userPage()
 {
-	string input = "";
-	std::cout << "**************************************************************" << endl;
-	std::cout << "******                                                  ******" << endl;
-	std::cout << "******                     User Page                    ******" << endl;
-	std::cout << "******                                                  ******" << endl;
-	std::cout << "**************************************************************" << endl;
-	std::cout << "Please select an option below:" << endl;
-	std::cout << "1. Search University" << endl;
-	std::cout << "2. Favourite University" << endl;
-	std::cout << "3. Feedback" << endl;
-	std::cout << "4. Logout" << endl;
+	std::string input = "";
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "******                     User Page                    ******" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. Search University" << std::endl;
+	std::cout << "2. Favourite University" << std::endl;
+	std::cout << "3. Feedback" << std::endl;
+	std::cout << "4. Logout" << std::endl;
 	
 	while (true) {
 		std::cout << "> ";
-		cin >> input;
+		std::cin >> input;
 		int option = validOption(input, 4);
 		if (option != -1)
 			return option;

@@ -38,6 +38,7 @@ public:
     void setRole(std::string role);
     void setDetails(std::string username, std::string password, std::string email, std::string contactNum);
 	void setFavourite(IsVector<std::string> favourite);
+    void removeFavourite(int);
 };
 
 User::User(std::string username, std::string password)
@@ -166,4 +167,9 @@ int User::validOption(std::string input, int maxOption)
     }
 
     return option;
+}
+
+void User::removeFavourite(int index)
+{
+    favourite.erase(index);
 }

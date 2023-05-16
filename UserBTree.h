@@ -39,6 +39,7 @@ private:
 	void selectUserByID(UserBTreeNode* node, IsVector<UserStruct>* users, int id, int* pos);
 	void selectUserByName(UserBTreeNode* node, IsVector<UserStruct>* users, const std::string& username);
 	void selectUserByDate(UserBTreeNode* node, IsVector<UserStruct>* users, const std::string& date);
+	void removeUserFavourite(UserBTreeNode* node, int id, int* pos, int* index);
 	
 public:
 	UserBTreeNode* root;
@@ -55,6 +56,7 @@ public:
 	IsVector<UserStruct> getUserList();
 	IsVector<std::string> getUsersFavourites();
 	IsVector<UserStruct> getUserByKey(std::string type, std::string key);
+	void removeUserFavourite(int id, int index);
 };
 
 UserBTree::UserBTree()
@@ -688,4 +690,34 @@ void UserBTree::selectUserByDate(UserBTreeNode* node, IsVector<UserStruct>* user
 
 	for (int i = 0; i <= node->count; i++)
 		selectUserByDate(node->child[i], users, date);
+}
+}
+
+void UserBTree::removeUserFavourite(int id, int index)
+{
+	removeUserFavourite(root, id, &id, &index);
+}
+
+void UserBTree::removeUserFavourite(UserBTreeNode* node, int id, int* pos, int* index)
+{
+	bool found = false;
+
+	if (!node) return;
+
+	if (id < node->user[1].userID)
+		*pos = 0;
+	else
+	{
+		for (*pos = node->count; (id < node->user[*pos].userID && *pos > 1); (*pos)--);
+		if (id == node->user[*pos].userID)
+		{
+			node->user[*pos].favourite.erase(*index);
+			found = true;
+			return;
+		}
+	}
+
+	if (found) return;
+
+	removeUserFavourite(node->child[*pos], id, pos, index);
 }

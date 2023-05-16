@@ -15,6 +15,9 @@ private:
     //std::string role = "admin";
 
 	IsVector<std::string> favourite;
+
+protected:
+	static int validOption(std::string, int);
     
 public:
     User(std::string username, std::string password);
@@ -141,4 +144,26 @@ void User::setDetails(std::string username, std::string password, std::string em
 void User::setFavourite(IsVector<std::string> favourite)
 {
 	this->favourite = favourite;
+}
+
+int User::validOption(std::string input, int maxOption)
+{
+    //if input not a number
+    if (input.find_first_not_of("0123456789") != std::string::npos)
+    {
+        Message::error("Invalid input!");
+        return -1;
+    }
+
+    //convert string to int
+    int option = std::stoi(input);
+
+    //if option is not in range
+    if (option < 1 || option > maxOption)
+    {
+        Message::warning("Input option out of range!");
+        return -1;
+    }
+
+    return option;
 }

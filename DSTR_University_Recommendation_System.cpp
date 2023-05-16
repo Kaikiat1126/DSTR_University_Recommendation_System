@@ -28,6 +28,8 @@ void landing_sort();
 void go_to_manage_user();
 void go_to_manage_feedback();
 void go_to_generate_report();
+void go_to_customer_sort();
+void go_to_logout();
 
 void testInitData();
 
@@ -204,7 +206,35 @@ void landing_sort()
 
 void go_to_user_menu()
 {
-    cout << "This is user menu page" << endl;
+    int option = Menu::userPage();
+
+    system("cls");
+    if (option == 1) {
+        //cout << "Search University" << endl;
+        Menu::searchUniPage();
+        cout << endl;
+
+        int searchType = Menu::searchUniOption();
+
+        std::cout << std::endl;
+
+        int range = Menu::selectScoreRange();
+
+        std::cout << std::endl;
+
+        //std::cout << searchType << " : " << range << std::endl;
+   
+    }
+    else if (option == 2) {
+        cout << "Favorite University" << endl;
+    }
+    else if (option == 3) {
+		cout << "Feedback" << endl;
+    }
+    else if (option == 4)
+	{
+		go_to_logout();
+	}
 
     //Test getFavourite
 	/*IsVector<string> favs = StatusContainer::currentUser->getFavourite();
@@ -273,9 +303,45 @@ void go_to_manage_user()
 void go_to_manage_feedback()
 {
     cout << "Manage feedback page" << endl;
+
+    while (true) {
+        int option = Menu::manageFeedbackPage();
+        system("cls");
+        if (option == 1) {
+            std::cout << "Reply: ~~~~~~~~~~~~~~~~" << std::endl;
+        }
+        else if (option == 2) {
+            std::cout << "Next: :)))))))))))))))" << std::endl;
+        }
+        else if (option == 3) {
+            std::cout << "Previous: :((((((((((((((" << std::endl;
+        }
+        else if (option == 4) {
+            break;
+        }
+    }
+    go_to_admin_menu();
 }
 
 void go_to_generate_report()
 {
     cout << "Generate report page" << endl;
+}
+
+void go_to_customer_sort()
+{
+    // TODO
+}
+
+void go_to_logout()
+{
+	bool logout = proceedNext("Do you want to logout");
+
+    if (logout)
+    {
+        StatusContainer::currentUser = nullptr;
+		go_to_main_menu();
+    }
+    else
+		verify_second_menu();	
 }

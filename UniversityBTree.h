@@ -358,7 +358,6 @@ void UniversityBTree::traversalSearchName(UniversityBTreeNode* node, std::string
 	for (int i = 1; i <= node->count; i++)
 	{
 		std::string data = node->university[i].institution;
-		data.erase(std::remove(data.begin(), data.end(), ' '), data.end());
 
 		//std::cout << node->university[i].institution << std::endl;
 		if (data == institution)
@@ -405,11 +404,8 @@ void UniversityBTree::searchUniversityByName(std::string institution)
 {
 	universityList.clear();
 	UniversityBTreeNode* cursor = root;
-	
-	std::string input = institution;
-	input.erase(std::remove(input.begin(), input.end(), ' '), input.end());
 
-	traversalSearchName(cursor, input);
+	traversalSearchName(cursor, institution);
 
 	std::string msg = "University with name ";
 	

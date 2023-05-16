@@ -14,7 +14,7 @@ private:
 	static void quickAscOrder();
 	static void mergeAscOrder();
 	static void BTreeSearch(std::string institution);
-	static void RedBlackTreeSearch();
+	static void RedBlackTreeSearch(std::string institution);
 public:
 	static void displayAllUniversity();
 	static void chooseSearchAlgo(std::string uniName);
@@ -70,7 +70,7 @@ void Visitor::chooseSearchAlgo(std::string institution)
 			}
 			else if (option == 2)
 			{
-				RedBlackTreeSearch();
+				RedBlackTreeSearch(institution);
 			}
 			break;
 		}
@@ -124,8 +124,14 @@ void Visitor::BTreeSearch(std::string institution)
 	StatusContainer::universityBTree.searchUniversityByName(institution);
 }
 
-void Visitor::RedBlackTreeSearch()
+void Visitor::RedBlackTreeSearch(std::string institution)
 {
 	std::cout << "Algorithm 2 search" << std::endl;
-	// TODOs
+
+	int option = Menu::chooseSearchMethod();
+
+	if (option == 1)
+		StatusContainer::universityRBTree.search(institution);
+	else
+		StatusContainer::universityRBTree.search(institution, 1);
 }

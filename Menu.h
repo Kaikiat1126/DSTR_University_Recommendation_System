@@ -24,10 +24,13 @@ public:
 	static void modifyUserPage();
 	static void inactiveUserPage();
 	static int userPage();
+	static void feedbackPage();
+	static int userFeedbackPage();
 	static void searchUniPage();
 	static int searchUniOption();
 	static int chooseSearchMethod();
 	static int selectScoreRange();
+	static int userFavouritePage();
 };
 
 
@@ -290,11 +293,21 @@ int Menu::userPage()
 	}
 }
 
+void Menu::feedbackPage()
+{
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "******                   Feedback Page                  ******" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "**************************************************************" << std::endl;
+}
+
+// TODO
 int Menu::manageFeedbackPage() {
 	std::string input = "";
-	std::cout << "******                     Feedback                     ******" << std::endl;
-	std::cout << "**************************************************************" << std::endl;
-	std::cout << "Call latest function:: display latest feedback" << std::endl;
+	
+	//TODO
+	//std::cout << "Call latest function:: display latest feedback" << std::endl;
 
 	std::cout << "Please select an option below:" << std::endl;
 	std::cout << "1. Reply" << std::endl;
@@ -306,6 +319,55 @@ int Menu::manageFeedbackPage() {
 		std::cout << "> ";
 		std::cin >> input;
 		int option = validOption(input, 4);
+		if (option != -1)
+			return option;
+	}
+}
+
+// TODO
+int Menu::userFeedbackPage()
+{
+	std::string input = "";
+
+	//TODO: 2.6) read feedback reply based on latest date
+	// auto display latest feedback
+
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. Move Forward" << std::endl;
+	std::cout << "2. Move Backward" << std::endl;
+	std::cout << "3. Back to User Menu" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 3);
+		if (option != -1)
+			return option;
+	}
+}
+
+int Menu::userFavouritePage()
+{
+	std::string input = "";
+	IsVector<string> favs = StatusContainer::currentUser->getFavourite();
+	
+	std::cout << "                     Favourite Universities                   " << std::endl;
+	std::cout << "**************************************************************" << std::endl;
+	for (int i = 0; i < favs.getSize(); i++)
+	{
+		std::cout << i+1 << "\t" << favs.at(i) << std::endl;
+	}
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. Remove Favourite By ID" << std::endl;
+	std::cout << "2. Back to User Menu" << std::endl;
+	
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 2);
 		if (option != -1)
 			return option;
 	}

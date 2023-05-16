@@ -29,6 +29,9 @@ void go_to_manage_user();
 void go_to_manage_feedback();
 void go_to_generate_report();
 void go_to_customer_sort();
+void go_to_feedback_page();
+void go_to_user_feedback();
+void go_to_user_favourites();
 void go_to_logout();
 
 void testInitData();
@@ -209,40 +212,24 @@ void go_to_user_menu()
     int option = Menu::userPage();
 
     system("cls");
-    if (option == 1) {
-        //cout << "Search University" << endl;
-        Menu::searchUniPage();
-        cout << endl;
-
-        int searchType = Menu::searchUniOption();
-
-        std::cout << std::endl;
-
-        int range = Menu::selectScoreRange();
-
-        std::cout << std::endl;
-
-        //std::cout << searchType << " : " << range << std::endl;
-   
+    if (option == 1) 
+    {
+        cout << "Search University" << endl;
     }
-    else if (option == 2) {
-        cout << "Favorite University" << endl;
+    else if (option == 2) 
+    {
+        go_to_user_favourites();
     }
-    else if (option == 3) {
-		cout << "Feedback" << endl;
+    else if (option == 3) 
+    {
+        Menu::feedbackPage();
+        
+        go_to_feedback_page();
     }
     else if (option == 4)
 	{
 		go_to_logout();
 	}
-
-    //Test getFavourite
-	/*IsVector<string> favs = StatusContainer::currentUser->getFavourite();
-    
-	for (int i = 0; i < favs.getSize(); i++)
-	{
-		cout << favs.at(i) << endl;
-	}*/
 }
 
 void go_to_admin_menu()
@@ -254,7 +241,7 @@ void go_to_admin_menu()
         go_to_manage_user();
     }
     else if (option == 2) {
-        go_to_manage_feedback();
+        go_to_feedback_page();
     }
     else if (option == 3) {
         go_to_generate_report();
@@ -300,27 +287,108 @@ void go_to_manage_user()
     }
 }
 
+void go_to_feedback_page()
+{
+    string role = StatusContainer::currentUser->getRole();
+    if (role == "admin")
+    {
+        go_to_manage_feedback();
+    }
+    else if (role == "user")
+    {
+        go_to_user_feedback();
+    }
+    else
+    {
+        Message::error("Unknown role!");
+    }
+}
+
+//void go_to_manage_feedback()
+//{
+//    cout << "Manage feedback page" << endl;
+//
+//    while (true) {
+//        int option = Menu::manageFeedbackPage();
+//        system("cls");
+//        if (option == 1) {
+//            std::cout << "Reply: ~~~~~~~~~~~~~~~~" << std::endl;
+//        }
+//        else if (option == 2) {
+//            std::cout << "Next: :)))))))))))))))" << std::endl;
+//        }
+//        else if (option == 3) {
+//            std::cout << "Previous: :((((((((((((((" << std::endl;
+//        }
+//        else if (option == 4) {
+//            break;
+//        }
+//    } 
+//    go_to_admin_menu();
+//}
+
+// TODO
 void go_to_manage_feedback()
 {
-    cout << "Manage feedback page" << endl;
-
-    while (true) {
+    while (true)
+    {
         int option = Menu::manageFeedbackPage();
-        system("cls");
-        if (option == 1) {
-            std::cout << "Reply: ~~~~~~~~~~~~~~~~" << std::endl;
+        if (option == 1)
+        {
+            cout << "Reply Feedback" << endl;
         }
-        else if (option == 2) {
-            std::cout << "Next: :)))))))))))))))" << std::endl;
+        else if (option == 2)
+        {
+            cout << "Move Forward" << endl;
         }
-        else if (option == 3) {
-            std::cout << "Previous: :((((((((((((((" << std::endl;
+        else if (option == 3)
+        {
+            cout << "Move Backward" << endl;
         }
-        else if (option == 4) {
+        else if (option == 4)
+        {
             break;
         }
     }
     go_to_admin_menu();
+}
+
+// TODO
+void go_to_user_feedback()
+{
+    while (true)
+    {
+        int option = Menu::userFeedbackPage();
+        if (option == 1)
+        {
+			cout << "Move Forward" << endl;
+		}
+		else if (option == 2)
+		{
+			cout << "Move Backward" << endl;
+		}
+		else if (option == 3)
+		{
+			break;
+        }
+    }
+	go_to_user_menu();
+}
+
+void go_to_user_favourites() 
+{
+    int option = Menu::userFavouritePage();
+    
+	if (option == 1) 
+    {
+		cout << "Remove from favourite" << endl;
+        
+        go_to_user_favourites();
+	}
+	else if (option == 2) 
+    {
+		go_to_user_menu();
+	}
 }
 
 void go_to_generate_report()

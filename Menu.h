@@ -12,6 +12,7 @@ class Menu
 {
 private:
 	static int validOption(std::string input, int maxOption);
+	static int selectScoreRange();
 public:
 	static int mainMenu();
 	static int registerPage();
@@ -24,7 +25,8 @@ public:
 	static void modifyUserPage();
 	static void inactiveUserPage();
 	static int userPage();
-	static int userSearchUni();
+	static void searchUniPage();
+	static int searchUniOption();
 	static int chooseSearchMethod();
 };
 
@@ -288,33 +290,6 @@ int Menu::userPage()
 	}
 }
 
-int Menu::userSearchUni()
-{
-	std::string input = "";
-	std::cout << "**************************************************************" << std::endl;
-	std::cout << "******                                                  ******" << std::endl;
-	std::cout << "******                     Search University            ******" << std::endl;
-	std::cout << "******                                                  ******" << std::endl;
-	std::cout << "**************************************************************" << std::endl;
-	std::cout << "Please select an option below:" << std::endl;
-	std::cout << "1. Location" << std::endl;
-	std::cout << "2. Academic Reputation Score"<< std::endl;
-	Message::notice("1-100");
-	std::cout << "3. Faculty/Student Ratio Score" << std::endl;
-	Message::notice("1-100");
-	std::cout << "4. Employer Reputation Score" << std::endl;
-	Message::notice("1-100");
-	std::cout << "5. Back to User Page" << std::endl;
-
-	while (true) {
-		std::cout << "> ";
-		std::cin >> input;
-		int option = validOption(input, 5);
-		if (option != -1)
-			return option;
-	}
-}
-
 int Menu::manageFeedbackPage() {
 	std::string input = "";
 	std::cout << "******                     Feedback                     ******" << std::endl;
@@ -331,21 +306,6 @@ int Menu::manageFeedbackPage() {
 		std::cout << "> ";
 		std::cin >> input;
 		int option = validOption(input, 4);
-		if (option != -1)
-			return option;
-	}
-}
-
-int Menu::chooseSearchMethod() {
-	std::string input = "";
-	std::cout << "Please select an option below:" << std::endl;
-	std::cout << "1. Recursive Search" << std::endl;
-	std::cout << "2. Iterative Search" << std::endl;
-
-	while (true) {
-		std::cout << "> ";
-		std::cin >> input;
-		int option = validOption(input, 2);
 		if (option != -1)
 			return option;
 	}

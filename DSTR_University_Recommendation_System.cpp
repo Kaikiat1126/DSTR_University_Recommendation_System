@@ -30,6 +30,7 @@ void go_to_manage_feedback();
 void go_to_generate_report();
 void go_to_customer_sort();
 
+void go_to_logout();
 
 void testInitData();
 
@@ -50,8 +51,7 @@ void testInitData()
     //IsVector<UserStruct>* users = new IsVector<UserStruct>();
     //StatusContainer::userBTree.searchUserMatch(users, "John");
 
-	initUniversityData();
-    system("pause");
+	//initUniversityData();
 	//StatusContainer::universityList.displayUniversityList();
     
 	//StatusContainer::universityBTree.traversal();
@@ -316,4 +316,17 @@ void go_to_generate_report()
 void go_to_customer_sort()
 {
     // TODO
+}
+
+void go_to_logout()
+{
+	bool logout = proceedNext("Do you want to logout");
+
+    if (logout)
+    {
+        StatusContainer::currentUser = nullptr;
+		go_to_main_menu();
+    }
+    else
+		verify_second_menu();	
 }

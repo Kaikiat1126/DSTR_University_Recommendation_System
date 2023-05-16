@@ -210,7 +210,20 @@ void go_to_user_menu()
 
     system("cls");
     if (option == 1) {
-        cout << "Search University" << endl;
+        //cout << "Search University" << endl;
+        Menu::searchUniPage();
+        cout << endl;
+
+        int searchType = Menu::searchUniOption();
+
+        std::cout << std::endl;
+
+        int range = Menu::selectScoreRange();
+
+        std::cout << std::endl;
+
+        //std::cout << searchType << " : " << range << std::endl;
+   
     }
     else if (option == 2) {
         cout << "Favorite University" << endl;

@@ -12,7 +12,6 @@ class Menu
 {
 private:
 	static int validOption(std::string input, int maxOption);
-	static int selectScoreRange();
 public:
 	static int mainMenu();
 	static int registerPage();
@@ -28,6 +27,7 @@ public:
 	static void searchUniPage();
 	static int searchUniOption();
 	static int chooseSearchMethod();
+	static int selectScoreRange();
 };
 
 

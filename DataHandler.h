@@ -143,11 +143,12 @@ void initUniversityData()
 		else
 			university.ScoreScaled = NULL;
             
-		std::cout << university.institution << " : " << university.ArScore << std::endl;
+		//std::cout << university.institution << " : " << university.ArScore << std::endl;
         StatusContainer::universityList.insertToEndOfList(university);
 		StatusContainer::universityBTree.insertValueInBTree(university);
         //StatusContainer::universityRBTree.insert(&university, "Institution");
 	}
+    file.close();
 }
 
 IsVector<std::string> splitComma(std::string rowStr)

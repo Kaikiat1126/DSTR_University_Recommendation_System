@@ -10,7 +10,7 @@
 class Admin : public User
 {
 private:
-	static int validOption(std::string, int);
+	//static int validOption(std::string, int);
 public:
     Admin(std::string username, std::string password);
 	Admin(int userID, std::string username, std::string password, std::string email, std::string contactNum, std::string role);
@@ -33,27 +33,27 @@ Admin::Admin(int userID, std::string username, std::string password, std::string
 {
 }
 
-int Admin::validOption(std::string input, int maxOption)
-{
-	//if input not a number
-	if (input.find_first_not_of("0123456789") != std::string::npos)
-	{
-		Message::error("Invalid input!");
-		return -1;
-	}
-
-	//convert string to int
-	int option = std::stoi(input);
-
-	//if option is not in range
-	if (option < 1 || option > maxOption)
-	{
-		Message::warning("Input option out of range!");
-		return -1;
-	}
-
-	return option;
-}
+//int Admin::validOption(std::string input, int maxOption)
+//{
+//	//if input not a number
+//	if (input.find_first_not_of("0123456789") != std::string::npos)
+//	{
+//		Message::error("Invalid input!");
+//		return -1;
+//	}
+//
+//	//convert string to int
+//	int option = std::stoi(input);
+//
+//	//if option is not in range
+//	if (option < 1 || option > maxOption)
+//	{
+//		Message::warning("Input option out of range!");
+//		return -1;
+//	}
+//
+//	return option;
+//}
 
 void Admin::displayAllUser()
 {

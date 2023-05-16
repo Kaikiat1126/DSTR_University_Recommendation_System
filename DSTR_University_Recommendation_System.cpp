@@ -50,7 +50,7 @@ void testInitData()
     //IsVector<UserStruct>* users = new IsVector<UserStruct>();
     //StatusContainer::userBTree.searchUserMatch(users, "John");
 
-	//initUniversityData();
+	initUniversityData();
 	//StatusContainer::universityList.displayUniversityList();
     
 	//StatusContainer::universityBTree.traversal();
@@ -206,19 +206,22 @@ void landing_sort()
 
 void go_to_user_menu()
 {
-
     int option = Menu::userPage();
 
     system("cls");
     if (option == 1) {
-        go_to_customer_sort();
+        cout << "Search University" << endl;
     }
     else if (option == 2) {
-        Menu::userSearchUni();
+        cout << "Favorite University" << endl;
     }
     else if (option == 3) {
-        go_to_login();
+		cout << "Feedback" << endl;
     }
+    else if (option == 4)
+	{
+		go_to_logout();
+	}
 
     //Test getFavourite
 	/*IsVector<string> favs = StatusContainer::currentUser->getFavourite();

@@ -10,7 +10,7 @@
 class Admin : public User
 {
 private:
-	//static int validOption(std::string, int);
+	static void displayUser(IsVector<UserStruct>);
 public:
     Admin(std::string username, std::string password);
 	Admin(int userID, std::string username, std::string password, std::string email, std::string contactNum, std::string role);
@@ -33,19 +33,27 @@ Admin::Admin(int userID, std::string username, std::string password, std::string
 {
 }
 
+void Admin::displayUser(IsVector<UserStruct> userList)
+{
+	if (userList.getSize() == 0)
+	{
+		std::cout << "                    No user exist                     " << std::endl;
+	}
+
+	for (int i = 0; i < userList.getSize(); i++) 
+		std::cout << userList.at(i).userID << " " << userList.at(i).username << " " << userList.at(i).lastModifyDate << std::endl;
+}
+
 void Admin::displayAllUser()
 {
 	IsVector<UserStruct> userList = StatusContainer::userBTree.getUserList();
-	for (int i = 0; i < userList.getSize(); i++) {
-		std::cout << userList.at(i).userID << " " << userList.at(i).username << std::endl;
-	}
-	std::cout << "******************************" << std::endl;
+	displayUser(userList);
 }
 
 void Admin::displayInactiveUser()
 {
-	std::cout << "User list is empty." << std::endl;
-	StatusContainer::userBTree.getUserByKey("date", DateTime::getCurrentDateTime());
+	IsVector<UserStruct> userList = StatusContainer::userBTree.getUserByKey("date", DateTime::getCurrentDateTime());
+	displayUser(userList);
 }
 
 int Admin::chooseModify()
@@ -124,5 +132,24 @@ void Admin::displaySelectedUser(User user)
 
 void Admin::deleteUser(int userId)
 {
-	StatusContainer::userList.deleteByUserID(userId);
+	bool found = false;
+	IsVector<UserStruct> userList = StatusContainer::userBTree.getUserByKey("date", DateTime::getCurrentDateTime());
+	for (int i = 0; i < userList.getSize(); i++)
+	{
+		if (userList.at(i).userID == userId)
+		{
+			found = true;
+			StatusContainer::userBTree.deleteValueFromBTree(userId);
+		}
+	}
+
+	if (found)
+	{
+		std::string msg = "User with ID " + std::to_string(userId) + "'s details deleted";
+		Message::notice(msg);
+	}
+	else
+	{
+		Message::error("Value not found");
+	}
 }

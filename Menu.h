@@ -25,6 +25,7 @@ public:
 	static void inactiveUserPage();
 	static int userPage();
 	static int userSearchUni();
+	static int chooseSearchMethod();
 };
 
 
@@ -335,3 +336,17 @@ int Menu::manageFeedbackPage() {
 	}
 }
 
+int Menu::chooseSearchMethod() {
+	std::string input = "";
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. Recursive Search" << std::endl;
+	std::cout << "2. Iterative Search" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 2);
+		if (option != -1)
+			return option;
+	}
+}

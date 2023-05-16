@@ -50,7 +50,8 @@ void testInitData()
     //IsVector<UserStruct>* users = new IsVector<UserStruct>();
     //StatusContainer::userBTree.searchUserMatch(users, "John");
 
-	//initUniversityData();
+	initUniversityData();
+    system("pause");
 	//StatusContainer::universityList.displayUniversityList();
     
 	//StatusContainer::universityBTree.traversal();
@@ -227,11 +228,7 @@ void go_to_user_menu()
 	{
 		cout << favs.at(i) << endl;
 	}*/
-
-    
 }
-
-
 
 void go_to_admin_menu()
 {

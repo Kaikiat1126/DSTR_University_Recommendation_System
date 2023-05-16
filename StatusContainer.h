@@ -6,6 +6,7 @@
 #include "BTree.h"
 #include "UniversityBTree.h"
 #include "UserBTree.h"
+#include "RBTree.h"
 
 class StatusContainer
 {
@@ -16,6 +17,7 @@ public:
 	static UniversityList universityList;
 	static IsUnorderedMap<std::string, std::string, 29> accentLettersMap;
 	static UniversityBTree universityBTree;
+	static UniversityRBTree universityRBTree;
 protected:
 	
 };
@@ -27,3 +29,4 @@ UserBTree StatusContainer::userBTree = UserBTree();
 UniversityList StatusContainer::universityList = UniversityList();
 IsUnorderedMap<std::string, std::string, 29> StatusContainer::accentLettersMap = IsUnorderedMap<std::string, std::string, 29>();
 UniversityBTree StatusContainer::universityBTree = UniversityBTree();
+UniversityRBTree StatusContainer::universityRBTree = UniversityRBTree();

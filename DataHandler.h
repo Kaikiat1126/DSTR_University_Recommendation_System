@@ -190,15 +190,6 @@ void assignValue(double* score, int* rank, const std::string& value, const std::
 
 std::string replaceAccentLetters(std::string institution)
 {
-    /*for (int i = 0; i < 29; i++)
-    {
-		size_t pos = institution.find(accentLetters[i]);
-		while (pos != std::string::npos)
-		{
-			institution.replace(pos, accentLetters[i].length(), replaceLetters[i]);
-			pos = institution.find(accentLetters[i], pos + 1);
-		}
-    }*/
     if (map.getSize() == 0)
     {
         for (int i = 0; i < 29; i++)
@@ -206,6 +197,10 @@ std::string replaceAccentLetters(std::string institution)
             map.insert(accentLetters[i], replaceLetters[i]);
         }
     }
+
+	if (institution.at(0) == ' ') institution.erase(0, 1);
+
+	if (institution.at(institution.length() - 1) == ' ') institution.erase(institution.length() - 1, 1);
     
 	for (int i = 0; i < map.getSize(); i++)
 	{

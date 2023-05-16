@@ -28,6 +28,7 @@ void landing_sort();
 void go_to_manage_user();
 void go_to_manage_feedback();
 void go_to_generate_report();
+void go_to_logout();
 
 void testInitData();
 
@@ -48,7 +49,7 @@ void testInitData()
     //IsVector<UserStruct>* users = new IsVector<UserStruct>();
     //StatusContainer::userBTree.searchUserMatch(users, "John");
 
-	//initUniversityData();
+	initUniversityData();
 	//StatusContainer::universityList.displayUniversityList();
     
 	//StatusContainer::universityBTree.traversal();
@@ -278,4 +279,17 @@ void go_to_manage_feedback()
 void go_to_generate_report()
 {
     cout << "Generate report page" << endl;
+}
+
+void go_to_logout()
+{
+	bool logout = proceedNext("Do you want to logout");
+
+    if (logout)
+    {
+        StatusContainer::currentUser = nullptr;
+		go_to_main_menu();
+    }
+    else
+		verify_second_menu();	
 }

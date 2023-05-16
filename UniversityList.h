@@ -1,5 +1,6 @@
 #pragma once
 #include "Structure.h"
+#include "QuickSort.h"
 #include <iostream>
 #include <string>
 
@@ -11,16 +12,37 @@ private:
 	int size = 0;
 public:
 	UniversityList();
+	UniversityList(const UniversityList& copy);
 	~UniversityList();
 	UniversityNode* createNewNode(UniversityStruct university);
 	void insertToEndOfList(UniversityStruct university);
 	UniversityNode* searchByRank(int rank);
 	UniversityNode* searchByInstitution(std::string institution);
 	void displayUniversityList();
+	void displayUniversityListDesc();
+	void quicksort(std::string, bool);
 };
 
 UniversityList::UniversityList()
 {
+}
+
+ //implementation of the copy constructor
+UniversityList::UniversityList(const UniversityList& copy)
+{
+
+	// initialize the new list
+	head = NULL;
+	tail = NULL;
+	size = 0;
+
+	// iterate through the other list and copy each node
+	UniversityNode* temp = copy.head;
+	while (temp != NULL)
+	{
+		insertToEndOfList(temp->university);
+		temp = temp->next;
+	}
 }
 
 UniversityList::~UniversityList()
@@ -111,4 +133,28 @@ void UniversityList::displayUniversityList()
 		std::cout << temp->university.rank << "\t" << temp->university.institution << std::endl;
 		temp = temp->next;
 	}
+}
+
+void UniversityList::displayUniversityListDesc()
+{
+	UniversityNode* temp = tail;
+
+	while (temp != NULL)
+	{
+		std::cout << temp->university.rank << "\t" << temp->university.institution << std::endl;
+		temp = temp->prev;
+	}
+}
+
+// type: "institution", "ar_score", "fsr_score", "er_score"
+void UniversityList::quicksort(std::string type, bool isAsc)
+{
+	UniversityList* copyList = new UniversityList(*this);
+	QuickSort::quickSort(copyList->head, copyList->tail, type);
+	system("cls");
+
+	if (isAsc)
+		copyList->displayUniversityList();
+	else
+		copyList->displayUniversityListDesc();
 }

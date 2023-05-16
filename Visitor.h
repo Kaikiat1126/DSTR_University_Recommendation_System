@@ -107,8 +107,8 @@ void Visitor::chooseSortAlgo()
 
 void Visitor::quickAscOrder()
 {
-	std::cout << "Quick sort in ascending order" << std::endl;
 	// TODOs
+	StatusContainer::universityList.quicksort("institution", true);
 }
 
 void Visitor::mergeAscOrder()

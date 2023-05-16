@@ -86,6 +86,9 @@
     <ClInclude Include="UserBTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="QuickSort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="University.csv">

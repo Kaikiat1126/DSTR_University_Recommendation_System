@@ -20,9 +20,18 @@ public:
 	static int landingUniMenu();
 	static int adminPage();
 	static int manageUserPage();
+	static int manageFeedbackPage();
 	static void modifyUserPage();
 	static void inactiveUserPage();
 	static int userPage();
+	static void feedbackPage();
+	static int userFeedbackPage();
+	static void searchUniPage();
+	static int searchUniOption();
+	static int chooseSearchMethod();
+	static int selectScoreRange();
+	static int userFavouritePage();
+	static int deleteFavourite();
 };
 
 
@@ -56,7 +65,7 @@ int Menu::mainMenu() {
 	std::cout << "******         University Recommendation System         ******" << std::endl;
 	std::cout << "******                                                  ******" << std::endl;
 	std::cout << "**************************************************************" << std::endl;
-	std::cout << "Welecome to the University Recommendation System" << std::endl;
+	std::cout << "Welcome to the University Recommendation System" << std::endl;
 	std::cout << "Please select an option below:" << std::endl;
 	std::cout << "1. View University Details" << std::endl;
 	std::cout << "2. Register" << std::endl;
@@ -212,7 +221,7 @@ int Menu::manageUserPage() {
 	std::string input = "";
 
 	Admin::displayAllUser();
-	std::cout << "**************************************************************" << std::endl;
+
 	std::cout << "Please select an option below:" << std::endl;
 	std::cout << "1. Modify User Details" << std::endl;
 	std::cout << "2. Display Inactive User" << std::endl;
@@ -228,36 +237,23 @@ int Menu::manageUserPage() {
 }
 
 void Menu::modifyUserPage() {
-	std::string userId = "";
+	std::string username = "";
+	bool found = false;
 
 	Admin::displayAllUser();
-	std::cout << "**************************************************************" << std::endl;
 
-	userId = validation("Modify Existing User Detail", "Enter User ID", USER_ID_REGEX);
+	username = validation("Modify Existing User Detail", "Enter Username", NAME_REGEX);
+	User user = Admin::searchUser(username);
 
-	//TODO: search user
-	//if user found
-	bool found = true;
-	//User user("user123","123456","user@mail.com","0123456789","user");
-
-	if (found) {
+	if (user.getUsername() != "") {
 		system("cls");
-		//displaySelectedUserDetail
-		std::cout << std::endl;
-		std::cout << "          User Details            " << std::endl;
+		std::cout << "          User details            " << std::endl;
 		std::cout << "**********************************" << std::endl;
-		std::cout << "Username  : " << StatusContainer::currentUser->getUsername() << std::endl;
-		std::cout << "Contact   : " << StatusContainer::currentUser->getContactNum() << std::endl;
-		std::cout << "Email     : " << StatusContainer::currentUser->getEmail() << std::endl;
-		std::cout << std::endl;
-
+		Admin::displaySelectedUser(user);
 		int option = Admin::chooseModify();
-		//Admin::modifyUser(user, option);
+		Admin::modifyUser(user, option);
 	}
-	else
-	{
-		Message::error("User not found!");
-	}
+	
 }
 
 void Menu::inactiveUserPage()
@@ -288,11 +284,169 @@ int Menu::userPage()
 	std::cout << "2. Favourite University" << std::endl;
 	std::cout << "3. Feedback" << std::endl;
 	std::cout << "4. Logout" << std::endl;
-	
+
 	while (true) {
 		std::cout << "> ";
 		std::cin >> input;
 		int option = validOption(input, 4);
+		if (option != -1)
+			return option;
+	}
+}
+
+void Menu::feedbackPage()
+{
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "******                   Feedback Page                  ******" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "**************************************************************" << std::endl;
+}
+
+// TODO
+int Menu::manageFeedbackPage() {
+	std::string input = "";
+	
+	//TODO
+	//std::cout << "Call latest function:: display latest feedback" << std::endl;
+
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. Reply" << std::endl;
+	std::cout << "2. Move Forward" << std::endl;
+	std::cout << "3. Move Backward" << std::endl;
+	std::cout << "4. Back to Admin Menu" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 4);
+		if (option != -1)
+			return option;
+	}
+}
+
+// TODO
+int Menu::userFeedbackPage()
+{
+	std::string input = "";
+
+	//TODO: 2.6) read feedback reply based on latest date
+	// auto display latest feedback
+
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. Move Forward" << std::endl;
+	std::cout << "2. Move Backward" << std::endl;
+	std::cout << "3. Back to User Menu" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 3);
+		if (option != -1)
+			return option;
+	}
+}
+
+int Menu::userFavouritePage()
+{
+	std::string input = "";
+	IsVector<string> favs = StatusContainer::currentUser->getFavourite();
+	
+	std::cout << "                     Favourite Universities                   " << std::endl;
+	std::cout << "**************************************************************" << std::endl;
+	for (int i = 0; i < favs.getSize(); i++)
+	{
+		std::cout << i+1 << "\t" << favs.at(i) << std::endl;
+	}
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. Remove Favourite By ID" << std::endl;
+	std::cout << "2. Back to User Menu" << std::endl;
+	
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 2);
+		if (option != -1)
+			return option;
+	}
+}
+
+int Menu::deleteFavourite()
+{
+	std::cout << std::endl;
+	std::string num;
+	std::cout << "Please enter the number of the favourite you want to remove: " << std::endl;
+	while (true)
+	{
+		std::cout << "> ";
+		std::cin >> num;
+		int option = validOption(num, StatusContainer::currentUser->getFavourite().getSize());
+		if (option != -1)
+			return option-1;
+	}
+}
+
+int Menu::chooseSearchMethod() {
+	std::string input = "";
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. Recursive Search" << std::endl;
+	std::cout << "2. Iterative Search" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 2);
+		if (option != -1)
+			return option;
+	}
+}
+
+void Menu::searchUniPage()
+{
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "******                 Search University                ******" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "**************************************************************" << std::endl;
+}
+
+int Menu::searchUniOption()
+{
+	std::string input = "";
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. University Ranking" << std::endl;  // unique
+	std::cout << "2. University Location" << std::endl; 
+	std::cout << "3. Academic Reputation Score (AR Score)" << std::endl;
+	std::cout << "4. Faculty Student Score (FSR Score)" << std::endl;
+	std::cout << "5. Employer Reputation Score (ER Score)" << std::endl;
+	std::cout << "6. Back to User Page" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 6);
+		if (option != -1)
+			return option;
+	}
+}
+
+int Menu::selectScoreRange()
+{
+	std::string input = "";
+	std::cout << "Please select a score range below:" << std::endl;
+	std::cout << "1. 0 - 20" << std::endl;
+	std::cout << "2. 21 - 40" << std::endl;
+	std::cout << "3. 41 - 60" << std::endl;
+	std::cout << "4. 61 - 80" << std::endl;
+	std::cout << "5. 81 - 100" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 5);
 		if (option != -1)
 			return option;
 	}

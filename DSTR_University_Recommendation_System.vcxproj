@@ -128,7 +128,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DSTR_University_Recommendation_System.cpp" />
-    <ClCompile Include="UserBTree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Admin.h" />
@@ -142,6 +141,8 @@
     <ClInclude Include="IsVector.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Message.h" />
+    <ClInclude Include="QuickSort.h" />
+    <ClInclude Include="RBTree.h" />
     <ClInclude Include="StatusContainer.h" />
     <ClInclude Include="Structure.h" />
     <ClInclude Include="Timer.h" />

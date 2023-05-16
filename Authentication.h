@@ -5,6 +5,7 @@
 #include "Structure.h"
 #include "User.h"
 #include "Admin.h"
+#include "Customer.h"
 
 int login(std::string username, std::string password);
 void setLoginStatus(UserStruct user);
@@ -60,7 +61,7 @@ int login(std::string username, std::string password)
 void setLoginStatus(UserStruct user)
 {
 	if (user.role == "user")
-		StatusContainer::currentUser = new User(user.userID, user.username, user.password, user.email, user.contactNum, user.role, user.favourite);
+		StatusContainer::currentUser = new Customer(user.userID, user.username, user.password, user.email, user.contactNum, user.role, user.favourite);
 	else
 		StatusContainer::currentUser = new Admin(user.userID, user.username, user.password, user.email, user.contactNum, user.role);
 }

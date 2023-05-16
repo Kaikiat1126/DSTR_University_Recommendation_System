@@ -28,6 +28,11 @@ void landing_sort();
 void go_to_manage_user();
 void go_to_manage_feedback();
 void go_to_generate_report();
+void go_to_customer_sort();
+void go_to_feedback_page();
+void go_to_user_feedback();
+void go_to_user_favourites();
+void go_to_logout();
 
 void testInitData();
 
@@ -48,7 +53,7 @@ void testInitData()
     //IsVector<UserStruct>* users = new IsVector<UserStruct>();
     //StatusContainer::userBTree.searchUserMatch(users, "John");
 
-	//initUniversityData();
+	initUniversityData();
 	//StatusContainer::universityList.displayUniversityList();
     
 	//StatusContainer::universityBTree.traversal();
@@ -204,15 +209,28 @@ void landing_sort()
 
 void go_to_user_menu()
 {
-    cout << "This is user menu page" << endl;
+    system("cls");
+    int option = Menu::userPage();
 
-    //Test getFavourite
-	/*IsVector<string> favs = StatusContainer::currentUsesr->getFavourite();
-    
-	for (int i = 0; i < favs.getSize(); i++)
+    system("cls");
+    if (option == 1) 
+    {
+        cout << "Search University" << endl;
+    }
+    else if (option == 2) 
+    {
+        go_to_user_favourites();
+    }
+    else if (option == 3) 
+    {
+        Menu::feedbackPage();
+        
+        go_to_feedback_page();
+    }
+    else if (option == 4)
 	{
-		cout << favs.at(i) << endl;
-	}*/
+		go_to_logout();
+	}
 }
 
 void go_to_admin_menu()
@@ -224,7 +242,7 @@ void go_to_admin_menu()
         go_to_manage_user();
     }
     else if (option == 2) {
-        go_to_manage_feedback();
+        go_to_feedback_page();
     }
     else if (option == 3) {
         go_to_generate_report();
@@ -270,12 +288,133 @@ void go_to_manage_user()
     }
 }
 
+void go_to_feedback_page()
+{
+    string role = StatusContainer::currentUser->getRole();
+    if (role == "admin")
+    {
+        go_to_manage_feedback();
+    }
+    else if (role == "user")
+    {
+        go_to_user_feedback();
+    }
+    else
+    {
+        Message::error("Unknown role!");
+    }
+}
+
+//void go_to_manage_feedback()
+//{
+//    cout << "Manage feedback page" << endl;
+//
+//    while (true) {
+//        int option = Menu::manageFeedbackPage();
+//        system("cls");
+//        if (option == 1) {
+//            std::cout << "Reply: ~~~~~~~~~~~~~~~~" << std::endl;
+//        }
+//        else if (option == 2) {
+//            std::cout << "Next: :)))))))))))))))" << std::endl;
+//        }
+//        else if (option == 3) {
+//            std::cout << "Previous: :((((((((((((((" << std::endl;
+//        }
+//        else if (option == 4) {
+//            break;
+//        }
+//    } 
+//    go_to_admin_menu();
+//}
+
+// TODO
 void go_to_manage_feedback()
 {
-    cout << "Manage feedback page" << endl;
+    while (true)
+    {
+        int option = Menu::manageFeedbackPage();
+        if (option == 1)
+        {
+            cout << "Reply Feedback" << endl;
+        }
+        else if (option == 2)
+        {
+            cout << "Move Forward" << endl;
+        }
+        else if (option == 3)
+        {
+            cout << "Move Backward" << endl;
+        }
+        else if (option == 4)
+        {
+            break;
+        }
+    }
+    go_to_admin_menu();
+}
+
+// TODO
+void go_to_user_feedback()
+{
+    while (true)
+    {
+        int option = Menu::userFeedbackPage();
+        if (option == 1)
+        {
+			cout << "Move Forward" << endl;
+		}
+		else if (option == 2)
+		{
+			cout << "Move Backward" << endl;
+		}
+		else if (option == 3)
+		{
+			break;
+        }
+    }
+	go_to_user_menu();
+}
+
+void go_to_user_favourites() 
+{
+    int option = Menu::userFavouritePage();
+    
+	if (option == 1) 
+    {
+        int index = Menu::deleteFavourite();
+		StatusContainer::currentUser->removeFavourite(index);
+
+        int userID = StatusContainer::currentUser->getUserID();
+		StatusContainer::userBTree.removeUserFavourite(userID, index);
+		system("cls");
+        go_to_user_favourites();
+	}
+	else if (option == 2) 
+    {
+		go_to_user_menu();
+	}
 }
 
 void go_to_generate_report()
 {
     cout << "Generate report page" << endl;
+}
+
+void go_to_customer_sort()
+{
+    // TODO
+}
+
+void go_to_logout()
+{
+	bool logout = proceedNext("Do you want to logout");
+
+    if (logout)
+    {
+        StatusContainer::currentUser = nullptr;
+		go_to_main_menu();
+    }
+    else
+		verify_second_menu();	
 }

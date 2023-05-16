@@ -5,6 +5,8 @@
 #define MAX 4
 #define MIN 2
 
+enum RBTColor { Black, Red };
+
 struct DataStruct
 {
 	
@@ -64,4 +66,14 @@ struct UserBTreeNode : public BTreeNode
 	//int count;
 	UserStruct user[MAX + 1];
 	UserBTreeNode* child[MAX + 1];
+};
+
+struct UniversityRBTreeNode {
+	UniversityStruct* element;
+	RBTColor color;
+	UniversityRBTreeNode* leftChild;
+	UniversityRBTreeNode* rightChild;
+	UniversityRBTreeNode* parent;
+	UniversityRBTreeNode(UniversityStruct* e, RBTColor c, UniversityRBTreeNode* l, UniversityRBTreeNode* r, UniversityRBTreeNode* p) :
+		element(e), color(c), leftChild(l), rightChild(r), parent(p) {};
 };

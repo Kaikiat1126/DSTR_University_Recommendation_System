@@ -31,6 +31,7 @@ public:
 	static int chooseSearchMethod();
 	static int selectScoreRange();
 	static int userFavouritePage();
+	static int deleteFavourite();
 };
 
 
@@ -370,6 +371,21 @@ int Menu::userFavouritePage()
 		int option = validOption(input, 2);
 		if (option != -1)
 			return option;
+	}
+}
+
+int Menu::deleteFavourite()
+{
+	std::cout << std::endl;
+	std::string num;
+	std::cout << "Please enter the number of the favourite you want to remove: " << std::endl;
+	while (true)
+	{
+		std::cout << "> ";
+		std::cin >> num;
+		int option = validOption(num, StatusContainer::currentUser->getFavourite().getSize());
+		if (option != -1)
+			return option-1;
 	}
 }
 

@@ -209,6 +209,7 @@ void landing_sort()
 
 void go_to_user_menu()
 {
+    system("cls");
     int option = Menu::userPage();
 
     system("cls");
@@ -381,8 +382,12 @@ void go_to_user_favourites()
     
 	if (option == 1) 
     {
-		cout << "Remove from favourite" << endl;
-        
+        int index = Menu::deleteFavourite();
+		StatusContainer::currentUser->removeFavourite(index);
+
+        int userID = StatusContainer::currentUser->getUserID();
+		StatusContainer::userBTree.removeUserFavourite(userID, index);
+		system("cls");
         go_to_user_favourites();
 	}
 	else if (option == 2) 

@@ -1,19 +1,20 @@
 #pragma once
 #include "Structure.h"
+#include "StatusContainer.h"
 #include <iostream>
 #include <string>
 
 class QuickSort
 {
 private:
-    void swap(UniversityStruct*, UniversityStruct*);
-    UniversityNode* lastNode(UniversityNode*);
-    UniversityNode* partition(UniversityNode*, UniversityNode*);
-    void _quickSort(UniversityNode*, UniversityNode*);
+    static void swap(UniversityStruct*, UniversityStruct*);
+    static UniversityNode* partition(UniversityNode*, UniversityNode*);
+    static void _quickSort(UniversityNode*, UniversityNode*);
 public:
-    void quickSort(UniversityNode*);
-    void displayUniversityList(UniversityNode*);
+    static void quickSort(UniversityNode*, UniversityNode*, std::string);
 };
+
+std::string sortBy;
 
 void QuickSort::swap(UniversityStruct* a, UniversityStruct* b)
 {
@@ -22,30 +23,63 @@ void QuickSort::swap(UniversityStruct* a, UniversityStruct* b)
     *b = temp;
 };
 
-UniversityNode* QuickSort::lastNode(UniversityNode* root)
-{
-    while (root && root->next)
-        root = root->next;
-    return root;
-};
-
+ //sortBy: "institution", "ar_score", "fsr_score", "er_score"
 UniversityNode* QuickSort::partition(UniversityNode* head, UniversityNode* last)
 {
     //set pivot as last element
-    std::string pivot = last->university.institution;
+    UniversityStruct pivot = last->university;
 
     UniversityNode* i = head->prev;
 
-    for (UniversityNode* j = head; j != last; j->next)
+    for (UniversityNode* j = head; j != last; j = j->next)
     {
-        if (j->university.institution <= pivot)
+        if (sortBy == "institution")
         {
-            i = (i == NULL) ? head : i->next;
+            if (j->university.institution <= pivot.institution)
+            {
+                i = (i == NULL) ? head : i->next;
 
-            swap(&(i->university), &(last->university));
+                swap(&(i->university), &(j->university));
+            }
         }
+        else if (sortBy == "ar_score")
+        {
+            if (j->university.ArScore <= pivot.ArScore)
+            {
+                i = (i == NULL) ? head : i->next;
+
+                swap(&(i->university), &(j->university));
+            }
+        }
+        else if (sortBy == "fsr_score")
+        {
+            if (j->university.FsrScore <= pivot.FsrScore)
+            {
+                i = (i == NULL) ? head : i->next;
+
+                swap(&(i->university), &(j->university));
+            }
+        }
+        else if (sortBy == "er_score")
+        {
+            if (j->university.ErScore <= pivot.ErScore)
+            {
+                i = (i == NULL) ? head : i->next;
+
+                swap(&(i->university), &(j->university));
+            }
+        }
+
+        
     }
     i = (i == NULL) ? head : i->next;
+    /*if (i == NULL) {
+        i = head;
+    }
+    else {
+        i = i->next;
+    }*/
+
     swap(&(i->university), &(last->university));
     return i;
 };
@@ -60,20 +94,9 @@ void QuickSort::_quickSort(UniversityNode* head, UniversityNode* last)
     }
 };
 
-void QuickSort::quickSort(UniversityNode* head)
+void QuickSort::quickSort(UniversityNode* head, UniversityNode* tail, std::string type)
 {
-    //Find last node
-    UniversityNode* last = lastNode(head);
-
+    sortBy = type;
     //Call the recursive QuickSort
-    _quickSort(head, last);
+    _quickSort(head, tail);
 };
-
-void QuickSort::displayUniversityList(UniversityNode* head)
-{
-    while(head)
-    {
-        std::cout << head->university.rank << "\t" << head->university.institution << std::endl;
-        head = head->next;
-    }
-}

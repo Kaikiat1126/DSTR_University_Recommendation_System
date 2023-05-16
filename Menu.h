@@ -233,13 +233,12 @@ int Menu::manageUserPage() {
 }
 
 void Menu::modifyUserPage() {
-	std::string username = "";
-	bool found = false;
+	std::string userId = "";
 
 	Admin::displayAllUser();
 
-	username = validation("Modify Existing User Detail", "Enter Username", NAME_REGEX);
-	User user = Admin::searchUser(username);
+	userId = validation("Modify Existing User Detail", "Enter User ID", USER_ID_REGEX);
+	User user = Admin::searchUser(userId);
 
 	if (user.getUsername() != "") {
 		system("cls");

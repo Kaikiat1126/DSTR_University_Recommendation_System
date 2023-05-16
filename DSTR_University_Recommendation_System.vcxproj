@@ -140,6 +140,7 @@
     <ClInclude Include="IsUnorderedMap.h" />
     <ClInclude Include="IsVector.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="MergeSort.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="QuickSort.h" />
     <ClInclude Include="RBTree.h" />

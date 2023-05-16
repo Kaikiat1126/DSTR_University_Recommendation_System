@@ -33,28 +33,6 @@ Admin::Admin(int userID, std::string username, std::string password, std::string
 {
 }
 
-//int Admin::validOption(std::string input, int maxOption)
-//{
-//	//if input not a number
-//	if (input.find_first_not_of("0123456789") != std::string::npos)
-//	{
-//		Message::error("Invalid input!");
-//		return -1;
-//	}
-//
-//	//convert string to int
-//	int option = std::stoi(input);
-//
-//	//if option is not in range
-//	if (option < 1 || option > maxOption)
-//	{
-//		Message::warning("Input option out of range!");
-//		return -1;
-//	}
-//
-//	return option;
-//}
-
 void Admin::displayAllUser()
 {
 	IsVector<UserStruct> userList = StatusContainer::userBTree.getUserList();
@@ -66,8 +44,8 @@ void Admin::displayAllUser()
 
 void Admin::displayInactiveUser()
 {
-	//TODO
 	std::cout << "User list is empty." << std::endl;
+	StatusContainer::userBTree.getUserByKey("date", DateTime::getCurrentDateTime());
 }
 
 int Admin::chooseModify()
@@ -114,27 +92,25 @@ void Admin::modifyUser(User user, int option)
 		
 }
 
-User Admin::searchUser(std::string username) {
-	IsVector<UserStruct>* users = new IsVector<UserStruct>();
-	StatusContainer::userBTree.searchUserMatch(users, username);
-
-	if (users->getSize() != 0)
+User Admin::searchUser(std::string userId) {
+	IsVector<UserStruct> users = StatusContainer::userBTree.getUserByKey("id", userId);
+	int id = std::stoi(userId);
+	for (int i = 0; i < users.getSize(); i++)
 	{
-		for (int i = 0; i < users->getSize(); i++)
+		if (users.at(i).userID == id)
 		{
-			if (users->at(i).username == username)
-			{
-				User user(users->at(i).userID, users->at(i).username, users->at(i).password, users->at(i).email, users->at(i).contactNum, users->at(i).role);
-				return user;
-			}
+			std::cout << users.at(i).userID;
+			User user(users.at(i).userID, users.at(i).username, users.at(i).password, users.at(i).email, users.at(i).contactNum, users.at(i).role);
+			return user;
 		}
 	}
-	else {
-		Message::error("User not found");
-		User user("", "");
-		return user;
-	}
 
+	if (users.getSize() == 0)
+	{
+		Message::error("User not found");
+		User empty_user("", "");
+		return empty_user;
+	}
 }
 
 void Admin::displaySelectedUser(User user) 

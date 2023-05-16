@@ -30,13 +30,14 @@ private:
 	void mergeLeaves(UniversityBTreeNode* node, int pos);
 	void adjustNode(UniversityBTreeNode* node, int pos);
 	void traversalSearchName(UniversityBTreeNode* node, std::string name);
+	void searchValueInBTree(int rank, int* pos, UniversityBTreeNode* node);
 		
 public:
 	UniversityBTreeNode* root;
 	UniversityBTree();
 	~UniversityBTree();
 	void insertValueInBTree(UniversityStruct university);
-	void searchValueInBTree(int rank, int* pos, UniversityBTreeNode* node);
+	void searchUniversityByRank(int rank);
 	void searchUniversityByName(std::string institution);
 	void traversal();
 	void preOrder();
@@ -378,26 +379,31 @@ void UniversityBTree::traversalSearchName(UniversityBTreeNode* node, std::string
 
 void UniversityBTree::searchValueInBTree(int rank, int* pos, UniversityBTreeNode* node)
 {
+	bool found = false;
 	if (!node)
+	{
+		//std::string msg = std::to_string(rank) + " not found";
+		//Message::warning(msg);
 		return;
+	}
 
 	if (rank < node->university[1].rank)
 		*pos = 0;
 	else
 	{
-		std::string msg = "UniversityStruct with ID ";
+		//std::string msg = "UniversityStruct with ID ";
 		for (*pos = node->count; (rank < node->university[*pos].rank && *pos > 1); (*pos)--);
 		if (rank == node->university[*pos].rank)
 		{
-			msg = msg + std::to_string(rank) + " found";
-			Message::notice(msg);
+			found = true;
+			//msg = msg + std::to_string(rank) + " found";
+			//Message::notice(msg);
 			return;
 		}
-		msg = msg + std::to_string(rank) + " not found";
-		Message::warning(msg);
 	}
+
+	if (found) return;
 	searchValueInBTree(rank, pos, node->child[*pos]);
-	return;
 }
 
 void UniversityBTree::searchUniversityByName(std::string institution)
@@ -443,4 +449,12 @@ void UniversityBTree::searchUniversityByName(std::string institution)
 			<< "\t" << university.IfrScore << "\t" << university.IfrRank << "\t" << university.IsrScore << "\t" << university.IsrRank << "\t" << university.IrnScore
 			<< "\t" << university.IrnRank << "\t" << university.GerScore << "\t" << university.GerRank << "\t" << ScoreScaled << std::endl;
 	}
+}
+
+void UniversityBTree::searchUniversityByRank(int rank)
+{
+	auto start = Timer::getCurrentTime();
+	searchValueInBTree(rank, &rank, root);
+	auto end = Timer::getCurrentTime();
+	std::cout << "Search By Rank's Time: " << Timer::getRunTime(start, end) << std::endl;
 }

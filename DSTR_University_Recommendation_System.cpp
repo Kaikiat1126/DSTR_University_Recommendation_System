@@ -40,13 +40,13 @@ int main()
 {    
     testInitData();
     //std::cout << "Hello University Recommendatio0n System!\n";
-    go_to_main_menu();
+    //go_to_main_menu();
 	// go_to_register();
 }
 
 void testInitData()
 {
-    initUserData();
+    //initUserData();
     //StatusContainer::userList.displayUserList();
 	//StatusContainer::userBTree.traversal();
 
@@ -57,6 +57,7 @@ void testInitData()
 	//StatusContainer::universityList.displayUniversityList();
     
 	//StatusContainer::universityBTree.traversal();
+    StatusContainer::universityBTree.searchUniversityByRank(867);   //1-2ms 
     //StatusContainer::universityBTree.preOrder();
 	//StatusContainer::universityBTree.postOrder();
 }

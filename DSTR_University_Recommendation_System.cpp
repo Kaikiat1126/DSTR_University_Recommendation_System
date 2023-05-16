@@ -46,18 +46,31 @@ int main()
 
 void testInitData()
 {
-    //initUserData();
+    initUserData();
     //StatusContainer::userList.displayUserList();
 	//StatusContainer::userBTree.traversal();
-
+    
     //IsVector<UserStruct>* users = new IsVector<UserStruct>();
     //StatusContainer::userBTree.searchUserMatch(users, "John");
 
 	initUniversityData();
 	//StatusContainer::universityList.displayUniversityList();
-    
+ 
+    /*int* type = new int;
+    *type = 1;
+    int* range = new int;
+    *range = 0;
+    string* value = new string;
+    *value = "University of Cambridge";
+    IsVector<UniversityStruct> universities = StatusContainer::universityBTree.getUniversityByValue(type, range, value);
+
+    for (int i = 0; i < universities.getSize(); i++)
+    {
+        cout << universities.at(i).rank << " " << universities.at(i).institution << endl;
+    }*/
+
 	//StatusContainer::universityBTree.traversal();
-    StatusContainer::universityBTree.searchUniversityByRank(867);   //1-2ms 
+    //StatusContainer::universityBTree.searchUniversityByRank(867);   //1-2ms 
     //StatusContainer::universityBTree.preOrder();
 	//StatusContainer::universityBTree.postOrder();
 }
@@ -384,10 +397,20 @@ void go_to_user_favourites()
 	if (option == 1) 
     {
         int index = Menu::deleteFavourite();
-		StatusContainer::currentUser->removeFavourite(index);
+        if (index != -1)
+        {
+            StatusContainer::currentUser->removeFavourite(index);
 
-        int userID = StatusContainer::currentUser->getUserID();
-		StatusContainer::userBTree.removeUserFavourite(userID, index);
+            int userID = StatusContainer::currentUser->getUserID();
+		    StatusContainer::userBTree.removeUserFavourite(userID, index);
+        }
+        
+        if (index == -1)
+        {
+			Message::warning("No favourite can be deleted!");
+            Sleep(2000);
+        }
+		
 		system("cls");
         go_to_user_favourites();
 	}

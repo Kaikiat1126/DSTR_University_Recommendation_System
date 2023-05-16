@@ -30,7 +30,10 @@ private:
 	void mergeLeaves(UniversityBTreeNode* node, int pos);
 	void adjustNode(UniversityBTreeNode* node, int pos);
 	void traversalSearchName(UniversityBTreeNode* node, std::string name);
-	void searchValueInBTree(int rank, int* pos, UniversityBTreeNode* node);
+	void searchByRankInBTree(int rank, int* pos, UniversityBTreeNode* node);
+	void getUniversityByRank(UniversityBTreeNode* node, int rank, int* pos, IsVector<UniversityStruct>& university);
+	void getUniversityByValue(UniversityBTreeNode* node, int* type, int* range, IsVector<UniversityStruct>& universities);
+	void getUniversityWithStr(UniversityBTreeNode* node, int* type, std::string& value, IsVector<UniversityStruct>& universities);
 		
 public:
 	UniversityBTreeNode* root;
@@ -38,6 +41,8 @@ public:
 	~UniversityBTree();
 	void insertValueInBTree(UniversityStruct university);
 	void searchUniversityByRank(int rank);
+	IsVector<UniversityStruct> getUniversityByRank(int rank);
+	IsVector<UniversityStruct> getUniversityByValue(int* type, int* range, std::string* value);
 	void searchUniversityByName(std::string institution);
 	void traversal();
 	void preOrder();
@@ -377,35 +382,6 @@ void UniversityBTree::traversalSearchName(UniversityBTreeNode* node, std::string
 		traversalSearchName(node->child[i], institution);
 }
 
-void UniversityBTree::searchValueInBTree(int rank, int* pos, UniversityBTreeNode* node)
-{
-	bool found = false;
-	if (!node)
-	{
-		//std::string msg = std::to_string(rank) + " not found";
-		//Message::warning(msg);
-		return;
-	}
-
-	if (rank < node->university[1].rank)
-		*pos = 0;
-	else
-	{
-		//std::string msg = "UniversityStruct with ID ";
-		for (*pos = node->count; (rank < node->university[*pos].rank && *pos > 1); (*pos)--);
-		if (rank == node->university[*pos].rank)
-		{
-			found = true;
-			//msg = msg + std::to_string(rank) + " found";
-			//Message::notice(msg);
-			return;
-		}
-	}
-
-	if (found) return;
-	searchValueInBTree(rank, pos, node->child[*pos]);
-}
-
 void UniversityBTree::searchUniversityByName(std::string institution)
 {
 	universityList.clear();
@@ -451,10 +427,161 @@ void UniversityBTree::searchUniversityByName(std::string institution)
 	}
 }
 
+// used for compare run time
 void UniversityBTree::searchUniversityByRank(int rank)
 {
 	auto start = Timer::getCurrentTime();
-	searchValueInBTree(rank, &rank, root);
+	searchByRankInBTree(rank, &rank, root);
 	auto end = Timer::getCurrentTime();
 	std::cout << "Search By Rank's Time: " << Timer::getRunTime(start, end) << std::endl;
+}
+
+void UniversityBTree::searchByRankInBTree(int rank, int* pos, UniversityBTreeNode* node)
+{
+	bool found = false;
+	if (!node)
+	{
+		//std::string msg = std::to_string(rank) + " not found";
+		//Message::warning(msg);
+		return;
+	}
+
+	if (rank < node->university[1].rank)
+		*pos = 0;
+	else
+	{
+		//std::string msg = "University with Rank ";
+		for (*pos = node->count; (rank < node->university[*pos].rank && *pos > 1); (*pos)--);
+		UniversityStruct data = node->university[*pos];
+		if (rank == node->university[*pos].rank)
+		{
+			found = true;
+			//msg = msg + std::to_string(rank) + " found!";
+			//Message::notice(msg);
+			/*std::cout << data.rank << "\t" << data.institution << "\t" << data.locationCode << "\t\t"
+				<< data.location << "\t\t" << data.ArScore << "\t" << data.ArRank << "\t" << data.ErScore
+				<< "\t" << data.ErRank << "\t" << data.FsrScore << "\t" << data.FsrRank << "\t" << data.CpfScore << "\t" << data.CpfRank
+				<< "\t" << data.IfrScore << "\t" << data.IfrRank << "\t" << data.IsrScore << "\t" << data.IsrRank << "\t" << data.IrnScore
+				<< "\t" << data.IrnRank << "\t" << data.GerScore << "\t" << data.GerRank << "\t" << data.ScoreScaled << std::endl;*/
+			return;
+		}
+	}
+
+	if (found) return;
+	searchByRankInBTree(rank, pos, node->child[*pos]);
+}
+
+IsVector<UniversityStruct> UniversityBTree::getUniversityByRank(int rank)
+{
+	IsVector<UniversityStruct> university;
+	getUniversityByRank(root, rank, &rank, university);
+	return university;
+}
+
+void UniversityBTree::getUniversityByRank(UniversityBTreeNode* node, int rank, int* pos, IsVector<UniversityStruct>& university)
+{
+	bool found = false;
+	if (!node)
+	{
+		return;
+	}
+
+	if (rank < node->university[1].rank)
+		*pos = 0;
+	else
+	{
+		for (*pos = node->count; (rank < node->university[*pos].rank && *pos > 1); (*pos)--);
+		UniversityStruct data = node->university[*pos];
+		if (rank == node->university[*pos].rank)
+		{
+			found = true;
+			university.push_back(data);
+			return;
+		}
+	}
+
+	if (found) return;
+	getUniversityByRank(node->child[*pos], rank, pos, university);
+}
+
+// type: "1 = name", "2 = locationCode", "3 = ar score", "4 = fsr score", "5 = er score"
+// range: "1 = 0-20" , "2 = 21-40", "3 = 41-60", "4 = 61-80", "5 = 81-100"
+IsVector<UniversityStruct> UniversityBTree::getUniversityByValue(int* type, int* range, std::string* value)
+{
+	IsVector<UniversityStruct> universities = IsVector<UniversityStruct>();
+
+	if (*type == 1 || *type == 2)
+		getUniversityWithStr(root, type, *value, universities);
+	else if (*type == 3 || *type == 4 || *type == 5)
+		getUniversityByValue(root, type, range, universities);
+	
+	return universities;
+}
+
+// type: "1 = name", "2 = locationCode", "3 = ar score", "4 = fsr score", "5 = er score"
+// range: "1 = 0-20" , "2 = 21-40", "3 = 41-60", "4 = 61-80", "5 = 81-100"
+void UniversityBTree::getUniversityByValue(UniversityBTreeNode* node, int* type, int* range, IsVector<UniversityStruct>& universities)
+{
+
+	if (!node) return;
+	
+	int minScore = (*range - 1) * 20;
+	int maxScore = *range * 20;
+
+	for (int i = 1; i <= node->count; i++)
+	{
+		bool match = false;
+		if (*type == 3)
+		{
+			match = (node->university[i].ArScore >= minScore && node->university[i].ArScore <= maxScore);
+		}
+		else if (*type == 4)
+		{
+			match = (node->university[i].FsrScore >= minScore && node->university[i].FsrScore <= maxScore);
+		}
+		else if (*type == 5)
+		{
+			match = (node->university[i].ErScore >= minScore && node->university[i].ErScore <= maxScore);
+		}
+
+		if (match)
+		{
+			universities.push_back(node->university[i]);
+		}
+	}
+
+	for (int i = 0; i <= node->count; i++)
+		getUniversityByValue(node->child[i], type, range, universities);
+}
+
+void UniversityBTree::getUniversityWithStr(UniversityBTreeNode* node, int* type, std::string& value, IsVector<UniversityStruct>& universities)
+{
+	bool found = false;
+
+	if (!node) return;
+
+	for (int i = 1; i <= node->count; i++)
+	{
+		if (*type == 1)
+		{
+			if (node->university[i].institution == value)
+			{
+				found = true;
+				universities.push_back(node->university[i]);
+				break;
+			}
+		}
+		else if (*type == 2)
+		{
+			if (node->university[i].locationCode == value)
+			{
+				universities.push_back(node->university[i]);
+			}
+		}
+	}
+
+	if (found) return;
+	
+	for (int i = 0; i <= node->count; i++)
+		getUniversityWithStr(node->child[i], type, value, universities);
 }

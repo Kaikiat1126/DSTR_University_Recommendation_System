@@ -354,6 +354,8 @@ int Menu::userFavouritePage()
 	
 	std::cout << "                     Favourite Universities                   " << std::endl;
 	std::cout << "**************************************************************" << std::endl;
+	if (favs.getSize() == 0)
+		std::cout << "\t\tNo result can display" << std::endl;
 	for (int i = 0; i < favs.getSize(); i++)
 	{
 		std::cout << i+1 << "\t" << favs.at(i) << std::endl;
@@ -369,8 +371,10 @@ int Menu::userFavouritePage()
 		std::cout << "> ";
 		std::cin >> input;
 		int option = validOption(input, 2);
-		if (option != -1)
+		if (option != -1 && favs.getSize() != 0)
 			return option;
+		else if (option == 1 && favs.getSize() == 0)
+			return -1;
 	}
 }
 

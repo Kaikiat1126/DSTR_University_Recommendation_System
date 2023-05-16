@@ -267,29 +267,6 @@ void Menu::inactiveUserPage()
 	Admin::deleteUser(id);
 }
 
-int Menu::userPage()
-{
-	std::string input = "";
-	std::cout << "**************************************************************" << std::endl;
-	std::cout << "******                                                  ******" << std::endl;
-	std::cout << "******                     User Page                    ******" << std::endl;
-	std::cout << "******                                                  ******" << std::endl;
-	std::cout << "**************************************************************" << std::endl;
-	std::cout << "Please select an option below:" << std::endl;
-	std::cout << "1. Display Sorting Result in Descending Order:" << std::endl;
-	Message::notice("Academic Reputation Score,Faculty/Student Ratio Score and Employer Reputation Score");
-	std::cout << "2. Search University Based on Your Preferences" << std::endl;
-	std::cout << "3. Logout" << std::endl;
-
-	while (true) {
-		std::cout << "> ";
-		std::cin >> input;
-		int option = validOption(input, 3);
-		if (option != -1)
-			return option;
-	}
-}
-
 int Menu::manageFeedbackPage() {
 	std::string input = "";
 	std::cout << "******                     Feedback                     ******" << std::endl;
@@ -306,6 +283,69 @@ int Menu::manageFeedbackPage() {
 		std::cout << "> ";
 		std::cin >> input;
 		int option = validOption(input, 4);
+		if (option != -1)
+			return option;
+	}
+}
+
+int Menu::chooseSearchMethod() {
+	std::string input = "";
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. Recursive Search" << std::endl;
+	std::cout << "2. Iterative Search" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 2);
+		if (option != -1)
+			return option;
+	}
+}
+
+void Menu::searchUniPage()
+{
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "******                 Search University                ******" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "**************************************************************" << std::endl;
+}
+
+int Menu::searchUniOption()
+{
+	std::string input = "";
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. University Ranking" << std::endl;  // unique
+	std::cout << "2. University Location" << std::endl; 
+	std::cout << "3. Academic Reputation Score (AR Score)" << std::endl;
+	std::cout << "4. Faculty Student Score (FSR Score)" << std::endl;
+	std::cout << "5. Employer Reputation Score (ER Score)" << std::endl;
+	std::cout << "6. Back to User Page" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 6);
+		if (option != -1)
+			return option;
+	}
+}
+
+int Menu::selectScoreRange()
+{
+	std::string input = "";
+	std::cout << "Please select a score range below:" << std::endl;
+	std::cout << "1. 0 - 20" << std::endl;
+	std::cout << "2. 21 - 40" << std::endl;
+	std::cout << "3. 41 - 60" << std::endl;
+	std::cout << "4. 61 - 80" << std::endl;
+	std::cout << "5. 81 - 100" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 5);
 		if (option != -1)
 			return option;
 	}

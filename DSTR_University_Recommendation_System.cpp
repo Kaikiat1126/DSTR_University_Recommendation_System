@@ -29,7 +29,6 @@ void go_to_manage_user();
 void go_to_manage_feedback();
 void go_to_generate_report();
 void go_to_customer_sort();
-
 void go_to_logout();
 
 void testInitData();

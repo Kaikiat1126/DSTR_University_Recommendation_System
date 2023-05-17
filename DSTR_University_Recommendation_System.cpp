@@ -451,7 +451,7 @@ void go_to_user_search()
     std::string value = "";
 
     if (type == 1)
-		value = validation("Enter university ranking: ", "Invalid ranking!", NUM_REGEX);
+		value = validation("Enter university ranking: ", "", NUM_REGEX);
     else if (type == 2)
         value = searchUniByLocationCode();
     else

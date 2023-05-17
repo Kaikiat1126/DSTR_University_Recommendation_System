@@ -519,6 +519,7 @@ IsVector<UniversityStruct> UniversityBTree::getUniversityByValue(int* type, int*
 }
 
 // type: "1 = name", "2 = locationCode", "3 = ar score", "4 = fsr score", "5 = er score"
+// name need to been remove spaces
 // range: "1 = 0-20" , "2 = 21-40", "3 = 41-60", "4 = 61-80", "5 = 81-100"
 void UniversityBTree::getUniversityByValue(UniversityBTreeNode* node, int* type, int* range, IsVector<UniversityStruct>& universities)
 {
@@ -564,7 +565,9 @@ void UniversityBTree::getUniversityWithStr(UniversityBTreeNode* node, int* type,
 	{
 		if (*type == 1)
 		{
-			if (node->university[i].institution == value)
+			std::string institution = node->university[i].institution;
+			institution.erase(std::remove(institution.begin(), institution.end(), ' '), institution.end());
+			if (institution == value)
 			{
 				found = true;
 				universities.push_back(node->university[i]);

@@ -57,18 +57,18 @@ void testInitData()
 	//StatusContainer::universityList.displayUniversityList();
  
     /*int* type = new int;
-    *type = 1;
+    *type = 4;
     int* range = new int;
-    *range = 0;
+    *range = 5;
     string* value = new string;
-    *value = "University of Cambridge";
+    *value = "";
     IsVector<UniversityStruct> universities = StatusContainer::universityBTree.getUniversityByValue(type, range, value);
 
     for (int i = 0; i < universities.getSize(); i++)
     {
-        cout << universities.at(i).rank << " " << universities.at(i).institution << endl;
+        cout << universities.at(i).rank << " " << universities.at(i).institution << " " << universities.at(i).FsrScore << endl;
     }*/
-
+    
 	//StatusContainer::universityBTree.traversal();
     //StatusContainer::universityBTree.searchUniversityByRank(867);   //1-2ms 
     //StatusContainer::universityBTree.preOrder();

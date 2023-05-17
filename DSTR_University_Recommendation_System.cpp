@@ -240,38 +240,30 @@ void landing_sort()
 
 void go_to_user_menu()
 {
-    //print favourite
-	for (int i = 0; i < StatusContainer::currentUser->getFavourite().getSize(); i++)
-	{
-		cout << StatusContainer::currentUser->getFavourite().at(i) << endl;
-	}
-    bool isFavourite = StatusContainer::currentUser->checkFavouriteExist("Massachusetts Institute of Technology (MIT)");
-    cout << isFavourite << endl;
- //   system("cls");
- //   int option = Menu::userPage();
+    system("cls");
+    int option = Menu::userPage();
 
- //   system("cls");
- //   if (option == 1) 
- //   {
- //       //cout << "Search University" << endl;
- //       Menu::searchUniPage();
- //       
- //       go_to_user_search();
- //   }
- //   else if (option == 2) 
- //   {
- //       go_to_user_favourites();
- //   }
- //   else if (option == 3) 
- //   {
- //       Menu::feedbackPage();
- //       
- //       go_to_feedback_page();
- //   }
- //   else if (option == 4)
-	//{
-	//	go_to_logout();
-	//}
+    system("cls");
+    if (option == 1) 
+    {
+        Menu::searchUniPage();
+        
+        go_to_user_search();
+    }
+    else if (option == 2) 
+    {
+        go_to_user_favourites();
+    }
+    else if (option == 3) 
+    {
+        Menu::feedbackPage();
+        
+        go_to_feedback_page();
+    }
+    else if (option == 4)
+	{
+		go_to_logout();
+	}
 }
 
 void go_to_admin_menu()
@@ -449,7 +441,7 @@ void go_to_user_favourites()
 
 void go_to_user_search()
 {
-    UniversityList* list = StatusContainer::cacheUniList;
+	UniversityList* list = StatusContainer::cacheUniList;
     
     int type = Menu::searchUniOption();
     int range = 0;
@@ -466,7 +458,12 @@ void go_to_user_search()
 	system("cls");
 
     if (list == nullptr)
+    {
+        list = new UniversityList();
+		StatusContainer::cacheUniList = list;
+		cout << StatusContainer::cacheUniList << endl;
         list = StatusContainer::universityBTree.filterUniversityByValue(&type, &range, &value);
+    }
     else
     {
 		// TODO: doing filter with exist list
@@ -516,7 +513,12 @@ bool go_to_end_search()
 {
     while (true)
     {
-        if (StatusContainer::cacheUniList != nullptr) {}
+        if (StatusContainer::cacheUniList == nullptr) 
+        {
+            //TODO: check why cacheUniList is nullptr
+            cout << "Error" << endl;
+            return false;
+        }
         // display result
 
         int option = Menu::optionBeforeEndSearch();
@@ -532,19 +534,27 @@ bool go_to_end_search()
             {
 				Message::error("Input's University ranking does not exist!");
                 Sleep(1000);
-				system("cls");
-				continue;
             }
-            else if (isFavourite)
+            else if (isFavourite && option == 1)
             {
-                
+				Message::notice("This university is already in your favourite list!");
+				Sleep(1000);
             }
             else
             {
-                // TODO: add to favourite or feedback
-                system("cls");
-                go_to_end_search();
+                // TODO: add to favourite
+                if (option == 1)
+				{
+					StatusContainer::currentUser->addFavourite(name);
+					StatusContainer::userBTree.addUserFavourite(StatusContainer::currentUser->getUserID(), name);
+				}
+                else // TODO: write feedback here
+                {
+                    cout << "Wirte Feedback" << endl;
+                }
             }
+            system("cls");
+            go_to_end_search();
         }
         else if (option == 3)
         {

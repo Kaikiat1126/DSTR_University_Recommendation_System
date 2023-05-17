@@ -40,9 +40,7 @@ public:
 	void setFavourite(IsVector<std::string> favourite);
     virtual void removeFavourite(int);
     virtual void addFavourite(std::string);
-    virtual bool checkFavouriteExist(std::string) {
-		return false;
-    }
+    bool checkFavouriteExist(std::string name);
 };
 
 User::User(std::string username, std::string password)
@@ -183,7 +181,24 @@ void User::addFavourite(std::string favourite)
     this->favourite.push_back(favourite);
 }
 
-//bool User::checkFavouriteExist(std::string)
-//{
-//    return false;
-//}
+bool User::checkFavouriteExist(std::string name)
+{
+    bool found = false;
+    name.erase(std::remove(name.begin(), name.end(), ' '), name.end());
+
+	if (favourite.empty())
+        return false;
+    else
+    {
+        for (int i = 0; i < favourite.getSize(); i++)
+        {
+            std::string value = favourite.at(i);
+            value.erase(std::remove(value.begin(), value.end(), ' '), value.end());
+            if (value == name)
+            {
+                found = true;
+            }
+        }
+        return found;
+    }
+}

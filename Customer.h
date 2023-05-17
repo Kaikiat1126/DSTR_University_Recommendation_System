@@ -19,27 +19,6 @@ public:
 	void setFavourite(IsVector<std::string> favourite);
 	void removeFavourite(int index) override;
 	void addFavourite(std::string favourite) override;
-	bool checkFavouriteExist(std::string name) override {
-		bool found = false;
-		name.erase(std::remove(name.begin(), name.end(), ' '), name.end());
-
-		if (favourite.getSize() == 0)
-			return false;
-		else
-		{
-			for (int i = 0; i < favourite.getSize(); i++)
-			{
-				std::string value = favourite.at(i);
-				value.erase(std::remove(value.begin(), value.end(), ' '), value.end());
-				if (value == name)
-				{
-					std::cout << "Found" << std::endl;
-					found = true;
-				}
-			}
-			return found;
-		}
-	}
 };
 
 Customer::Customer(std::string username, std::string password) : User(username, password)
@@ -83,28 +62,6 @@ void Customer::setFavourite(IsVector<std::string> favourite)
 {
 	this->favourite = favourite;
 }
-
-//bool Customer::checkFavouriteExist(std::string name) override{
-//	bool found = false;
-//	name.erase(std::remove(name.begin(), name.end(), ' '), name.end());
-//	
-//	if (favourite.getSize() == 0)
-//		return false;
-//	else
-//	{
-//		for (int i = 0; i < favourite.getSize(); i++)
-//		{
-//			std::string value = favourite.at(i);
-//			value.erase(std::remove(value.begin(), value.end(), ' '), value.end());
-//			if (value == name)
-//			{
-//				std::cout << "Found" << std::endl;
-//				found = true;
-//			}
-//		}
-//		return found;
-//	}
-//}
 
 void Customer::removeFavourite(int index)
 {

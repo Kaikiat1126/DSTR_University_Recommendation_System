@@ -30,6 +30,7 @@ public:
 	static int searchUniOption();
 	static int chooseSearchMethod();
 	static int selectScoreRange();
+	static int selectRankingRange();
 	static int userFavouritePage();
 	static int deleteFavourite();
 };
@@ -440,6 +441,7 @@ int Menu::searchUniOption()
 int Menu::selectScoreRange()
 {
 	std::string input = "";
+	std::cout << std::endl;
 	std::cout << "Please select a score range below:" << std::endl;
 	std::cout << "1. 0 - 20" << std::endl;
 	std::cout << "2. 21 - 40" << std::endl;
@@ -451,6 +453,27 @@ int Menu::selectScoreRange()
 		std::cout << "> ";
 		std::cin >> input;
 		int option = validOption(input, 5);
+		if (option != -1)
+			return option;
+	}
+}
+
+int Menu::selectRankingRange()
+{
+	std::string input = "";
+	std::cout << std::endl;
+	std::cout << "Please select a ranking range below:" << std::endl;
+	std::cout << "1. 1 - 100" << std::endl;
+	std::cout << "2. 101 - 300" << std::endl;
+	std::cout << "3. 301 - 500" << std::endl;
+	std::cout << "4. 501 - 800" << std::endl;
+	std::cout << "5. 801 - 1200" << std::endl;
+	std::cout << "6. 1201+" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 6);
 		if (option != -1)
 			return option;
 	}

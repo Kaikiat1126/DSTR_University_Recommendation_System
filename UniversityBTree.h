@@ -34,6 +34,7 @@ private:
 	void getUniversityByRank(UniversityBTreeNode* node, int rank, int* pos, IsVector<UniversityStruct>& university);
 	void getUniversityByValue(UniversityBTreeNode* node, int* type, int* range, IsVector<UniversityStruct>& universities);
 	void getUniversityWithStr(UniversityBTreeNode* node, int* type, std::string& value, IsVector<UniversityStruct>& universities);
+	//void getUniversityByRankRange(UniversityBTreeNode* node, int* min, int* max, IsVector<UniversityStruct>& universities);
 		
 public:
 	UniversityBTreeNode* root;
@@ -504,13 +505,24 @@ void UniversityBTree::getUniversityByRank(UniversityBTreeNode* node, int rank, i
 	getUniversityByRank(node->child[*pos], rank, pos, university);
 }
 
-// type: "1 = name", "2 = locationCode", "3 = ar score", "4 = fsr score", "5 = er score"
+// type: "0 = rank", "1 = name", "2 = locationCode", "3 = ar score", "4 = fsr score", "5 = er score"
 // range: "1 = 0-20" , "2 = 21-40", "3 = 41-60", "4 = 61-80", "5 = 81-100"
+// type is 0 then range: "1 = 1-100", "2 = 101-300", "3 = 301-500", "4 = 501-800", "5 = 801-1200", "6 = 1201+"
 IsVector<UniversityStruct> UniversityBTree::getUniversityByValue(int* type, int* range, std::string* value)
 {
 	IsVector<UniversityStruct> universities = IsVector<UniversityStruct>();
 
-	if (*type == 1 || *type == 2)
+	/*if (*type == 0)
+	{
+		int min = 101, max = 300;
+		getUniversityByRankRange(root, &min, &max, universities);
+	}*/
+	if (*type == 1)
+	{
+		int rank = std::stoi(*value);
+		getUniversityByRank(root, rank, &rank, universities);
+	}
+	else if (*type == 2)
 		getUniversityWithStr(root, type, *value, universities);
 	else if (*type == 3 || *type == 4 || *type == 5)
 		getUniversityByValue(root, type, range, universities);
@@ -518,7 +530,7 @@ IsVector<UniversityStruct> UniversityBTree::getUniversityByValue(int* type, int*
 	return universities;
 }
 
-// type: "1 = name", "2 = locationCode", "3 = ar score", "4 = fsr score", "5 = er score"
+// type: "0 = rank", "1 = name", "2 = locationCode", "3 = ar score", "4 = fsr score", "5 = er score"
 // name need to been remove spaces
 // range: "1 = 0-20" , "2 = 21-40", "3 = 41-60", "4 = 61-80", "5 = 81-100"
 void UniversityBTree::getUniversityByValue(UniversityBTreeNode* node, int* type, int* range, IsVector<UniversityStruct>& universities)
@@ -588,3 +600,28 @@ void UniversityBTree::getUniversityWithStr(UniversityBTreeNode* node, int* type,
 	for (int i = 0; i <= node->count; i++)
 		getUniversityWithStr(node->child[i], type, value, universities);
 }
+
+// range: "1 = 1-100", "2 = 101-300", "3 = 301-500", "4 = 501-800", "5 = 801-1200", "6 = 1201+"
+//void UniversityBTree::getUniversityByRankRange(UniversityBTreeNode* node, int* min, int* max, IsVector<UniversityStruct>& universities)
+//{
+//	if (!node) return;
+//	
+//	for (int i = 1; i <= node->count; i++)
+//	{
+//		/*if (node->university[i].rank >= *min && node->university[i].rank <= *max)
+//		{
+//			universities.push_back(node->university[i]);
+//		}*/
+//		if (node->university[i].rank > *max)
+//			break;
+//
+//		if (node->university[i].rank >= *min)
+//		{
+//			universities.push_back(node->university[i]);
+//		}
+//	}
+//	
+//	for (int i = 0; i <= node->count; i++)
+//		getUniversityByRankRange(node->child[i], min, max, universities);
+//
+//}

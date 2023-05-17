@@ -9,6 +9,7 @@
 #define CONTACT_NUM_REGEX "^[0-9]{8}$"
 #define PASSWORD_REGEX "^[a-zA-Z0-9]{6,}$"
 #define USER_ID_REGEX "^[0-9]+$"
+#define NUM_REGEX "^[0-9]+$"
 
 std::string validation(const std::string& prompt, const std::string& hint, const std::string& regexStr) {
     std::string input;

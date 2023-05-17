@@ -17,6 +17,7 @@ std::string validInput(std::string, std::string, std::string);
 bool registrationForm();
 bool proceedNext(std::string);
 std::string searchUniByName();
+std::string searchUniByLocationCode();
 
 std::string validateInput(const std::string& prompt, const std::string& hint,const std::string& regexStr) {
     std::string input;
@@ -143,4 +144,31 @@ std::string searchUniByName()
 	//std::cout << institution << std::endl;
 	std::cout << std::endl;
 	return institution;
+}
+
+std::string searchUniByLocationCode()
+{
+    std::cout << std::endl;
+	std::string locationCode;
+	std::cout << "Please enter the university location code: " << std::endl;
+	while (true)
+	{
+		std::cout << "> ";
+		std::cin.ignore();
+		std::getline(std::cin, locationCode);
+		if (locationCode.empty()) {
+			Message::warning("Don't leave empty input!");
+		}
+		if (locationCode.length() != 2) {
+			Message::warning("Location code must be 2 characters!");
+		}
+		else
+		{
+			break;
+		}
+	}
+	std::cout << std::endl;
+	std::transform(locationCode.begin(), locationCode.end(), locationCode.begin(), ::toupper);
+	locationCode.erase(std::remove(locationCode.begin(), locationCode.end(), ' '), locationCode.end());
+	return locationCode;
 }

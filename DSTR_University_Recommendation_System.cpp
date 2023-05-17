@@ -13,6 +13,7 @@
 #include "DataHandler.h"
 #include "Visitor.h"
 #include "Admin.h"
+#include "Validation.h"
 
 using namespace std;
 
@@ -32,6 +33,7 @@ void go_to_customer_sort();
 void go_to_feedback_page();
 void go_to_user_feedback();
 void go_to_user_favourites();
+void go_to_user_search();
 void go_to_logout();
 
 void testInitData();
@@ -57,9 +59,9 @@ void testInitData()
 	//StatusContainer::universityList.displayUniversityList();
  
     /*int* type = new int;
-    *type = 4;
+    *type = 3;
     int* range = new int;
-    *range = 5;
+    *range = 1;
     string* value = new string;
     *value = "";
     IsVector<UniversityStruct> universities = StatusContainer::universityBTree.getUniversityByValue(type, range, value);
@@ -229,7 +231,10 @@ void go_to_user_menu()
     system("cls");
     if (option == 1) 
     {
-        cout << "Search University" << endl;
+        //cout << "Search University" << endl;
+        Menu::searchUniPage();
+        
+        go_to_user_search();
     }
     else if (option == 2) 
     {
@@ -416,6 +421,56 @@ void go_to_user_favourites()
 	}
 	else if (option == 2) 
     {
+		go_to_user_menu();
+	}
+}
+
+void go_to_user_search()
+{
+    int type = Menu::searchUniOption();
+    int range = 0;
+    std::string value = "";
+
+    if (type == 1)
+    {
+		value = validation("Enter university ranking: ", "Invalid ranking!", NUM_REGEX);
+    }
+    else if (type == 2)
+    {
+        value = searchUniByLocationCode();
+    }
+    else
+    {
+        range = Menu::selectScoreRange();
+    }
+
+	system("cls");
+
+    IsVector<UniversityStruct> universities = StatusContainer::universityBTree.getUniversityByValue(&type, &range, &value);
+
+	if (universities.getSize() == 0)
+	{
+		Message::warning("No search result found!");
+		Sleep(2000);
+	}
+	else
+	{
+        for (int i = 0; i < universities.getSize(); i++)
+        {
+            cout << universities.at(i).rank << " " << universities.at(i).institution << " " << universities.at(i).location << endl;
+        }
+	}
+
+	bool next = proceedNext("Continue search university");
+    
+	if (next)
+	{
+		system("cls");
+		go_to_user_search();
+	}
+	else
+	{
+		system("cls");
 		go_to_user_menu();
 	}
 }

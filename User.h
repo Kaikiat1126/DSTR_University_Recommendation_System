@@ -38,7 +38,11 @@ public:
     void setRole(std::string role);
     void setDetails(std::string username, std::string password, std::string email, std::string contactNum);
 	void setFavourite(IsVector<std::string> favourite);
-    void removeFavourite(int);
+    virtual void removeFavourite(int);
+    virtual void addFavourite(std::string);
+    virtual bool checkFavouriteExist(std::string) {
+		return false;
+    }
 };
 
 User::User(std::string username, std::string password)
@@ -173,3 +177,13 @@ void User::removeFavourite(int index)
 {
     favourite.erase(index);
 }
+
+void User::addFavourite(std::string favourite)
+{
+    this->favourite.push_back(favourite);
+}
+
+//bool User::checkFavouriteExist(std::string)
+//{
+//    return false;
+//}

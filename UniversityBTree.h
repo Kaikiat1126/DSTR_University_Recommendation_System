@@ -32,6 +32,7 @@ private:
 	void adjustNode(UniversityBTreeNode* node, int pos);
 	void traversalSearchName(UniversityBTreeNode* node, std::string name);
 	void searchByRankInBTree(int rank, int* pos, UniversityBTreeNode* node);
+	std::string searchNameByRank(UniversityBTreeNode* node, int rank, int* pos);
 	
 	// for returning vector
 	void getUniversityByRank(UniversityBTreeNode* node, int rank, int* pos, IsVector<UniversityStruct>& university);
@@ -57,6 +58,7 @@ public:
 	void traversal();
 	void preOrder();
 	void postOrder();
+	std::string getUniversityNameByRank(int rank);
 };
 
 
@@ -726,4 +728,31 @@ void UniversityBTree::filterUniversityWithRank(UniversityBTreeNode* node, int ra
 
 	if (found) return;
 	filterUniversityWithRank(node->child[*pos], rank, pos, list);
+}
+
+std::string UniversityBTree::getUniversityNameByRank(int rank)
+{
+	return searchNameByRank(root, rank, &rank);
+}
+
+std::string UniversityBTree::searchNameByRank(UniversityBTreeNode* node, int rank, int* pos)
+{
+	bool found = false;
+	if (!node) return "";
+
+	if (rank < node->university[1].rank)
+		*pos = 0;
+	else
+	{
+		for (*pos = node->count; (rank < node->university[*pos].rank && *pos > 1); (*pos)--);
+		UniversityStruct data = node->university[*pos];
+		if (rank == node->university[*pos].rank)
+		{
+			found = true;
+			return node->university[*pos].institution;
+		}
+	}
+	
+	if (!found)
+		return searchNameByRank(node->child[*pos], rank, pos);
 }

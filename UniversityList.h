@@ -23,6 +23,7 @@ public:
 	void quicksort(std::string, bool);
 	int getSize();
 	void destroyList();
+	bool checkRankExist(int rank);
 };
 
 UniversityList::UniversityList()
@@ -178,4 +179,18 @@ void UniversityList::destroyList()
 	head = NULL;
 	tail = NULL;
 	size = 0;
+}
+
+bool UniversityList::checkRankExist(int rank)
+{
+	UniversityNode* temp = head;
+	while (temp != NULL)
+	{
+		if (temp->university.rank == rank)
+		{
+			return true;
+		}
+		temp = temp->next;
+	}
+	return false;
 }

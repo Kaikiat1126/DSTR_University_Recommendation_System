@@ -33,6 +33,7 @@ public:
 	static int selectRankingRange();
 	static int userFavouritePage();
 	static int deleteFavourite();
+	static int optionBeforeEndSearch();
 };
 
 
@@ -480,6 +481,24 @@ int Menu::selectRankingRange()
 		std::cout << "> ";
 		std::cin >> input;
 		int option = validOption(input, 6);
+		if (option != -1)
+			return option;
+	}
+}
+
+int Menu::optionBeforeEndSearch()
+{
+	std::string input = "";
+	std::cout << std::endl;
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. Save Favourite University" << std::endl;
+	std::cout << "2. Send Feedback for Futher Information" << std::endl;
+	std::cout << "3. Quit" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 3);
 		if (option != -1)
 			return option;
 	}

@@ -23,6 +23,7 @@ std::string validation(const std::string& prompt, const std::string& hint, const
             std::cout << std::endl;
 
         std::cout << "> ";
+        std::cin.ignore();
         std::cin >> input;
 
         if (!std::regex_match(input, regex)) {

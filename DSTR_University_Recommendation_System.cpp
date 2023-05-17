@@ -14,6 +14,7 @@
 #include "Visitor.h"
 #include "Admin.h"
 #include "Validation.h"
+#include "UniversityList.h"
 
 using namespace std;
 
@@ -42,7 +43,7 @@ int main()
 {    
     testInitData();
     //std::cout << "Hello University Recommendatio0n System!\n";
-    //go_to_main_menu();
+    go_to_main_menu();
 	// go_to_register();
 }
 
@@ -443,41 +444,43 @@ void go_to_user_favourites()
 
 void go_to_user_search()
 {
+    UniversityList* list = StatusContainer::cacheUniList;
+    
     int type = Menu::searchUniOption();
     int range = 0;
     std::string value = "";
 
     if (type == 1)
-    {
 		value = validation("Enter university ranking: ", "Invalid ranking!", NUM_REGEX);
-    }
     else if (type == 2)
-    {
         value = searchUniByLocationCode();
-    }
     else
-    {
         range = Menu::selectScoreRange();
-    }
 
 	system("cls");
 
-    IsVector<UniversityStruct> universities = StatusContainer::universityBTree.getUniversityByValue(&type, &range, &value);
+    if (list == nullptr)
+        list = StatusContainer::universityBTree.filterUniversityByValue(&type, &range, &value);
+    else
+    {
+		// TODO: doing filter with exist list
+    }
 
-	if (universities.getSize() == 0)
+	if (list->getSize() == 0)
 	{
 		Message::warning("No search result found!");
-		Sleep(2000);
+		Sleep(1000);
 	}
 	else
 	{
-        for (int i = 0; i < universities.getSize(); i++)
+        for (int i = 0; i < list->getSize(); i++)
         {
-            cout << universities.at(i).rank << " " << universities.at(i).institution << " " << universities.at(i).location << endl;
+			list->displayUniversityList();
         }
 	}
 
-	bool next = proceedNext("Continue search university");
+    cout << endl;
+	bool next = proceedNext("Continue search university with these result");
     
 	if (next)
 	{
@@ -486,8 +489,11 @@ void go_to_user_search()
 	}
 	else
 	{
+        // TODO: write feedback or save favourites
 		system("cls");
-		go_to_user_menu();
+		go_to_user_menu();  // back to menu or back to user_search
+		list->destroyList();  // destroy list
+		list = nullptr;    // clear
 	}
 }
 

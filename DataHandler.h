@@ -146,7 +146,9 @@ void initUniversityData()
 		//std::cout << university.institution << " : " << university.ArScore << std::endl;
         StatusContainer::universityList.insertToEndOfList(university);
 		StatusContainer::universityBTree.insertValueInBTree(university);
-        //StatusContainer::universityRBTree.insert(&university, "Institution");
+
+        UniversityStruct* universityPtr = new UniversityStruct(university);
+        StatusContainer::universityRBTree.insert(universityPtr, "Institution");
 	}
     file.close();
 }

@@ -21,6 +21,8 @@ public:
 	void displayUniversityList();
 	void displayUniversityListDesc();
 	void quicksort(std::string, bool);
+	int getSize();
+	void destroyList();
 };
 
 UniversityList::UniversityList()
@@ -157,4 +159,23 @@ void UniversityList::quicksort(std::string type, bool isAsc)
 		copyList->displayUniversityList();
 	else
 		copyList->displayUniversityListDesc();
+}
+
+int UniversityList::getSize()
+{
+	return size;
+}
+
+void UniversityList::destroyList()
+{
+	UniversityNode* temp = head;
+	while (temp != NULL)
+	{
+		UniversityNode* next = temp->next;
+		delete temp;
+		temp = next;
+	}
+	head = NULL;
+	tail = NULL;
+	size = 0;
 }

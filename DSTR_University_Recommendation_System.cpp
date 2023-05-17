@@ -71,6 +71,22 @@ void testInitData()
         cout << universities.at(i).rank << " " << universities.at(i).institution << " " << universities.at(i).FsrScore << endl;
     }*/
     
+    // test get university linkedlist
+    /*int* type = new int;
+    *type = 3;
+    int* range = new int;
+    *range = 1;
+    string* value = new string;
+    *value = "";
+    StatusContainer::cacheUniList = StatusContainer::universityBTree.filterUniversityByValue(type, range, value);
+    
+	StatusContainer::cacheUniList->displayUniversityList();
+
+    StatusContainer::cacheUniList->destroyList();
+
+    cout << "New" << endl;
+    StatusContainer::cacheUniList->displayUniversityList();*/
+    
 	//StatusContainer::universityBTree.traversal();
     //StatusContainer::universityBTree.searchUniversityByRank(867);   //1-2ms 
     //StatusContainer::universityBTree.preOrder();

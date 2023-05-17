@@ -13,6 +13,8 @@
 #include "DataHandler.h"
 #include "Visitor.h"
 #include "Admin.h"
+#include "Validation.h"
+#include "UniversityList.h"
 
 using namespace std;
 
@@ -32,6 +34,7 @@ void go_to_customer_sort();
 void go_to_feedback_page();
 void go_to_user_feedback();
 void go_to_user_favourites();
+void go_to_user_search();
 void go_to_logout();
 
 void testInitData();
@@ -49,14 +52,44 @@ void testInitData()
     initUserData();
     //StatusContainer::userList.displayUserList();
 	//StatusContainer::userBTree.traversal();
-
+    
     //IsVector<UserStruct>* users = new IsVector<UserStruct>();
     //StatusContainer::userBTree.searchUserMatch(users, "John");
 
 	initUniversityData();
 	//StatusContainer::universityList.displayUniversityList();
+ 
+    /*int* type = new int;
+    *type = 3;
+    int* range = new int;
+    *range = 1;
+    string* value = new string;
+    *value = "";
+    IsVector<UniversityStruct> universities = StatusContainer::universityBTree.getUniversityByValue(type, range, value);
+
+    for (int i = 0; i < universities.getSize(); i++)
+    {
+        cout << universities.at(i).rank << " " << universities.at(i).institution << " " << universities.at(i).FsrScore << endl;
+    }*/
     
+    // test get university linkedlist
+    /*int* type = new int;
+    *type = 3;
+    int* range = new int;
+    *range = 1;
+    string* value = new string;
+    *value = "";
+    StatusContainer::cacheUniList = StatusContainer::universityBTree.filterUniversityByValue(type, range, value);
+    
+	StatusContainer::cacheUniList->displayUniversityList();
+
+    StatusContainer::cacheUniList->destroyList();
+
+    cout << "New" << endl;
+    StatusContainer::cacheUniList->displayUniversityList();*/
+    StatusContainer::universityRBTree.printTreeShape();
 	//StatusContainer::universityBTree.traversal();
+    //StatusContainer::universityBTree.searchUniversityByRank(867);   //1-2ms 
     //StatusContainer::universityBTree.preOrder();
 	//StatusContainer::universityBTree.postOrder();
 }
@@ -215,7 +248,10 @@ void go_to_user_menu()
     system("cls");
     if (option == 1) 
     {
-        cout << "Search University" << endl;
+        //cout << "Search University" << endl;
+        Menu::searchUniPage();
+        
+        go_to_user_search();
     }
     else if (option == 2) 
     {
@@ -383,16 +419,81 @@ void go_to_user_favourites()
 	if (option == 1) 
     {
         int index = Menu::deleteFavourite();
-		StatusContainer::currentUser->removeFavourite(index);
+        if (index != -1)
+        {
+            StatusContainer::currentUser->removeFavourite(index);
 
-        int userID = StatusContainer::currentUser->getUserID();
-		StatusContainer::userBTree.removeUserFavourite(userID, index);
+            int userID = StatusContainer::currentUser->getUserID();
+		    StatusContainer::userBTree.removeUserFavourite(userID, index);
+        }
+        
+        if (index == -1)
+        {
+			Message::warning("No favourite can be deleted!");
+            Sleep(2000);
+        }
+		
 		system("cls");
         go_to_user_favourites();
 	}
 	else if (option == 2) 
     {
 		go_to_user_menu();
+	}
+}
+
+void go_to_user_search()
+{
+    UniversityList* list = StatusContainer::cacheUniList;
+    
+    int type = Menu::searchUniOption();
+    int range = 0;
+    std::string value = "";
+
+    if (type == 1)
+		value = validation("Enter university ranking: ", "", NUM_REGEX);
+    else if (type == 2)
+        value = searchUniByLocationCode();
+    else
+        range = Menu::selectScoreRange();
+
+	system("cls");
+
+    if (list == nullptr)
+        list = StatusContainer::universityBTree.filterUniversityByValue(&type, &range, &value);
+    else
+    {
+		// TODO: doing filter with exist list
+    }
+
+	if (list->getSize() == 0)
+	{
+		Message::warning("No search result found!");
+		Sleep(1000);
+	}
+	else
+	{
+        for (int i = 0; i < list->getSize(); i++)
+        {
+			list->displayUniversityList();
+        }
+	}
+
+    cout << endl;
+	bool next = proceedNext("Continue search university with these result");
+    
+	if (next)
+	{
+		system("cls");
+		go_to_user_search();
+	}
+	else
+	{
+        // TODO: write feedback or save favourites
+		system("cls");
+		go_to_user_menu();  // back to menu or back to user_search
+		list->destroyList();  // destroy list
+		list = nullptr;    // clear
 	}
 }
 

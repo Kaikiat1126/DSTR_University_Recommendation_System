@@ -23,7 +23,6 @@ IsUnorderedMap<std::string, std::string, 29> map = StatusContainer::accentLetter
 
 void readFiletoStruture();
 void initUserData();
-//void initUserBTree();
 void initUniversityData();
 IsVector<std::string> splitComma(std::string rowStr);
 void assignValue(double* score, int* rank, const std::string& value, const std::string& rankValue, int index);
@@ -146,7 +145,9 @@ void initUniversityData()
 		//std::cout << university.institution << " : " << university.ArScore << std::endl;
         StatusContainer::universityList.insertToEndOfList(university);
 		StatusContainer::universityBTree.insertValueInBTree(university);
-        //StatusContainer::universityRBTree.insert(&university, "Institution");
+
+        UniversityStruct* universityPtr = new UniversityStruct(university);
+        StatusContainer::universityRBTree.insert(universityPtr, "Institution");
 	}
     file.close();
 }

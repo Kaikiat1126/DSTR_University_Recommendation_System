@@ -23,6 +23,8 @@ public:
 	void displayUniversityListDesc();
 	void quicksort(std::string, bool);
 	void mergesort(std::string, bool);
+	int getSize();
+	void destroyList();
 };
 
 UniversityList::UniversityList()
@@ -182,4 +184,24 @@ void UniversityList::mergesort(std::string type, bool isAsc)
 	else
 		copyList->displayUniversityListDesc();
 	delete copyList;
+}
+}
+
+int UniversityList::getSize()
+{
+	return size;
+}
+
+void UniversityList::destroyList()
+{
+	UniversityNode* temp = head;
+	while (temp != NULL)
+	{
+		UniversityNode* next = temp->next;
+		delete temp;
+		temp = next;
+	}
+	head = NULL;
+	tail = NULL;
+	size = 0;
 }

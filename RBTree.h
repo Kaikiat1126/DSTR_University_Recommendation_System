@@ -21,6 +21,7 @@ public:
     void preOrder();
     void inOrder();
     void postOrder();
+    void printTreeShape();
 
 
 private:
@@ -40,6 +41,9 @@ private:
     void inOrderTraversal(UniversityRBTreeNode* tree) const;
     void postOrderTraversal(UniversityRBTreeNode* tree) const;
     void displayInfo(UniversityRBTreeNode* tree) const;
+    void setTextColor(const string& color = "WHITE");
+    string getNodeColor(const UniversityRBTreeNode* node);
+    void printRedBlackTree(UniversityRBTreeNode* node, const std::string& prefix, bool isLeft);
 };
 
 UniversityRBTree::UniversityRBTree() :root(nullptr) {}
@@ -394,3 +398,53 @@ void UniversityRBTree::print(UniversityRBTreeNode* node) const {
     print(node->rightChild);
 }
 
+void UniversityRBTree::setTextColor(const string& color) {
+    if (color == "BLUE") {
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
+    }
+    else if (color == "RED") {
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
+    }
+    else if (color == "WHITE") {
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED |
+            FOREGROUND_GREEN | FOREGROUND_BLUE);//设置三色相加
+    }
+}
+
+string UniversityRBTree::getNodeColor(const UniversityRBTreeNode* node) {
+    if (node == nullptr) {
+        setTextColor();
+        return "B";
+    }
+    else if (node->color == RBTColor::Red) {
+        setTextColor("RED");
+        return "R";
+    }
+    else {
+        setTextColor();
+        return "B";
+    }
+}
+
+void UniversityRBTree::printRedBlackTree(UniversityRBTreeNode* node, const string& prefix, bool isLeft) {
+    if (node == nullptr)
+        return;
+
+    setTextColor("BLUE");
+
+    cout << prefix;
+    cout << (isLeft ? "├──" : "└──");
+
+    cout << getNodeColor(node) << ":" << node->element->rank << endl;
+
+    setTextColor("BLUE");
+
+    const string newPrefix = prefix + (isLeft ? "│   " : "    ");
+    printRedBlackTree(node->leftChild, newPrefix, true);
+    printRedBlackTree(node->rightChild, newPrefix, false);
+}
+
+void UniversityRBTree::printTreeShape() {
+    printRedBlackTree(root, "", true);
+    setTextColor();
+}

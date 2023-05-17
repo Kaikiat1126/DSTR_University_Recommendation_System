@@ -55,7 +55,7 @@ void testInitData()
 
 	initUniversityData();
 	//StatusContainer::universityList.displayUniversityList();
-    
+    StatusContainer::universityRBTree.printTreeShape();
 	//StatusContainer::universityBTree.traversal();
     //StatusContainer::universityBTree.preOrder();
 	//StatusContainer::universityBTree.postOrder();

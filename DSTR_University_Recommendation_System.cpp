@@ -87,7 +87,7 @@ void testInitData()
 
     cout << "New" << endl;
     StatusContainer::cacheUniList->displayUniversityList();*/
-    
+    StatusContainer::universityRBTree.printTreeShape();
 	//StatusContainer::universityBTree.traversal();
     //StatusContainer::universityBTree.searchUniversityByRank(867);   //1-2ms 
     //StatusContainer::universityBTree.preOrder();

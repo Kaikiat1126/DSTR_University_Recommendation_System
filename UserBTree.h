@@ -38,6 +38,7 @@ private:
 	void traversalGetUsersFavourites(UserBTreeNode* node, IsVector<IsVector<std::string>>* favourites);
 	void selectUserByID(UserBTreeNode* node, IsVector<UserStruct>* users, int id, int* pos);
 	void selectUserByName(UserBTreeNode* node, IsVector<UserStruct>* users, const std::string& username);
+	void selectUserByDate(UserBTreeNode* node, IsVector<UserStruct>* users);
 	void removeUserFavourite(UserBTreeNode* node, int id, int* pos, int* index);
 	
 public:
@@ -595,7 +596,7 @@ void UserBTree::traversalGetUsersFavourites(UserBTreeNode* node, IsVector<IsVect
 	}
 }
 
-// type: "username", "id"
+// type: "username", "id", "date"
 IsVector<UserStruct> UserBTree::getUserByKey(std::string type, std::string key)
 {
 	//TODO
@@ -608,6 +609,10 @@ IsVector<UserStruct> UserBTree::getUserByKey(std::string type, std::string key)
 	else if (type == "username")
 	{
 		selectUserByName(root, user, key);
+	}
+	else if (type == "date")
+	{
+		selectUserByDate(root, user);
 	}
 	else
 	{
@@ -661,6 +666,30 @@ void UserBTree::selectUserByName(UserBTreeNode* node, IsVector<UserStruct>* user
 
 	for (int i = 0; i <= node->count; i++)
 		selectUserByName(node->child[i], users, username);
+}
+
+void UserBTree::selectUserByDate(UserBTreeNode* node, IsVector<UserStruct>* users)
+{
+	bool found = false;
+	if (!node) return;
+
+	for (int i = 1; i <= node->count; i++)
+	{
+		std::string data = node->user[i].lastModifyDate;
+		std::string role = node->user[i].role;
+		//get active user(last login < 6 month)
+		if (data < DateTime::getCurrentMinusMonths(6) && role == "user")
+		{
+			found = true;
+			users->push_back(node->user[i]);
+			break;
+		}
+	}
+
+	if (found) return;
+
+	for (int i = 0; i <= node->count; i++)
+		selectUserByDate(node->child[i], users);
 }
 
 void UserBTree::removeUserFavourite(int id, int index)

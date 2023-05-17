@@ -221,7 +221,11 @@ int Menu::adminPage() {
 int Menu::manageUserPage() {
 	std::string input = "";
 
-	Admin::displayAllUser();
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "******                 Manage User Page                 ******" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "**************************************************************" << std::endl;
 
 	std::cout << "Please select an option below:" << std::endl;
 	std::cout << "1. Modify User Details" << std::endl;
@@ -238,13 +242,15 @@ int Menu::manageUserPage() {
 }
 
 void Menu::modifyUserPage() {
-	std::string username = "";
-	bool found = false;
+	std::string userId = "";
 
+	std::cout << "                   Existing User                      " << std::endl;
+	std::cout << "******************************************************" << std::endl;
 	Admin::displayAllUser();
+	std::cout << "******************************************************" << std::endl;
 
-	username = validation("Modify Existing User Detail", "Enter Username", NAME_REGEX);
-	User user = Admin::searchUser(username);
+	userId = validation("Modify Existing User Detail", "Enter User ID", USER_ID_REGEX);
+	User user = Admin::searchUser(userId);
 
 	if (user.getUsername() != "") {
 		system("cls");
@@ -261,10 +267,10 @@ void Menu::inactiveUserPage()
 {
 	std::string userId = "";
 
-	std::cout << "                        Inactive User                         " << std::endl;
-	std::cout << "**************************************************************" << std::endl;
+	std::cout << "                    Inactive User                     " << std::endl;
+	std::cout << "******************************************************" << std::endl;
 	Admin::displayInactiveUser();
-	std::cout << "**************************************************************" << std::endl;
+	std::cout << "******************************************************" << std::endl;
 
 	userId = validation("Delete Inactive User", "Enter User ID", USER_ID_REGEX);
 

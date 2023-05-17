@@ -129,9 +129,27 @@ void Visitor::RedBlackTreeSearch(std::string institution)
 	std::cout << "Algorithm 2 search" << std::endl;
 
 	int option = Menu::chooseSearchMethod();
+	string msg = "University with name ";
 
-	if (option == 1)
-		StatusContainer::universityRBTree.search(institution);
+	UniversityRBTreeNode* result;
+
+	if (option == 1) {
+		result = StatusContainer::universityRBTree.search(institution);
+	}
+	else {
+		result = StatusContainer::universityRBTree.search(institution, 1);
+	}
+	if (result) {
+		if (result->element) {
+			msg = msg + result->element->institution;
+			Message::success(msg);
+			cout << "Rank: " << result->element->rank << endl;
+		}
+	}
 	else
-		StatusContainer::universityRBTree.search(institution, 1);
+	{
+		msg = msg + institution + " no found";
+		Message::warning(msg);
+	}
 }
+

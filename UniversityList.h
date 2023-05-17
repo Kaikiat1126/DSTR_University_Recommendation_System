@@ -1,6 +1,7 @@
 #pragma once
 #include "Structure.h"
 #include "QuickSort.h"
+#include "MergeSort.h"
 #include <iostream>
 #include <string>
 
@@ -21,6 +22,7 @@ public:
 	void displayUniversityList();
 	void displayUniversityListDesc();
 	void quicksort(std::string, bool);
+	void mergesort(std::string, bool);
 };
 
 UniversityList::UniversityList()
@@ -157,4 +159,27 @@ void UniversityList::quicksort(std::string type, bool isAsc)
 		copyList->displayUniversityList();
 	else
 		copyList->displayUniversityListDesc();
+	delete copyList;
+}
+
+// type: "institution", "ar_score", "fsr_score", "er_score"
+void UniversityList::mergesort(std::string type, bool isAsc)
+{
+	UniversityList* copyList = new UniversityList(*this);
+	UniversityNode* sortedMerge = MergeSort::mergeSort(copyList->head);
+	system("cls");
+	copyList->head = sortedMerge;
+
+	UniversityNode* tail = sortedMerge;
+	while (tail->next)
+	{
+		tail = tail->next;
+	}
+	copyList->tail = tail;
+
+	if (isAsc)
+		copyList->displayUniversityList();
+	else
+		copyList->displayUniversityListDesc();
+	delete copyList;
 }

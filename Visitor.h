@@ -115,6 +115,7 @@ void Visitor::mergeAscOrder()
 {
 	std::cout << "Merge sort in ascending order" << std::endl;
 	// TODOs
+	StatusContainer::universityList.mergesort("institution", true);
 }
 
 void Visitor::BTreeSearch(std::string institution)

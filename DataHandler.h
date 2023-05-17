@@ -24,7 +24,6 @@ IsUnorderedMap<std::string, std::string, 29> map = StatusContainer::accentLetter
 
 void readFiletoStruture();
 void initUserData();
-//void initUserBTree();
 void initUniversityData();
 void initFeedbackData();
 IsVector<std::string> splitComma(std::string rowStr);

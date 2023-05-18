@@ -347,30 +347,6 @@ void go_to_feedback_page()
     }
 }
 
-//void go_to_manage_feedback()
-//{
-//    cout << "Manage feedback page" << endl;
-//
-//    while (true) {
-//        int option = Menu::manageFeedbackPage();
-//        system("cls");
-//        if (option == 1) {
-//            std::cout << "Reply: ~~~~~~~~~~~~~~~~" << std::endl;
-//        }
-//        else if (option == 2) {
-//            std::cout << "Next: :)))))))))))))))" << std::endl;
-//        }
-//        else if (option == 3) {
-//            std::cout << "Previous: :((((((((((((((" << std::endl;
-//        }
-//        else if (option == 4) {
-//            break;
-//        }
-//    } 
-//    go_to_admin_menu();
-//}
-
-// TODO
 void go_to_manage_feedback()
 {
     FeedbackNode* latest = StatusContainer::feedbackList.getLatestFeedback();
@@ -478,6 +454,9 @@ void go_to_user_search()
     int range = 0;
     string value = "";
     cout << endl;
+
+    if (type == 6)
+        go_to_user_menu();
 
     if (type == 1)
 		value = validation("Enter university ranking: ", "1 - 1422", NUM_REGEX);
@@ -589,7 +568,22 @@ bool go_to_end_search()
             }
             else // TODO: write feedback here
             {
-                cout << "Wirte Feedback" << endl;
+                string feedback = "";
+                FeedbackNode* node = new FeedbackNode;
+                cout << "Write Feedback: ";
+                cin.ignore();
+                getline(cin, feedback);
+                time_t now = time(0);
+                node->feedback.FeedbackID = now;
+                node->feedback.UserName = StatusContainer::currentUser->getUsername();
+                node->feedback.ReplyTo = -1;
+                node->feedback.Content = feedback;
+                node->feedback.Institution = StatusContainer::cacheUniList->ReturnNode()->university.institution;
+                StatusContainer::feedbackList.InsertToFrontOfList(node);
+
+                Message::success("Write Feedback Successfully");
+                Sleep(1000);
+                system("cls");
             }
         }
         return false;

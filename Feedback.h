@@ -24,6 +24,7 @@ public:
     void replyFeedback(string reply, string userID);
     void display();
     void displayCurrent();
+    FeedbackNode* getCurrentFeedback();
 
     FeedbackNode* isReplyTo(FeedbackNode* node);
 
@@ -162,4 +163,9 @@ void FeedbackList::displayCurrent() {
         child = child->ChildAddress;
     }
     node = node->PrevAddress;
+}
+
+FeedbackNode* FeedbackList::getCurrentFeedback()
+{
+    return current;
 }

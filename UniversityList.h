@@ -38,6 +38,7 @@ public:
 	bool checkRankExist(int rank);
 	//void filterUniversityByValue(int* type, int* range, std::string* value);
 	UniversityList* filterUniversityByValue(int* type, int* range, std::string* value);
+	UniversityNode* ReturnNode();
 };
 
 UniversityList::UniversityList()
@@ -303,6 +304,11 @@ UniversityList* UniversityList::filterUniversityByValue(int* type, int* range, s
 	
 	//std::cout << copyList << " " << copyList->getSize() << std::endl;
 	return copyList;
+}
+
+UniversityNode* UniversityList::ReturnNode()
+{
+	return head;
 }
 
 void UniversityList::filterUniversiyWithRank(UniversityNode* head, int* rank)

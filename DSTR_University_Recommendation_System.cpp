@@ -35,6 +35,7 @@ void go_to_feedback_page();
 void go_to_user_feedback();
 void go_to_user_favourites();
 void go_to_user_search();
+bool go_to_end_search();
 void go_to_logout();
 
 void testInitData();
@@ -58,7 +59,7 @@ void testInitData()
 
 	initUniversityData();
 	//StatusContainer::universityList.displayUniversityList();
- 
+
     /*int* type = new int;
     *type = 3;
     int* range = new int;
@@ -73,12 +74,7 @@ void testInitData()
     }*/
     
     // test get university linkedlist
-    /*int* type = new int;
-    *type = 3;
-    int* range = new int;
-    *range = 1;
-    string* value = new string;
-    *value = "";
+    /*
     StatusContainer::cacheUniList = StatusContainer::universityBTree.filterUniversityByValue(type, range, value);
     
 	StatusContainer::cacheUniList->displayUniversityList();
@@ -87,11 +83,22 @@ void testInitData()
 
     cout << "New" << endl;
     StatusContainer::cacheUniList->displayUniversityList();*/
+    
     //StatusContainer::universityRBTree.printTreeShape();
+    
+    
 	//StatusContainer::universityBTree.traversal();
     //StatusContainer::universityBTree.searchUniversityByRank(867);   //1-2ms 
     //StatusContainer::universityBTree.preOrder();
 	//StatusContainer::universityBTree.postOrder();
+    
+    //StatusContainer::universityRBTree.preOrder();
+    //StatusContainer::universityRBTree.inOrder();
+    //StatusContainer::universityRBTree.postOrder();
+    //StatusContainer::universityRBTree.printTreeShape();
+
+    initFeedbackData();
+    //system("pause");
 }
 
 void go_to_main_menu()
@@ -248,7 +255,6 @@ void go_to_user_menu()
     system("cls");
     if (option == 1) 
     {
-        //cout << "Search University" << endl;
         Menu::searchUniPage();
         
         go_to_user_search();
@@ -367,22 +373,37 @@ void go_to_feedback_page()
 // TODO
 void go_to_manage_feedback()
 {
+    FeedbackNode* latest = StatusContainer::feedbackList.getLatestFeedback();
     while (true)
     {
+        string user = StatusContainer::currentUser->getUsername();
         int option = Menu::manageFeedbackPage();
+        system("cls");
         if (option == 1)
         {
-            cout << "Reply Feedback" << endl;
+            string comment = "";
+            cout << "Reply: ";
+            cin.ignore();
+            getline(cin, comment);
+            
+            StatusContainer::feedbackList.replyFeedback(comment, user);
+            Message::success("Reply Successfully");
         }
         else if (option == 2)
         {
-            cout << "Move Forward" << endl;
+            StatusContainer::feedbackList.getNextFeedback();
         }
         else if (option == 3)
         {
-            cout << "Move Backward" << endl;
+            StatusContainer::feedbackList.getPrevFeedback(); 
         }
         else if (option == 4)
+        {
+            StatusContainer::feedbackList.display();
+            system("pause");
+            system("cls");
+        }
+        else if (option == 5)
         {
             break;
         }
@@ -393,16 +414,23 @@ void go_to_manage_feedback()
 // TODO
 void go_to_user_feedback()
 {
+    StatusContainer::feedbackList.getLatestFeedback();
+    StatusContainer::feedbackList.displayCurrent();
     while (true)
     {
         int option = Menu::userFeedbackPage();
+        system("cls");
         if (option == 1)
         {
-			cout << "Move Forward" << endl;
+			//cout << "Move Forward" << endl;
+            StatusContainer::feedbackList.getNextFeedback();
+            StatusContainer::feedbackList.displayCurrent();
 		}
 		else if (option == 2)
 		{
-			cout << "Move Backward" << endl;
+			//cout << "Move Backward" << endl;
+            StatusContainer::feedbackList.getPrevFeedback();
+            StatusContainer::feedbackList.displayCurrent();
 		}
 		else if (option == 3)
 		{
@@ -444,14 +472,15 @@ void go_to_user_favourites()
 
 void go_to_user_search()
 {
-    UniversityList* list = StatusContainer::cacheUniList;
+	UniversityList* list = StatusContainer::cacheUniList;
     
     int type = Menu::searchUniOption();
     int range = 0;
-    std::string value = "";
+    string value = "";
+    cout << endl;
 
     if (type == 1)
-		value = validation("Enter university ranking: ", "", NUM_REGEX);
+		value = validation("Enter university ranking: ", "1 - 1422", NUM_REGEX);
     else if (type == 2)
         value = searchUniByLocationCode();
     else
@@ -460,39 +489,118 @@ void go_to_user_search()
 	system("cls");
 
     if (list == nullptr)
+    {
+        list = new UniversityList();
+		StatusContainer::cacheUniList = list;
+		//cout << StatusContainer::cacheUniList << endl;
         list = StatusContainer::universityBTree.filterUniversityByValue(&type, &range, &value);
+    }
     else
     {
-		// TODO: doing filter with exist list
+		list = StatusContainer::cacheUniList->filterUniversityByValue(&type, &range, &value);
     }
 
 	if (list->getSize() == 0)
 	{
 		Message::warning("No search result found!");
 		Sleep(1000);
+		system("cls");
+		list = nullptr;
+        Menu::searchUniPage();
+        go_to_user_search();
 	}
 	else
 	{
         list->mergeSort(type, true);
 		//list->displayUniversityList();
 	}
+        list->displayUniversityList();
+		StatusContainer::cacheUniList = list;
+	}
 
     cout << endl;
 	bool next = proceedNext("Continue search university with these result");
-    
+    system("cls");
 	if (next)
 	{
-		system("cls");
 		go_to_user_search();
 	}
 	else
 	{
-        // TODO: write feedback or save favourites
-		system("cls");
-		go_to_user_menu();  // back to menu or back to user_search
-		list->destroyList();  // destroy list
-		list = nullptr;    // clear
+        while (true)
+        {
+            bool end = go_to_end_search();
+			if (end)
+			{
+				break;
+			}
+        }
+		//bool end = go_to_end_search();
+        system("cls");
+
+		Message::notice("Search university ended, back to previous menu!");
+		Sleep(1000);
+        
+        list->destroyList();  // destroy list
+        list = nullptr;    // clear
+
+        Menu::searchUniPage();
+        go_to_user_menu();  // back to menu or back to user_search
+        
 	}
+}
+
+bool go_to_end_search()
+{
+    if (StatusContainer::cacheUniList == nullptr)
+    {
+        //cout << "Error" << endl;
+        return false;
+    }
+    // TODO: display result here
+    StatusContainer::cacheUniList->displayUniversityList();
+
+    int option = Menu::optionBeforeEndSearch();
+
+    if (option == 1 || option == 2)
+    {
+        string num = validation("Enter university ranking: ", "From result above", NUM_REGEX);
+        bool isExist = StatusContainer::cacheUniList->checkRankExist(stoi(num));
+        string name = StatusContainer::universityBTree.getUniversityNameByRank(stoi(num));
+        bool isFavourite = StatusContainer::currentUser->checkFavouriteExist(name);
+
+        if (!isExist)
+        {
+            Message::error("Input's University ranking does not exist!");
+            Sleep(1000);
+        }
+        else if (isFavourite && option == 1)
+        {
+            Message::notice("This university is already in your favourite list!");
+            Sleep(1000);
+        }
+        else
+        {
+            if (option == 1)
+            {
+                StatusContainer::currentUser->addFavourite(name);
+                StatusContainer::userBTree.addUserFavourite(StatusContainer::currentUser->getUserID(), name);
+
+                Message::success("Add favourite successfully!");
+                Sleep(1000);
+            }
+            else // TODO: write feedback here
+            {
+                cout << "Wirte Feedback" << endl;
+            }
+        }
+        return false;
+    }
+    else if (option == 3)
+    {
+        return true;
+        //break;
+    }
 }
 
 void go_to_generate_report()

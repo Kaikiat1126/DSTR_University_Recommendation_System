@@ -136,9 +136,11 @@
     <ClInclude Include="DataHandler.h" />
     <ClInclude Include="Customer.h" />
     <ClInclude Include="DateTime.h" />
+    <ClInclude Include="Feedback.h" />
     <ClInclude Include="Form.h" />
     <ClInclude Include="IsUnorderedMap.h" />
     <ClInclude Include="IsVector.h" />
+    <ClInclude Include="LinearSearch.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MergeSort.h" />
     <ClInclude Include="Message.h" />
@@ -156,6 +158,7 @@
     <ClInclude Include="Visitor.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Feedback.csv" />
     <None Include="University.csv" />
     <None Include="User.csv" />
   </ItemGroup>

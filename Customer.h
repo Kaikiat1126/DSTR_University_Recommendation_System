@@ -17,8 +17,8 @@ public:
 	Customer(int userID, std::string username, std::string password, std::string email, std::string contactNum, std::string role, IsVector<std::string> favourite);
 	IsVector<std::string> getFavourite();
 	void setFavourite(IsVector<std::string> favourite);
-
-	static void searchUniversityByDecision();
+	void removeFavourite(int index) override;
+	void addFavourite(std::string favourite) override;
 };
 
 Customer::Customer(std::string username, std::string password) : User(username, password)
@@ -63,7 +63,12 @@ void Customer::setFavourite(IsVector<std::string> favourite)
 	this->favourite = favourite;
 }
 
-void Customer::searchUniversityByDecision()
+void Customer::removeFavourite(int index)
 {
-	
+	favourite.erase(index);
+}
+
+void Customer::addFavourite(std::string favourite)
+{
+	this->favourite.push_back(favourite);
 }

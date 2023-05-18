@@ -15,6 +15,11 @@ private:
 	UniversityNode* head = NULL;
 	UniversityNode* tail = NULL;
 	int size = 0;
+	void filterUniversiyWithRank(UniversityNode* head, int* rank);
+	void filterUniversityWithLocation(UniversityNode* head, std::string& value);
+	void filterUniversityByValue(UniversityNode* head, int* type, int* range);
+	void deleteNode(UniversityNode* node);
+	
 public:
 	UniversityList();
 	UniversityList(const UniversityList& copy);
@@ -30,6 +35,9 @@ public:
 	void mergeSort(int, bool);
 	int getSize();
 	void destroyList();
+	bool checkRankExist(int rank);
+	//void filterUniversityByValue(int* type, int* range, std::string* value);
+	UniversityList* filterUniversityByValue(int* type, int* range, std::string* value);
 };
 
 UniversityList::UniversityList()
@@ -246,4 +254,154 @@ void UniversityList::destroyList()
 	head = NULL;
 	tail = NULL;
 	size = 0;
+}
+
+bool UniversityList::checkRankExist(int rank)
+{
+	UniversityNode* temp = head;
+	while (temp != NULL)
+	{
+		if (temp->university.rank == rank)
+		{
+			return true;
+		}
+		temp = temp->next;
+	}
+	return false;
+}
+
+// type: "0 = rank", "1 = name", "2 = locationCode", "3 = ar score", "4 = fsr score", "5 = er score"
+// name need to been remove spaces
+// range: "1 = 0-20" , "2 = 21-40", "3 = 41-60", "4 = 61-80", "5 = 81-100"
+//void UniversityList::filterUniversityByValue(int* type, int* range, std::string* value)
+//{
+//	std::cout << "Filtering..." << std::endl;
+//	if (*type == 1)
+//	{
+//		int rank = std::stoi(*value);
+//		filterUniversiyWithRank(head, &rank);
+//	}
+//	else if (*type == 2)
+//		filterUniversityWithLocation(head, *value);
+//	else
+//		filterUniversityByValue(head, type, range);
+//}
+
+UniversityList* UniversityList::filterUniversityByValue(int* type, int* range, std::string* value)
+{
+	UniversityList* copyList = new UniversityList(*this);
+	//std::cout << copyList << ":" << copyList->getSize() << std::endl;
+	if (*type == 1)
+	{
+		int rank = std::stoi(*value);
+		copyList->filterUniversiyWithRank(copyList->head, &rank);
+	}
+	else if (*type == 2)
+		copyList->filterUniversityWithLocation(copyList->head, *value);
+	else
+		copyList->filterUniversityByValue(copyList->head, type, range);
+	
+	//std::cout << copyList << " " << copyList->getSize() << std::endl;
+	return copyList;
+}
+
+void UniversityList::filterUniversiyWithRank(UniversityNode* head, int* rank)
+{
+	// search with linear search, when found the rank then record the address,
+	// destroy the list and create new list with the address
+	bool found = false;
+	UniversityNode* temp = head;
+	UniversityNode* target = NULL;
+	while (temp != NULL)
+	{
+		if (temp->university.rank == *rank)
+		{
+			found = true;
+			target = temp;
+			break;
+		}
+		temp = temp->next;
+	}
+
+	if (found)
+	{
+		destroyList();
+		insertToEndOfList(target->university);
+	}
+}
+
+void UniversityList::filterUniversityWithLocation(UniversityNode* head, std::string& value)
+{
+	UniversityNode* temp = head;
+	while (temp != NULL)
+	{
+		if (temp->university.locationCode != value)
+		{
+			UniversityNode* next = temp->next;
+			deleteNode(temp);
+			temp = next;
+		}
+		else
+		{
+			temp = temp->next;
+		}
+	}
+}
+
+// range: "1 = 0-20" , "2 = 21-40", "3 = 41-60", "4 = 61-80", "5 = 81-100"
+void UniversityList::filterUniversityByValue(UniversityNode* head, int* type, int* range)
+{
+	// remove the node that not in the range
+	UniversityNode* temp = head;
+	int minScore = (*range - 1) * 20;
+	int maxScore = *range * 20;
+	
+	while (temp != NULL)
+	{
+		bool match = false;
+		if (*type == 3)
+		{
+			match = temp->university.ArScore >= minScore && temp->university.ArScore <= maxScore;
+		}
+		else if (*type == 4)
+		{
+			match = temp->university.FsrScore >= minScore && temp->university.FsrScore <= maxScore;
+		}
+		else if (*type == 5)
+		{
+			match = temp->university.ErScore >= minScore && temp->university.ErScore <= maxScore;
+		}
+
+		if (!match)
+		{
+			UniversityNode* next = temp->next;
+			deleteNode(temp);
+			temp = next;
+		}
+		else
+		{
+			temp = temp->next;
+		}
+	}
+}
+
+void UniversityList::deleteNode(UniversityNode* node)
+{
+	if (node == head)
+	{
+		head = head->next;
+		head->prev = NULL;
+	}
+	else if (node == tail)
+	{
+		tail = tail->prev;
+		tail->next = NULL;
+	}
+	else
+	{
+		node->prev->next = node->next;
+		node->next->prev = node->prev;
+	}
+	delete node;
+	size--;
 }

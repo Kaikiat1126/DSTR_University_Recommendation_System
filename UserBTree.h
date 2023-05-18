@@ -40,6 +40,7 @@ private:
 	void selectUserByName(UserBTreeNode* node, IsVector<UserStruct>* users, const std::string& username);
 	void selectUserByDate(UserBTreeNode* node, IsVector<UserStruct>* users);
 	void removeUserFavourite(UserBTreeNode* node, int id, int* pos, int* index);
+	bool addUserFavourite(UserBTreeNode* node, int id, int* pos, std::string name);
 	
 public:
 	UserBTreeNode* root;
@@ -57,6 +58,7 @@ public:
 	IsVector<std::string> getUsersFavourites();
 	IsVector<UserStruct> getUserByKey(std::string type, std::string key);
 	void removeUserFavourite(int id, int index);
+	bool addUserFavourite(int id, std::string name);
 };
 
 UserBTree::UserBTree()
@@ -719,4 +721,33 @@ void UserBTree::removeUserFavourite(UserBTreeNode* node, int id, int* pos, int* 
 	if (found) return;
 
 	removeUserFavourite(node->child[*pos], id, pos, index);
+}
+
+bool UserBTree::addUserFavourite(int id, std::string name) 
+{
+	return addUserFavourite(root, id, &id, name);
+}
+
+bool UserBTree::addUserFavourite(UserBTreeNode* node, int id, int* pos, std::string name)
+{
+	bool found = false;
+
+	if (!node) return false;
+
+	if (id < node->user[1].userID)
+		*pos = 0;
+	else
+	{
+		for (*pos = node->count; (id < node->user[*pos].userID && *pos > 1); (*pos)--);
+		if (id == node->user[*pos].userID)
+		{
+			node->user[*pos].favourite.push_back(name);
+			found = true;
+			return true;
+		}
+	}
+
+	if (found) return true;
+
+	return addUserFavourite(node->child[*pos], id, pos, name);
 }

@@ -15,6 +15,7 @@
 
 const std::string UNIVERSITYFILE = "University.csv";
 const std::string USERFILE = "User.csv";
+const std::string FEEDBACKFILE = "Feedback.csv";
 
 const std::string accentLetters[] = { "é","è","É","ā","á","à","â","ä","ã","ó","ò","ö","ô","Ó","Ü","ü","ú","š","Š","ç","í","ý","ğ","ń","ñ","Ž","ø","ʻ"," " };
 const std::string replaceLetters[] = { "e","e","E","a","a","a","a","a","a","o","o","o","o","O","U","u","u","s","S","c","i","y","g","n","n","Z","","\'"," " };
@@ -24,6 +25,7 @@ IsUnorderedMap<std::string, std::string, 29> map = StatusContainer::accentLetter
 void readFiletoStruture();
 void initUserData();
 void initUniversityData();
+void initFeedbackData();
 IsVector<std::string> splitComma(std::string rowStr);
 void assignValue(double* score, int* rank, const std::string& value, const std::string& rankValue, int index);
 std::string replaceAccentLetters(std::string rowStr);
@@ -149,6 +151,36 @@ void initUniversityData()
         UniversityStruct* universityPtr = new UniversityStruct(university);
         StatusContainer::universityRBTree.insert(universityPtr, "Institution");
 	}
+    file.close();
+}
+
+void initFeedbackData() {
+    std::ifstream file(FEEDBACKFILE);
+    if (!file.is_open())
+    {
+        std::cout << "Unable to open file" << std::endl;
+        return;
+    }
+
+    Feedback element;
+    std::string str;
+    getline(file, str); //get the header line
+
+    while (getline(file, str))
+    {
+        std::istringstream iss(str);
+        std::string field;
+
+        getline(iss, field, ',');
+        element.FeedbackID = stol(field);
+        getline(iss, element.UserName, ',');
+        getline(iss, field, ',');
+        element.ReplyTo = stol(field);
+        getline(iss, element.Content, ',');
+        getline(iss, element.Institution);
+
+        StatusContainer::feedbackList.InsertToFrontOfList(new FeedbackNode(element));
+    }
     file.close();
 }
 

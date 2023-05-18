@@ -354,7 +354,8 @@ int Menu::userFeedbackPage()
 int Menu::userFavouritePage()
 {
 	std::string input = "";
-	IsVector<string> favs = StatusContainer::currentUser->getFavourite();
+	//IsVector<string> favs = StatusContainer::currentUser->getFavourite();
+	IsVector<string> favs = StatusContainer::userBTree.getUserFavouritesByID(StatusContainer::currentUser->getUserID());
 	
 	std::cout << "                     Favourite Universities                   " << std::endl;
 	std::cout << "**************************************************************" << std::endl;

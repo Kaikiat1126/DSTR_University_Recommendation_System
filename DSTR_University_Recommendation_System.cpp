@@ -449,7 +449,7 @@ void go_to_user_favourites()
         int index = Menu::deleteFavourite();
         if (index != -1)
         {
-            StatusContainer::currentUser->removeFavourite(index);
+            //StatusContainer::currentUser->removeFavourite(index);
 
             int userID = StatusContainer::currentUser->getUserID();
 		    StatusContainer::userBTree.removeUserFavourite(userID, index);
@@ -535,11 +535,11 @@ void go_to_user_search()
 		//bool end = go_to_end_search();
         system("cls");
 
-		Message::notice("Search university ended, back to previous menu!");
-		Sleep(1000);
-        
         list->destroyList();  // destroy list
         list = nullptr;    // clear
+		StatusContainer::cacheUniList = nullptr;
+		Message::notice("Search university ended, back to previous menu!");
+		Sleep(1000);
 
         Menu::searchUniPage();
         go_to_user_menu();  // back to menu or back to user_search
@@ -580,8 +580,15 @@ bool go_to_end_search()
         {
             if (option == 1)
             {
-                StatusContainer::currentUser->addFavourite(name);
+                //StatusContainer::currentUser->addFavourite(name);
                 StatusContainer::userBTree.addUserFavourite(StatusContainer::currentUser->getUserID(), name);
+
+				/*IsVector<string> favs = StatusContainer::userBTree.getUserFavouritesByID(StatusContainer::currentUser->getUserID());
+
+				for (int i = 0; i < favs.getSize(); i++)
+				{
+					cout << "In favs: " << favs.at(i) << endl;
+				}*/
 
                 Message::success("Add favourite successfully!");
                 Sleep(1000);

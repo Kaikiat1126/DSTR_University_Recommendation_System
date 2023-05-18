@@ -290,7 +290,7 @@ void go_to_admin_menu()
         go_to_generate_report();
     }
     else if (option == 4) {
-        go_to_login();
+        go_to_logout();
     }
 }
 
@@ -513,9 +513,7 @@ void go_to_user_search()
 	{
         list->mergeSort(type, true);
 		//list->displayUniversityList();
-	}
-        list->displayUniversityList();
-		StatusContainer::cacheUniList = list;
+        StatusContainer::cacheUniList = list;
 	}
 
     cout << endl;

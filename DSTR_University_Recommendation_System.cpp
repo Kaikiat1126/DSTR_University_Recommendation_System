@@ -86,10 +86,19 @@ void testInitData()
     
     //StatusContainer::universityRBTree.printTreeShape();
     
+    
 	//StatusContainer::universityBTree.traversal();
     //StatusContainer::universityBTree.searchUniversityByRank(867);   //1-2ms 
     //StatusContainer::universityBTree.preOrder();
 	//StatusContainer::universityBTree.postOrder();
+    
+    //StatusContainer::universityRBTree.preOrder();
+    //StatusContainer::universityRBTree.inOrder();
+    //StatusContainer::universityRBTree.postOrder();
+    //StatusContainer::universityRBTree.printTreeShape();
+
+    initFeedbackData();
+    //system("pause");
 }
 
 void go_to_main_menu()
@@ -364,22 +373,37 @@ void go_to_feedback_page()
 // TODO
 void go_to_manage_feedback()
 {
+    FeedbackNode* latest = StatusContainer::feedbackList.getLatestFeedback();
     while (true)
     {
+        string user = StatusContainer::currentUser->getUsername();
         int option = Menu::manageFeedbackPage();
+        system("cls");
         if (option == 1)
         {
-            cout << "Reply Feedback" << endl;
+            string comment = "";
+            cout << "Reply: ";
+            cin.ignore();
+            getline(cin, comment);
+            
+            StatusContainer::feedbackList.replyFeedback(comment, user);
+            Message::success("Reply Successfully");
         }
         else if (option == 2)
         {
-            cout << "Move Forward" << endl;
+            StatusContainer::feedbackList.getNextFeedback();
         }
         else if (option == 3)
         {
-            cout << "Move Backward" << endl;
+            StatusContainer::feedbackList.getPrevFeedback(); 
         }
         else if (option == 4)
+        {
+            StatusContainer::feedbackList.display();
+            system("pause");
+            system("cls");
+        }
+        else if (option == 5)
         {
             break;
         }
@@ -390,16 +414,23 @@ void go_to_manage_feedback()
 // TODO
 void go_to_user_feedback()
 {
+    StatusContainer::feedbackList.getLatestFeedback();
+    StatusContainer::feedbackList.displayCurrent();
     while (true)
     {
         int option = Menu::userFeedbackPage();
+        system("cls");
         if (option == 1)
         {
-			cout << "Move Forward" << endl;
+			//cout << "Move Forward" << endl;
+            StatusContainer::feedbackList.getNextFeedback();
+            StatusContainer::feedbackList.displayCurrent();
 		}
 		else if (option == 2)
 		{
-			cout << "Move Backward" << endl;
+			//cout << "Move Backward" << endl;
+            StatusContainer::feedbackList.getPrevFeedback();
+            StatusContainer::feedbackList.displayCurrent();
 		}
 		else if (option == 3)
 		{

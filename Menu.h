@@ -7,6 +7,7 @@
 #include "Admin.h"
 #include "Validation.h"
 #include "StatusContainer.h"
+#include "Feedback.h"
 
 class Menu
 {
@@ -311,35 +312,30 @@ void Menu::feedbackPage()
 	std::cout << "**************************************************************" << std::endl;
 }
 
-// TODO
 int Menu::manageFeedbackPage() {
 	std::string input = "";
-	
-	//TODO
-	//std::cout << "Call latest function:: display latest feedback" << std::endl;
-
+	feedbackPage();
+		
+	StatusContainer::feedbackList.displayCurrent();
 	std::cout << "Please select an option below:" << std::endl;
 	std::cout << "1. Reply" << std::endl;
 	std::cout << "2. Move Forward" << std::endl;
 	std::cout << "3. Move Backward" << std::endl;
-	std::cout << "4. Back to Admin Menu" << std::endl;
+	std::cout << "4. Display All Feedback" << std::endl;
+	std::cout << "5. Back to Admin Menu" << std::endl;
 
 	while (true) {
 		std::cout << "> ";
 		std::cin >> input;
-		int option = validOption(input, 4);
+		int option = validOption(input, 5);
 		if (option != -1)
 			return option;
 	}
 }
 
-// TODO
 int Menu::userFeedbackPage()
 {
 	std::string input = "";
-
-	//TODO: 2.6) read feedback reply based on latest date
-	// auto display latest feedback
 
 	std::cout << "Please select an option below:" << std::endl;
 	std::cout << "1. Move Forward" << std::endl;

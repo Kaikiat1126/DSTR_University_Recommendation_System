@@ -92,12 +92,18 @@
     <ClInclude Include="MergeSort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Feedback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="University.csv">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="User.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Feedback.csv">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

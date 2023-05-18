@@ -135,6 +135,7 @@ void FeedbackList::display() {
                 << setw(15) << child->feedback.ReplyTo << setw(25) << child->feedback.Content << child->feedback.Institution << endl;
             child = child->ChildAddress;
         }
+        cout << endl;
         node = node->PrevAddress;
     }
 }

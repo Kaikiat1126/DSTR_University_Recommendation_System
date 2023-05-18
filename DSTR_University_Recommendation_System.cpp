@@ -588,7 +588,7 @@ bool go_to_end_search()
                 node->feedback.UserName = StatusContainer::currentUser->getUsername();
                 node->feedback.ReplyTo = -1;
                 node->feedback.Content = feedback;
-                node->feedback.Institution = StatusContainer::cacheUniList->ReturnNode()->university.institution;
+                node->feedback.Institution = name;
                 StatusContainer::feedbackList.InsertToFrontOfList(node);
 
                 Message::success("Write Feedback Successfully");

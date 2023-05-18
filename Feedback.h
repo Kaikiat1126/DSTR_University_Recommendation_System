@@ -24,6 +24,7 @@ public:
     void replyFeedback(string reply, string userID);
     void display();
     void displayCurrent();
+    FeedbackNode* getCurrentFeedback();
 
     FeedbackNode* isReplyTo(FeedbackNode* node);
 
@@ -134,6 +135,7 @@ void FeedbackList::display() {
                 << setw(15) << child->feedback.ReplyTo << setw(25) << child->feedback.Content << child->feedback.Institution << endl;
             child = child->ChildAddress;
         }
+        cout << endl;
         node = node->PrevAddress;
     }
 }
@@ -162,4 +164,9 @@ void FeedbackList::displayCurrent() {
         child = child->ChildAddress;
     }
     node = node->PrevAddress;
+}
+
+FeedbackNode* FeedbackList::getCurrentFeedback()
+{
+    return current;
 }

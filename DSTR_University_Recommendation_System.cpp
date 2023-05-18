@@ -515,12 +515,15 @@ void go_to_user_search()
 	else
 	{
         list->mergeSort(type, true);
-		//list->displayUniversityList();
+		list->displayUniversityList();
         StatusContainer::cacheUniList = list;
 	}
 
-    cout << endl;
-	bool next = proceedNext("Continue search university with these result");
+    cout << endl;   
+    bool next;
+    if (type == 1)  next = false;
+    else next = proceedNext("Continue search university with these result");
+    
     system("cls");
 	if (next)
 	{
@@ -536,7 +539,6 @@ void go_to_user_search()
 				break;
 			}
         }
-		//bool end = go_to_end_search();
         system("cls");
 
         list->destroyList();  // destroy list
@@ -547,7 +549,6 @@ void go_to_user_search()
 
         Menu::searchUniPage();
         go_to_user_menu();  // back to menu or back to user_search
-        
 	}
 }
 
@@ -584,15 +585,7 @@ bool go_to_end_search()
         {
             if (option == 1)
             {
-                //StatusContainer::currentUser->addFavourite(name);
                 StatusContainer::userBTree.addUserFavourite(StatusContainer::currentUser->getUserID(), name);
-
-				/*IsVector<string> favs = StatusContainer::userBTree.getUserFavouritesByID(StatusContainer::currentUser->getUserID());
-
-				for (int i = 0; i < favs.getSize(); i++)
-				{
-					cout << "In favs: " << favs.at(i) << endl;
-				}*/
 
                 Message::success("Add favourite successfully!");
                 Sleep(1000);
@@ -601,13 +594,13 @@ bool go_to_end_search()
             {
                 cout << "Wirte Feedback" << endl;
             }
+			system("cls");
         }
         return false;
     }
     else if (option == 3)
     {
         return true;
-        //break;
     }
 }
 

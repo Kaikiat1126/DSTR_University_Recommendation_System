@@ -36,7 +36,7 @@ public:
 	int getSize();
 	void destroyList();
 	bool checkRankExist(int rank);
-	//void filterUniversityByValue(int* type, int* range, std::string* value);
+	IsVector<UserStruct> filterUniversityByRank(int* rank);
 	UniversityList* filterUniversityByValue(int* type, int* range, std::string* value);
 };
 
@@ -273,19 +273,7 @@ bool UniversityList::checkRankExist(int rank)
 // type: "0 = rank", "1 = name", "2 = locationCode", "3 = ar score", "4 = fsr score", "5 = er score"
 // name need to been remove spaces
 // range: "1 = 0-20" , "2 = 21-40", "3 = 41-60", "4 = 61-80", "5 = 81-100"
-//void UniversityList::filterUniversityByValue(int* type, int* range, std::string* value)
-//{
-//	std::cout << "Filtering..." << std::endl;
-//	if (*type == 1)
-//	{
-//		int rank = std::stoi(*value);
-//		filterUniversiyWithRank(head, &rank);
-//	}
-//	else if (*type == 2)
-//		filterUniversityWithLocation(head, *value);
-//	else
-//		filterUniversityByValue(head, type, range);
-//}
+
 
 UniversityList* UniversityList::filterUniversityByValue(int* type, int* range, std::string* value)
 {

@@ -492,12 +492,12 @@ void go_to_user_search()
     {
         list = new UniversityList();
 		StatusContainer::cacheUniList = list;
-		cout << StatusContainer::cacheUniList << endl;
+		//cout << StatusContainer::cacheUniList << endl;
         list = StatusContainer::universityBTree.filterUniversityByValue(&type, &range, &value);
     }
     else
     {
-		// TODO: doing filter with exist list
+		list = StatusContainer::cacheUniList->filterUniversityByValue(&type, &range, &value);
     }
 
 	if (list->getSize() == 0)
@@ -505,92 +505,98 @@ void go_to_user_search()
 		Message::warning("No search result found!");
 		Sleep(1000);
 		system("cls");
+		list = nullptr;
         Menu::searchUniPage();
         go_to_user_search();
 	}
 	else
 	{
-        for (int i = 0; i < list->getSize(); i++)
-        {
-			list->displayUniversityList();
-        }
+        list->displayUniversityList();
+		StatusContainer::cacheUniList = list;
 	}
 
     cout << endl;
 	bool next = proceedNext("Continue search university with these result");
-    
+    system("cls");
 	if (next)
 	{
-		system("cls");
 		go_to_user_search();
 	}
 	else
 	{
-        // TODO: write feedback or save favourites
-		bool end = go_to_end_search();
-        if (end)
+        while (true)
         {
-            system("cls");
-            list->destroyList();  // destroy list
-            list = nullptr;    // clear
-            
-            Menu::searchUniPage();
-            go_to_user_menu();  // back to menu or back to user_search
+            bool end = go_to_end_search();
+			if (end)
+			{
+				break;
+			}
         }
+		//bool end = go_to_end_search();
+        system("cls");
+
+		Message::notice("Search university ended, back to previous menu!");
+		Sleep(1000);
+        
+        list->destroyList();  // destroy list
+        list = nullptr;    // clear
+
+        Menu::searchUniPage();
+        go_to_user_menu();  // back to menu or back to user_search
+        
 	}
 }
 
 bool go_to_end_search()
 {
-    while (true)
+    if (StatusContainer::cacheUniList == nullptr)
     {
-        if (StatusContainer::cacheUniList == nullptr) 
+        //cout << "Error" << endl;
+        return false;
+    }
+    // TODO: display result here
+    StatusContainer::cacheUniList->displayUniversityList();
+
+    int option = Menu::optionBeforeEndSearch();
+
+    if (option == 1 || option == 2)
+    {
+        string num = validation("Enter university ranking: ", "From result above", NUM_REGEX);
+        bool isExist = StatusContainer::cacheUniList->checkRankExist(stoi(num));
+        string name = StatusContainer::universityBTree.getUniversityNameByRank(stoi(num));
+        bool isFavourite = StatusContainer::currentUser->checkFavouriteExist(name);
+
+        if (!isExist)
         {
-            //TODO: check why cacheUniList is nullptr
-            cout << "Error" << endl;
-            return false;
+            Message::error("Input's University ranking does not exist!");
+            Sleep(1000);
         }
-        // display result
-
-        int option = Menu::optionBeforeEndSearch();
-
-        if (option == 1 || option == 2)
+        else if (isFavourite && option == 1)
         {
-			string num = validation("Enter university ranking: ", "From result above", NUM_REGEX);
-			bool isExist = StatusContainer::cacheUniList->checkRankExist(stoi(num));
-			string name = StatusContainer::universityBTree.getUniversityNameByRank(stoi(num));
-			bool isFavourite = StatusContainer::currentUser->checkFavouriteExist(name);
-
-            if (!isExist)
+            Message::notice("This university is already in your favourite list!");
+            Sleep(1000);
+        }
+        else
+        {
+            if (option == 1)
             {
-				Message::error("Input's University ranking does not exist!");
+                StatusContainer::currentUser->addFavourite(name);
+                StatusContainer::userBTree.addUserFavourite(StatusContainer::currentUser->getUserID(), name);
+
+                Message::success("Add favourite successfully!");
                 Sleep(1000);
             }
-            else if (isFavourite && option == 1)
+            else // TODO: write feedback here
             {
-				Message::notice("This university is already in your favourite list!");
-				Sleep(1000);
+                cout << "Wirte Feedback" << endl;
             }
-            else
-            {
-                // TODO: add to favourite
-                if (option == 1)
-				{
-					StatusContainer::currentUser->addFavourite(name);
-					StatusContainer::userBTree.addUserFavourite(StatusContainer::currentUser->getUserID(), name);
-				}
-                else // TODO: write feedback here
-                {
-                    cout << "Wirte Feedback" << endl;
-                }
-            }
-            system("cls");
-            go_to_end_search();
         }
-        else if (option == 3)
-        {
-            return true;
-        }
+        return false;
+    }
+    else if (option == 3)
+    {
+        return true;
+        //break;
     }
 }
 

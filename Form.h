@@ -125,7 +125,6 @@ bool proceedNext(std::string message) {
 
 std::string searchUniByName()
 {
-    std::cout << std::endl;
 	std::string institution;
     std::cout << "Please enter the university institution: " << std::endl;
     while (true)

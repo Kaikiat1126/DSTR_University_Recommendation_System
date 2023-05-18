@@ -6,11 +6,14 @@
 class MergeSort
 {
 private:
+	static int sortBy;
 	static UniversityNode* split(UniversityNode*);
 	static UniversityNode* merge(UniversityNode*, UniversityNode*);
 public:
-	static UniversityNode* mergeSort(UniversityNode*);
+	static UniversityNode* mergeSort(UniversityNode*, int);
 };
+
+int MergeSort::sortBy;
 
 UniversityNode* MergeSort::split(UniversityNode* head)
 {
@@ -33,7 +36,21 @@ UniversityNode* MergeSort::merge(UniversityNode* first, UniversityNode* second)
 	if (!second)
 		return first;
 
-	if (first->university.institution < second->university.institution)
+	auto compare = [&](const UniversityStruct& a, const UniversityStruct& b)
+	{
+		if (sortBy == 0)
+			return a.institution < b.institution;
+		else if (sortBy == 3)
+			return a.ArScore < b.ArScore;
+		else if (sortBy == 4)
+			return a.FsrScore < b.FsrScore;
+		else if (sortBy == 5)
+			return a.ErScore < b.ErScore;
+		else
+			return a.rank < b.rank;
+	};
+
+	if (compare(first->university, second->university))
 	{
 		first->next = merge(first->next, second);
 		first->next->prev = first;
@@ -49,15 +66,17 @@ UniversityNode* MergeSort::merge(UniversityNode* first, UniversityNode* second)
 	}
 }
 
-UniversityNode* MergeSort::mergeSort(UniversityNode* head)
+// type: "0:institution", "3:ar_score", "4:fsr_score", "5:er_score"
+UniversityNode* MergeSort::mergeSort(UniversityNode* head, int type)
 {
+	sortBy = type;
 	if (!head || !head->next)
 		return head;
 	UniversityNode* second = split(head);
 
 	// Recur the left and right halves
-	head = mergeSort(head);
-	second = mergeSort(second);
+	head = mergeSort(head, type);
+	second = mergeSort(second, type);
 
 	// Merge the two sorted halves
 	return merge(head, second);

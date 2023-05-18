@@ -4,6 +4,10 @@
 #include "MergeSort.h"
 #include <iostream>
 #include <string>
+#include <chrono>
+#include <iomanip>
+
+using namespace std::chrono;
 
 class UniversityList
 {
@@ -21,8 +25,9 @@ public:
 	UniversityNode* searchByInstitution(std::string institution);
 	void displayUniversityList();
 	void displayUniversityListDesc();
-	void quicksort(std::string, bool);
-	void mergesort(std::string, bool);
+	void quicksortAll();
+	void mergesortAll();
+	void mergeSort(int, bool);
 	int getSize();
 	void destroyList();
 };
@@ -132,9 +137,24 @@ UniversityNode* UniversityList::searchByInstitution(std::string institution)
 void UniversityList::displayUniversityList()
 {
 	UniversityNode* temp = head;
+
+	// Print header
+	std::cout << std::setw(4) << "Rank" << "\t"
+		<< std::left << std::setw(83) << "Institution" << "\t"
+		<< std::right << std::setw(2) << "Loc" << "\t"
+		<< std::setw(4) << "AR" << "\t"
+		<< std::setw(4) << "FSR" << "\t"
+		<< std::setw(4) << "ER" << std::endl;
+
 	while (temp != NULL)
 	{
-		std::cout << temp->university.rank << "\t" << temp->university.institution << std::endl;
+		//std::cout << temp->university.rank << "\t" << temp->university.institution << "\t" << temp->university.locationCode << "\t" << temp->university.ArScore<< "\t" << temp->university.FsrScore<< "\t" << temp->university.ErScore << std::endl;
+		std::cout << std::setw(4) << temp->university.rank << "\t"
+			<< std::left << std::setw(85) << temp->university.institution << "\t"
+			<< std::right << std::setw(2) << temp->university.locationCode << "\t"
+			<< std::setw(4) << temp->university.ArScore << "\t"
+			<< std::setw(4) << temp->university.FsrScore << "\t"
+			<< std::setw(4) << temp->university.ErScore << std::endl;
 		temp = temp->next;
 	}
 }
@@ -145,46 +165,68 @@ void UniversityList::displayUniversityListDesc()
 
 	while (temp != NULL)
 	{
-		std::cout << temp->university.rank << "\t" << temp->university.institution << std::endl;
+		std::cout << std::setw(4) << temp->university.rank << "\t"
+			<< std::left << std::setw(85) << temp->university.institution << "\t"
+			<< std::right << std::setw(2) << temp->university.locationCode << "\t"
+			<< std::setw(4) << temp->university.ArScore << "\t"
+			<< std::setw(4) << temp->university.FsrScore << "\t"
+			<< std::setw(4) << temp->university.ErScore << std::endl;
 		temp = temp->prev;
 	}
 }
 
-// type: "institution", "ar_score", "fsr_score", "er_score"
-void UniversityList::quicksort(std::string type, bool isAsc)
+void UniversityList::quicksortAll()
 {
 	UniversityList* copyList = new UniversityList(*this);
-	QuickSort::quickSort(copyList->head, copyList->tail, type);
-	system("cls");
 
-	if (isAsc)
-		copyList->displayUniversityList();
-	else
-		copyList->displayUniversityListDesc();
+	auto start = high_resolution_clock::now();
+	QuickSort::quickSort(copyList->head, copyList->tail, 0);
+	auto stop = high_resolution_clock::now();
+
+	system("cls");
+	copyList->displayUniversityList();
+
+	auto duration = duration_cast<microseconds>(stop - start);
+	std::cout << "Time taken by quick sort algorithm: ";
+	std::cout << duration.count() << " microseconds. " << std::endl;
+
 	delete copyList;
 }
 
 // type: "institution", "ar_score", "fsr_score", "er_score"
-void UniversityList::mergesort(std::string type, bool isAsc)
+void UniversityList::mergesortAll()
 {
 	UniversityList* copyList = new UniversityList(*this);
-	UniversityNode* sortedMerge = MergeSort::mergeSort(copyList->head);
-	system("cls");
+
+	auto start = high_resolution_clock::now();
+	UniversityNode* sortedMerge = MergeSort::mergeSort(copyList->head, 0);
+	auto stop = high_resolution_clock::now();
+	
 	copyList->head = sortedMerge;
 
-	UniversityNode* tail = sortedMerge;
-	while (tail->next)
-	{
-		tail = tail->next;
-	}
-	copyList->tail = tail;
+	system("cls");
+	copyList->displayUniversityList();
 
-	if (isAsc)
-		copyList->displayUniversityList();
-	else
-		copyList->displayUniversityListDesc();
+	auto duration = duration_cast<microseconds>(stop - start);
+	std::cout << "Time taken by merge sort algorithm: ";
+	std::cout << duration.count() << " microseconds. " << std::endl;
+
 	delete copyList;
 }
+
+void UniversityList::mergeSort(int type, bool isAsc)
+{
+	UniversityNode* sortedMerge = MergeSort::mergeSort(head, type);
+	head = sortedMerge;
+
+	system("cls");
+
+	if(isAsc)
+		displayUniversityList();
+	else
+	{
+		displayUniversityListDesc();
+	}
 }
 
 int UniversityList::getSize()

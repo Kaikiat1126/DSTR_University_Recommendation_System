@@ -108,14 +108,14 @@ void Visitor::chooseSortAlgo()
 void Visitor::quickAscOrder()
 {
 	// TODOs
-	StatusContainer::universityList.quicksort("institution", true);
+	StatusContainer::universityList.quicksortAll();
 }
 
 void Visitor::mergeAscOrder()
 {
 	std::cout << "Merge sort in ascending order" << std::endl;
 	// TODOs
-	StatusContainer::universityList.mergesort("institution", true);
+	StatusContainer::universityList.mergesortAll();
 }
 
 void Visitor::BTreeSearch(std::string institution)

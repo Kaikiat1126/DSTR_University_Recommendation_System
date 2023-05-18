@@ -302,6 +302,7 @@ UniversityList* UniversityList::filterUniversityByValue(int* type, int* range, s
 		copyList->filterUniversityByValue(copyList->head, type, range);
 	
 	//std::cout << copyList << " " << copyList->getSize() << std::endl;
+	this->destroyList();
 	return copyList;
 }
 

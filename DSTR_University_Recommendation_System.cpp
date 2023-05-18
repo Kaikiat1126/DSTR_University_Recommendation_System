@@ -453,6 +453,9 @@ void go_to_user_favourites()
 
             int userID = StatusContainer::currentUser->getUserID();
 		    StatusContainer::userBTree.removeUserFavourite(userID, index);
+
+			Message::success("Delete Successfully");
+			Sleep(2000);
         }
         
         if (index == -1)

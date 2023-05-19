@@ -147,7 +147,6 @@ std::string searchUniByName()
 
 std::string searchUniByLocationCode()
 {
-    std::cout << std::endl;
 	std::string locationCode;
 	std::cout << "Please enter the university location code: " << std::endl;
 	while (true)

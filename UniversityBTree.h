@@ -641,13 +641,8 @@ UniversityList* UniversityBTree::filterUniversityByValue(int* type, int* range, 
 {
 	UniversityList* list = new UniversityList();
 	if (*type == 1)
-	{
-		int rank = std::stoi(*value);
-		filterUniversityWithRank(root, rank, &rank, list);
-	}
-	else if (*type == 2)
 		filterUniversityWithLocation(root, *value, list);
-	else if (*type == 3 || *type == 4 || *type == 5)
+	else if (*type == 2 || *type == 3 || *type == 4)
 		filterUniversityByValue(root, type, range, list);
 	
 	return list;

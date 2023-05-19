@@ -13,7 +13,6 @@ private:
 	UniversityNode* head = NULL;
 	UniversityNode* tail = NULL;
 	int size = 0;
-	void filterUniversiyWithRank(UniversityNode* head, int* rank);
 	void filterUniversityWithLocation(UniversityNode* head, std::string& value);
 	void filterUniversityByValue(UniversityNode* head, int* type, int* range);
 	void deleteNode(UniversityNode* node);
@@ -252,7 +251,7 @@ void UniversityList::displayTop10Uni()
 			<< std::setw(4) << temp->university.ArScore << "\t"
 			<< std::setw(4) << temp->university.FsrScore << "\t"
 			<< std::setw(4) << temp->university.ErScore << "\t"
-			<< std::setw(5) << temp->university .count << std::endl;
+			<< std::setw(5) << temp->university.count << std::endl;
 		temp = temp->prev;
 		count++;
 	}
@@ -349,11 +348,6 @@ UniversityList* UniversityList::filterUniversityByValue(int* type, int* range, s
 	UniversityList* copyList = new UniversityList(*this);
 	//std::cout << copyList << ":" << copyList->getSize() << std::endl;
 	if (*type == 1)
-	{
-		int rank = std::stoi(*value);
-		copyList->filterUniversiyWithRank(copyList->head, &rank);
-	}
-	else if (*type == 2)
 		copyList->filterUniversityWithLocation(copyList->head, *value);
 	else
 		copyList->filterUniversityByValue(copyList->head, type, range);
@@ -361,31 +355,6 @@ UniversityList* UniversityList::filterUniversityByValue(int* type, int* range, s
 	//std::cout << copyList << " " << copyList->getSize() << std::endl;
 	this->destroyList();
 	return copyList;
-}
-
-void UniversityList::filterUniversiyWithRank(UniversityNode* head, int* rank)
-{
-	// search with linear search, when found the rank then record the address,
-	// destroy the list and create new list with the address
-	bool found = false;
-	UniversityNode* temp = head;
-	UniversityNode* target = NULL;
-	while (temp != NULL)
-	{
-		if (temp->university.rank == *rank)
-		{
-			found = true;
-			target = temp;
-			break;
-		}
-		temp = temp->next;
-	}
-
-	if (found)
-	{
-		destroyList();
-		insertToEndOfList(target->university);
-	}
 }
 
 void UniversityList::filterUniversityWithLocation(UniversityNode* head, std::string& value)

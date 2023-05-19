@@ -425,18 +425,17 @@ void Menu::searchUniPage()
 int Menu::searchUniOption()
 {
 	std::string input = "";
-	std::cout << "Please select an option below:" << std::endl;
-	std::cout << "1. University Ranking" << std::endl;  // unique
-	std::cout << "2. University Location" << std::endl; 
-	std::cout << "3. Academic Reputation Score (AR Score)" << std::endl;
-	std::cout << "4. Faculty Student Score (FSR Score)" << std::endl;
-	std::cout << "5. Employer Reputation Score (ER Score)" << std::endl;
-	std::cout << "6. Back to User Page" << std::endl;
+	std::cout << "Please select an option below:" << std::endl; 
+	std::cout << "1. University Location" << std::endl; 
+	std::cout << "2. Academic Reputation Score (AR Score)" << std::endl;
+	std::cout << "3. Faculty Student Score (FSR Score)" << std::endl;
+	std::cout << "4. Employer Reputation Score (ER Score)" << std::endl;
+	std::cout << "5. Back to User Page" << std::endl;
 
 	while (true) {
 		std::cout << "> ";
 		std::cin >> input;
-		int option = validOption(input, 6);
+		int option = validOption(input, 5);
 		if (option != -1)
 			return option;
 	}

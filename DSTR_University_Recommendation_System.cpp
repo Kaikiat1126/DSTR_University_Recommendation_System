@@ -400,12 +400,11 @@ void go_to_user_search()
     string value = "";
     cout << endl;
 
-    if (type == 6)
+    if (type == 5)
         go_to_user_menu();
 
+
     if (type == 1)
-		value = validation("Enter university ranking: ", "1 - 1422", NUM_REGEX);
-    else if (type == 2)
         value = searchUniByLocationCode();
     else
         range = Menu::selectScoreRange();
@@ -435,15 +434,13 @@ void go_to_user_search()
 	}
 	else
 	{
-        list->mergeSort(type);
+        //list->mergeSort(type);
         list->displayUniversityListDesc();
         StatusContainer::cacheUniList = list;
 	}
 
     cout << endl;   
-    bool next;
-    if (type == 1)  next = false;
-    else next = proceedNext("Continue search university with these result");
+    bool next = proceedNext("Continue search university with these result");
     
     system("cls");
 	if (next)

@@ -70,7 +70,6 @@ void go_to_main_menu()
 
 void go_to_search_university()  //Landing page's search university (Vistor Function)
 {
-    // cout << "This is search university page" << endl;
 	Visitor::displayAllUniversity();
     cout << endl;
 	int option = Menu::landingUniMenu();
@@ -95,7 +94,6 @@ void go_to_register()
 	system("cls");
     if (option == 1)
     {
-        //TODOs -> direct register form
 		bool res = registrationForm();
         if (res)
         {
@@ -434,7 +432,7 @@ void go_to_user_search()
 	}
 	else
 	{
-        //list->mergeSort(type);
+        list->mergeSort(type);
         list->displayUniversityListDesc();
         StatusContainer::cacheUniList = list;
 	}
@@ -477,7 +475,7 @@ bool go_to_end_search()
         //cout << "Error" << endl;
         return false;
     }
-    // TODO: display result here
+
     StatusContainer::cacheUniList->displayUniversityList();
 
     int option = Menu::optionBeforeEndSearch();

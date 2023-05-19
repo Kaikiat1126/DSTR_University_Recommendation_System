@@ -13,7 +13,7 @@
 - [x] Favourite (User)
 - [x] Manage Feedback (Admin)
 - [x] Manage User
-- [ ] Generate Report Menu
+- [x] Generate Report Menu
 - [x] Logout Menu
 
 `...any more additional features`
@@ -23,19 +23,19 @@
 - [x] landing's search university display university list
 - [x] search university by name with BTree (landing)
 - [x] search university by name with Red Black Tree (landing)
-- [ ] merge sort by name with university linkedlist (landing)
-- [ ] quick sort by name with university linkedlist (landing)
+- [x] merge sort by name with university linkedlist (landing)
+- [x] quick sort by name with university linkedlist (landing)
 - [x] Login Authentication
 - [x] Update Last Modify Date
 - [x] New User Registration
-- [ ] Manage User (Admin Page Function)
-- [ ] Generate Report (Admin Page Function)
+- [x] Manage User (Admin Page Function)
+- [x] Generate Report (Admin Page Function)
 - [x] Reply Feedback (Admin Page Function)
 - [x] Save Favorite (User Page Function)
 - [x] Search University by decision (User Page Function)
 - [x] Write Feedback (User Page Function)
 - [x] Read Feedback (User Page Function)
-- [ ] Sort university information in desc order (User Page Function)
+- [x] Sort university information in desc order (User Page Function)
 
 `... in progress`
 
@@ -58,7 +58,7 @@
 `...any more additional features`
 
 ## Algorithmns and Data Structer
-- [ ] Merge Sort (Sort Algorithms)
+- [x] Merge Sort (Sort Algorithms)
 - [x] Quick Sort (Sort Algorithms)
 - [x] B Tree (Search Algorithms)
 - [x] Red Black Tree (Search Algorithms)

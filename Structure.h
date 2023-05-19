@@ -40,6 +40,7 @@ struct UniversityStruct : public DataStruct
 		IfrScore, IsrScore, IrnScore, GerScore, ScoreScaled;
 	int ArRank, ErRank, FsrRank, CpfRank, IfrRank,
 		IsrRank, IrnRank, GerRank;
+	int count;
 };
 
 struct UniversityNode

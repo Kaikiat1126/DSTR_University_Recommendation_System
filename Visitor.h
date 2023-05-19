@@ -46,9 +46,7 @@ int Visitor::validOption(std::string input, int maxOption)
 
 void Visitor::displayAllUniversity()
 {
-	// std::cout << "Display all university" << std::endl;
-	// TODOs
-	StatusContainer::universityList.displayUniversityList();
+	StatusContainer::universityList.displayCompleteUniversityList();
 }
 
 void Visitor::chooseSearchAlgo(std::string institution)
@@ -107,15 +105,12 @@ void Visitor::chooseSortAlgo()
 
 void Visitor::quickAscOrder()
 {
-	// TODOs
-	StatusContainer::universityList.quicksortAll();
+	StatusContainer::universityList.quickSort();
 }
 
 void Visitor::mergeAscOrder()
 {
-	std::cout << "Merge sort in ascending order" << std::endl;
-	// TODOs
-	StatusContainer::universityList.mergesortAll();
+	StatusContainer::universityList.mergeSort();
 }
 
 void Visitor::BTreeSearch(std::string institution)

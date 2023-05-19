@@ -246,10 +246,10 @@ int Menu::manageUserPage() {
 void Menu::modifyUserPage() {
 	std::string userId = "";
 
-	std::cout << "                   Existing User                      " << std::endl;
-	std::cout << "******************************************************" << std::endl;
+	std::cout << "              Existing User                " << std::endl;
+	std::cout << "*******************************************" << std::endl;
 	Admin::displayAllUser();
-	std::cout << "******************************************************" << std::endl;
+	std::cout << "*******************************************" << std::endl;
 
 	userId = validation("Modify Existing User Detail", "Enter User ID", USER_ID_REGEX);
 	User user = Admin::searchUser(userId);
@@ -269,10 +269,10 @@ void Menu::inactiveUserPage()
 {
 	std::string userId = "";
 
-	std::cout << "                    Inactive User                     " << std::endl;
-	std::cout << "******************************************************" << std::endl;
+	std::cout << "               Inactive User               " << std::endl;
+	std::cout << "*******************************************" << std::endl;
 	Admin::displayInactiveUser();
-	std::cout << "******************************************************" << std::endl;
+	std::cout << "********************************************" << std::endl;
 
 	userId = validation("Delete Inactive User", "Enter User ID", USER_ID_REGEX);
 

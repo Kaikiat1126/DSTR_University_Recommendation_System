@@ -32,7 +32,9 @@ std::string replaceAccentLetters(std::string rowStr);
 
 void readFiletoStruture()
 {
-    //TODOs
+    initUserData();
+    initUniversityData();
+    initFeedbackData();
 }
 
 void initUserData()
@@ -143,7 +145,9 @@ void initUniversityData()
 			university.ScoreScaled = stod(row.at(20));
 		else
 			university.ScoreScaled = NULL;
-            
+
+        university.count = 0;
+        //std::cout << university.rank << " " << university.ScoreScaled << std::endl;
 		//std::cout << university.institution << " : " << university.ArScore << std::endl;
         StatusContainer::universityList.insertToEndOfList(university);
 		StatusContainer::universityBTree.insertValueInBTree(university);

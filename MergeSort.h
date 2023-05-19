@@ -40,6 +40,8 @@ UniversityNode* MergeSort::merge(UniversityNode* first, UniversityNode* second)
 	{
 		if (sortBy == 0)
 			return a.institution < b.institution;
+		else if (sortBy == 1)
+			return a.count < b.count;
 		else if (sortBy == 3)
 			return a.ArScore < b.ArScore;
 		else if (sortBy == 4)
@@ -66,7 +68,7 @@ UniversityNode* MergeSort::merge(UniversityNode* first, UniversityNode* second)
 	}
 }
 
-// type: "0:institution", "3:ar_score", "4:fsr_score", "5:er_score"
+// type: "0:institution", "1:count", "3:ar_score", "4:fsr_score", "5:er_score"
 UniversityNode* MergeSort::mergeSort(UniversityNode* head, int type)
 {
 	sortBy = type;

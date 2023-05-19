@@ -6,6 +6,7 @@
 #include "User.h"
 #include "StatusContainer.h"
 #include "Validation.h"
+#include <iomanip>
 
 class Admin : public User
 {
@@ -37,11 +38,13 @@ void Admin::displayUser(IsVector<UserStruct> userList)
 {
 	if (userList.getSize() == 0)
 	{
-		std::cout << "                    No user exist                     " << std::endl;
+		Message::warning("No user exist");
 	}
 
 	for (int i = 0; i < userList.getSize(); i++) 
-		std::cout << userList.at(i).userID << " " << userList.at(i).username << " " << userList.at(i).lastModifyDate << std::endl;
+		std::cout << std::right << std::setw(2) << userList.at(i).userID << "\t"
+		<< std::left<< std::setw(10) << userList.at(i).username << "\t"
+		<< userList.at(i).lastModifyDate << std::endl;
 }
 
 void Admin::displayAllUser()

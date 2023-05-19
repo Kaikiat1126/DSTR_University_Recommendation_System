@@ -15,6 +15,7 @@
 #include "Admin.h"
 #include "Validation.h"
 #include "UniversityList.h"
+#include "IsUnorderedMap.h"
 
 using namespace std;
 
@@ -30,7 +31,6 @@ void landing_sort();
 void go_to_manage_user();
 void go_to_manage_feedback();
 void go_to_generate_report();
-void go_to_customer_sort();
 void go_to_feedback_page();
 void go_to_user_feedback();
 void go_to_user_favourites();
@@ -38,67 +38,10 @@ void go_to_user_search();
 bool go_to_end_search();
 void go_to_logout();
 
-void testInitData();
-
 int main()
 {    
-    testInitData();
-    //std::cout << "Hello University Recommendatio0n System!\n";
+    readFiletoStruture();
     go_to_main_menu();
-	// go_to_register();
-}
-
-void testInitData()
-{
-    initUserData();
-    //StatusContainer::userList.displayUserList();
-	//StatusContainer::userBTree.traversal();
-    
-    //IsVector<UserStruct>* users = new IsVector<UserStruct>();
-    //StatusContainer::userBTree.searchUserMatch(users, "John");
-
-	initUniversityData();
-	//StatusContainer::universityList.displayUniversityList();
-
-    /*int* type = new int;
-    *type = 3;
-    int* range = new int;
-    *range = 1;
-    string* value = new string;
-    *value = "";
-    IsVector<UniversityStruct> universities = StatusContainer::universityBTree.getUniversityByValue(type, range, value);
-
-    for (int i = 0; i < universities.getSize(); i++)
-    {
-        cout << universities.at(i).rank << " " << universities.at(i).institution << " " << universities.at(i).FsrScore << endl;
-    }*/
-    
-    // test get university linkedlist
-    /*
-    StatusContainer::cacheUniList = StatusContainer::universityBTree.filterUniversityByValue(type, range, value);
-    
-	StatusContainer::cacheUniList->displayUniversityList();
-
-    StatusContainer::cacheUniList->destroyList();
-
-    cout << "New" << endl;
-    StatusContainer::cacheUniList->displayUniversityList();*/
-    
-    //StatusContainer::universityRBTree.printTreeShape();
-    
-    
-	//StatusContainer::universityBTree.traversal();
-    //StatusContainer::universityBTree.searchUniversityByRank(867);   //1-2ms 
-    //StatusContainer::universityBTree.preOrder();
-	//StatusContainer::universityBTree.postOrder();
-    
-    //StatusContainer::universityRBTree.preOrder();
-    //StatusContainer::universityRBTree.inOrder();
-    //StatusContainer::universityRBTree.postOrder();
-    //StatusContainer::universityRBTree.printTreeShape();
-
-    initFeedbackData();
-    //system("pause");
 }
 
 void go_to_main_menu()
@@ -347,30 +290,6 @@ void go_to_feedback_page()
     }
 }
 
-//void go_to_manage_feedback()
-//{
-//    cout << "Manage feedback page" << endl;
-//
-//    while (true) {
-//        int option = Menu::manageFeedbackPage();
-//        system("cls");
-//        if (option == 1) {
-//            std::cout << "Reply: ~~~~~~~~~~~~~~~~" << std::endl;
-//        }
-//        else if (option == 2) {
-//            std::cout << "Next: :)))))))))))))))" << std::endl;
-//        }
-//        else if (option == 3) {
-//            std::cout << "Previous: :((((((((((((((" << std::endl;
-//        }
-//        else if (option == 4) {
-//            break;
-//        }
-//    } 
-//    go_to_admin_menu();
-//}
-
-// TODO
 void go_to_manage_feedback()
 {
     FeedbackNode* latest = StatusContainer::feedbackList.getLatestFeedback();
@@ -411,7 +330,6 @@ void go_to_manage_feedback()
     go_to_admin_menu();
 }
 
-// TODO
 void go_to_user_feedback()
 {
     StatusContainer::feedbackList.getLatestFeedback();
@@ -514,8 +432,8 @@ void go_to_user_search()
 	}
 	else
 	{
-        list->mergeSort(type, true);
-		//list->displayUniversityList();
+        list->mergeSort(type);
+        list->displayUniversityListDesc();
         StatusContainer::cacheUniList = list;
 	}
 
@@ -584,15 +502,7 @@ bool go_to_end_search()
         {
             if (option == 1)
             {
-                //StatusContainer::currentUser->addFavourite(name);
                 StatusContainer::userBTree.addUserFavourite(StatusContainer::currentUser->getUserID(), name);
-
-				/*IsVector<string> favs = StatusContainer::userBTree.getUserFavouritesByID(StatusContainer::currentUser->getUserID());
-
-				for (int i = 0; i < favs.getSize(); i++)
-				{
-					cout << "In favs: " << favs.at(i) << endl;
-				}*/
 
                 Message::success("Add favourite successfully!");
                 Sleep(1000);
@@ -613,12 +523,30 @@ bool go_to_end_search()
 
 void go_to_generate_report()
 {
-    cout << "Generate report page" << endl;
-}
+    IsVector<std::string> fav = StatusContainer::userBTree.getUsersFavourites();
+    int count = 0;
 
-void go_to_customer_sort()
-{
-    // TODO
+    for (int i = 0; i < fav.getSize(); i++)
+    {
+        for (int j = 0; j < fav.getSize(); j++)
+        {
+            if (fav.at(i) == fav.at(j))
+                count++;
+        }
+        StatusContainer::universityList.updateFavourite(fav.at(i), count);
+        //cout << fav.at(i) << " " << count << endl;
+        count = 0;
+    }
+
+    cout << string(101, '*') << endl;
+    cout << string(40, ' ') << "Top 10 University" << string(40, ' ') << endl;
+    cout << string(101, '*') << endl;
+    StatusContainer::universityList.displayTop10Uni();
+    cout << endl;
+    
+    system("pause");
+    system("cls");
+    go_to_admin_menu();
 }
 
 void go_to_logout()

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <regex>
+#include <iomanip>
 #include "Message.h"
 #include "Menu.h"
 #include "DateTime.h"
@@ -145,10 +146,44 @@ std::string searchUniByName()
 	return institution;
 }
 
+void printTable(IsVector<std::string> data, int columns, int rows) {
+    int dataSize = data.getSize();
+    int tableSize = columns * rows;
+
+    // Adjust the table size if it exceeds the available data
+    if (tableSize > dataSize) {
+        tableSize = dataSize;
+    }
+
+    int columnWidth = 4; // Assuming a maximum of 4-character location codes
+
+    // Print top border
+    std::cout << std::string((columnWidth + 1) * columns + 1, '-') << std::endl;
+
+    // Print table rows
+    for (int i = 0; i < tableSize; i++) {
+        if (i % columns == 0 && i != 0) {
+            std::cout << '|' << std::endl;
+        }
+        std::cout << '|' << std::left << std::setw(columnWidth) << data.at(i);
+    }
+    std::cout << '|' << std::endl;
+
+    // Print bottom border
+    std::cout << std::string((columnWidth + 1) * columns + 1, '-') << std::endl;
+}
+
 std::string searchUniByLocationCode()
 {
 	std::string locationCode;
-	std::cout << "Please enter the university location code: " << std::endl;
+
+    //print location code table
+    IsVector<std::string> location = StatusContainer::universityBTree.getUniversityLocationCode();
+    printTable(location, 10, 10);
+
+	std::cout << "Please enter the university location code ";
+    Message::notice("(Location code display on table)");
+
 	while (true)
 	{
 		std::cout << "> ";

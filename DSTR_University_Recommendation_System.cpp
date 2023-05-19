@@ -400,6 +400,9 @@ void go_to_user_search()
     string value = "";
     cout << endl;
 
+    if (type == 6)
+        go_to_user_menu();
+
     if (type == 1)
 		value = validation("Enter university ranking: ", "1 - 1422", NUM_REGEX);
     else if (type == 2)
@@ -437,8 +440,11 @@ void go_to_user_search()
         StatusContainer::cacheUniList = list;
 	}
 
-    cout << endl;
-	bool next = proceedNext("Continue search university with these result");
+    cout << endl;   
+    bool next;
+    if (type == 1)  next = false;
+    else next = proceedNext("Continue search university with these result");
+    
     system("cls");
 	if (next)
 	{
@@ -454,7 +460,6 @@ void go_to_user_search()
 				break;
 			}
         }
-		//bool end = go_to_end_search();
         system("cls");
 
         list->destroyList();  // destroy list
@@ -465,7 +470,6 @@ void go_to_user_search()
 
         Menu::searchUniPage();
         go_to_user_menu();  // back to menu or back to user_search
-        
 	}
 }
 
@@ -507,17 +511,31 @@ bool go_to_end_search()
                 Message::success("Add favourite successfully!");
                 Sleep(1000);
             }
-            else // TODO: write feedback here
+            else
             {
-                cout << "Wirte Feedback" << endl;
+                string feedback = "";
+                FeedbackNode* node = new FeedbackNode;
+                cout << "Write Feedback: ";
+                cin.ignore();
+                getline(cin, feedback);
+                time_t now = time(0);
+                node->feedback.FeedbackID = now;
+                node->feedback.UserName = StatusContainer::currentUser->getUsername();
+                node->feedback.ReplyTo = -1;
+                node->feedback.Content = feedback;
+                node->feedback.Institution = name;
+                StatusContainer::feedbackList.InsertToFrontOfList(node);
+
+                Message::success("Write Feedback Successfully");
+                Sleep(1000);
             }
+			system("cls");
         }
         return false;
     }
     else if (option == 3)
     {
         return true;
-        //break;
     }
 }
 

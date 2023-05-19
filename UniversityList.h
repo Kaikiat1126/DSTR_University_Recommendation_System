@@ -200,8 +200,7 @@ void UniversityList::displayUniversityList()
 			<< std::right << std::setw(2) << temp->university.locationCode << "\t"
 			<< std::setw(4) << temp->university.ArScore << "\t"
 			<< std::setw(4) << temp->university.FsrScore << "\t"
-			<< std::setw(4) << temp->university.ErScore << "\t" 
-			<< temp->university.count << std::endl;
+			<< std::setw(4) << temp->university.ErScore << std::endl;
 		temp = temp->next;
 	}
 }

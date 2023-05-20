@@ -24,6 +24,7 @@ public:
 	static int manageFeedbackPage();
 	static void modifyUserPage();
 	static void inactiveUserPage();
+	static int choosePage(int size);
 	static int userPage();
 	static void feedbackPage();
 	static int userFeedbackPage();
@@ -495,6 +496,27 @@ int Menu::optionBeforeEndSearch()
 		std::cout << "> ";
 		std::cin >> input;
 		int option = validOption(input, 3);
+		if (option != -1)
+			return option;
+	}
+}
+
+int Menu::choosePage(int size)
+{
+	int item = size / 50;
+	string input = "";
+	
+	if (item > 0) {
+		cout << "Choose Page: ( 1 ~ " << item+1 << " )";
+	}
+	else {
+		Message::warning("No item found");
+		return 0;
+	}
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, item);
 		if (option != -1)
 			return option;
 	}

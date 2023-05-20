@@ -7,6 +7,7 @@
 #include "Structure.h"
 #include "UniversityBTree.h"
 
+
 class Visitor
 {
 private:
@@ -46,7 +47,12 @@ int Visitor::validOption(std::string input, int maxOption)
 
 void Visitor::displayAllUniversity()
 {
-	StatusContainer::universityList.displayCompleteUniversityList();
+	//StatusContainer::universityList.displayCompleteUniversityList();
+	StatusContainer::universityList.displayInPagination();
+
+	bool isContinue = proceedNext("Do you want to Continue Search");
+	if (isContinue)
+		Visitor::displayAllUniversity();
 }
 
 void Visitor::chooseSearchAlgo(std::string institution)

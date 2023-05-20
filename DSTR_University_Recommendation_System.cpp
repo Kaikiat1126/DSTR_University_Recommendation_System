@@ -576,3 +576,4 @@ void go_to_logout()
     else
 		verify_second_menu();	
 }
+

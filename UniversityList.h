@@ -3,6 +3,8 @@
 #include "QuickSort.h"
 #include "MergeSort.h"
 #include "Timer.h"
+#include "Menu.h"
+#include "Message.h"
 #include <iostream>
 #include <string>
 #include <iomanip>
@@ -38,6 +40,7 @@ public:
 	bool checkRankExist(int rank);
 	UniversityList* filterUniversityByValue(int* type, int* range, std::string* value);
 	void updateFavourite(const std::string&, int);
+	void displayInPagination();
 };
 
 UniversityList::UniversityList()
@@ -145,6 +148,7 @@ UniversityNode* UniversityList::searchByInstitution(std::string institution)
 void UniversityList::displayCompleteUniversityList()
 {
 	UniversityNode* temp = head;
+	
 	while (temp != NULL)
 	{
 		std::cout << "Rank           :" << temp->university.rank << '\t';
@@ -169,7 +173,7 @@ void UniversityList::displayCompleteUniversityList()
 		std::cout << "GerRank        :" << temp->university.GerRank << '\t';
 		std::cout << "ScoreScaled    :" << temp->university.ScoreScaled << std::endl;
 		std::cout<<std::endl;
-
+		
 		temp = temp->next;
 	}
 }
@@ -445,4 +449,59 @@ void UniversityList::updateFavourite(const std::string& institution, int count)
 		}
 		current = current->next;
 	}
+}
+
+void UniversityList::displayInPagination() 
+{
+	
+	UniversityNode* temp = head;
+	int page = Menu::choosePage(getSize());
+
+	int count = 1;
+	
+	//int page = 28;
+
+	if (!page)
+		return;
+
+	while (count++ != page * 50 + 1) {
+		temp = temp->next;
+	}
+	count = 0;
+
+	while (temp != NULL)
+	{
+		std::cout << "Rank           :" << temp->university.rank << '\t';
+		std::cout << "Institution    :" << temp->university.institution << '\n';
+		std::cout << "Location code  :" << temp->university.locationCode << '\t';
+		std::cout << "Location       :" << temp->university.location << '\n';
+		std::cout << "ArScore        :" << temp->university.ArScore << '\t';
+		std::cout << "ArRank         :" << temp->university.ArRank << '\t';
+		std::cout << "ErScore        :" << temp->university.ErScore << '\t';
+		std::cout << "ErRank         :" << temp->university.ErRank << '\t';
+		std::cout << "FsrScore       :" << temp->university.FsrScore << '\t';
+		std::cout << "FsrRank        :" << temp->university.FsrRank << '\n';
+		std::cout << "CpfScore       :" << temp->university.CpfScore << '\t';
+		std::cout << "CpfRank        :" << temp->university.CpfRank << '\t';
+		std::cout << "IfrScore       :" << temp->university.IfrScore << '\t';
+		std::cout << "IfrRank        :" << temp->university.IfrRank << '\t';
+		std::cout << "IsrScore       :" << temp->university.IsrScore << '\t';
+		std::cout << "IsrRank        :" << temp->university.IsrRank << '\n';
+		std::cout << "IrnScore       :" << temp->university.IrnScore << '\t';
+		std::cout << "IrnRank        :" << temp->university.IrnRank << '\t';
+		std::cout << "GerScore       :" << temp->university.GerScore << '\t';
+		std::cout << "GerRank        :" << temp->university.GerRank << '\t';
+		std::cout << "ScoreScaled    :" << temp->university.ScoreScaled << std::endl;
+		std::cout << std::endl;
+
+		++count;
+
+		temp = temp->next;
+		if (!temp)
+			Message::warning("You reach the bottom");
+		if (count == 50) {
+			break;
+		}
+	}
+	
 }

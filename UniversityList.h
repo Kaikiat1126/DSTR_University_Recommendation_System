@@ -28,7 +28,6 @@ public:
 	void insertToEndOfList(UniversityStruct university);
 	UniversityNode* searchByRank(int rank);
 	UniversityNode* searchByInstitution(std::string institution);
-	void displayCompleteUniversityList();
 	void displayUniversityList();
 	void displayUniversityListDesc();
 	void displayTop10Uni();
@@ -143,39 +142,6 @@ UniversityNode* UniversityList::searchByInstitution(std::string institution)
 		temp = temp->next;
 	}
 	return NULL;
-}
-
-void UniversityList::displayCompleteUniversityList()
-{
-	UniversityNode* temp = head;
-	
-	while (temp != NULL)
-	{
-		std::cout << "Rank           :" << temp->university.rank << '\t';
-		std::cout << "Institution    :" << temp->university.institution << '\n';
-		std::cout << "Location code  :" << temp->university.locationCode << '\t';
-		std::cout << "Location       :" << temp->university.location << '\n';
-		std::cout << "ArScore        :" << temp->university.ArScore << '\t';
-		std::cout << "ArRank         :" << temp->university.ArRank << '\t';
-		std::cout << "ErScore        :" << temp->university.ErScore << '\t';
-		std::cout << "ErRank         :" << temp->university.ErRank << '\t';
-		std::cout << "FsrScore       :" << temp->university.FsrScore << '\t';
-		std::cout << "FsrRank        :" << temp->university.FsrRank << '\n';
-		std::cout << "CpfScore       :" << temp->university.CpfScore << '\t';
-		std::cout << "CpfRank        :" << temp->university.CpfRank << '\t';
-		std::cout << "IfrScore       :" << temp->university.IfrScore << '\t';
-		std::cout << "IfrRank        :" << temp->university.IfrRank << '\t';
-		std::cout << "IsrScore       :" << temp->university.IsrScore << '\t';
-		std::cout << "IsrRank        :" << temp->university.IsrRank << '\n';
-		std::cout << "IrnScore       :" << temp->university.IrnScore << '\t';
-		std::cout << "IrnRank        :" << temp->university.IrnRank << '\t';
-		std::cout << "GerScore       :" << temp->university.GerScore << '\t';
-		std::cout << "GerRank        :" << temp->university.GerRank << '\t';
-		std::cout << "ScoreScaled    :" << temp->university.ScoreScaled << std::endl;
-		std::cout<<std::endl;
-		
-		temp = temp->next;
-	}
 }
 
 void UniversityList::displayHeader()

@@ -43,7 +43,7 @@ UniversityNode* MergeSort::merge(UniversityNode* first, UniversityNode* second)
 		else if (sortBy == 1)
 			return a.rank < b.rank;
 		else if (sortBy == 2)
-			return a.ArRank < b.ArScore;
+			return a.ArScore < b.ArScore;
 		else if (sortBy == 3)
 			return a.FsrScore < b.FsrScore;
 		else if (sortBy == 4)

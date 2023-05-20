@@ -455,11 +455,11 @@ void UniversityList::displayInPagination()
 {
 	
 	UniversityNode* temp = head;
-	int page = Menu::choosePage(getSize());
 
 	int count = 1;
 	
-	//int page = 28;
+	//int page = Menu::choosePage(getSize()); //Problem ::'Menu' is not a class or namespace name and 'choosePage' identifier not found
+	int page = 28;
 
 	if (!page)
 		return;

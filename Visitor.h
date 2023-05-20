@@ -55,10 +55,10 @@ void Visitor::displayAllUniversity()
 	StatusContainer::universityList.displayInPagination(page);
 	
 	std::cout << std::endl;
-	Message::notice("Current Page " + std::to_string(page) + " of " + std::to_string(listSize/50));
+	Message::notice("Current Page " + std::to_string(page) + " of " + std::to_string((listSize / 50)+1));
 	std::cout << std::endl;
 
-	bool isContinue = proceedNext("Do you want to Continue Search");
+	bool isContinue = proceedNext("Do you want to Continue Search by page");
 
 	if (isContinue)
 	{

@@ -467,7 +467,7 @@ void UniversityList::displayInPagination(int page)
 	if (!page)
 		return;
 
-	while (count++ != page * 50 + 1) {
+	while (count++ != (page - 1) * 50 + 1) {
 		temp = temp->next;
 	}
 	count = 0;

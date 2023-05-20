@@ -509,7 +509,7 @@ int Menu::choosePage(int size)
 	std::string input = "";
 	
 	if (item > 0) {
-		cout << "Choose Page: ( 1 ~ " << item << " )";
+		cout << "Choose Page: ( 1 ~ " << item+1 << " )";
 	}
 	else {
 		Message::warning("No item found");
@@ -518,10 +518,8 @@ int Menu::choosePage(int size)
 	while (true) {
 		std::cout << "> ";
 		std::cin >> input;
-		int option = validOption(input, item);
+		int option = validOption(input, item+1);
 		if (option != -1)
 			return option;
 	}
-	//std::cout << "Hello " << size << std::endl;
-	//return size;
 }

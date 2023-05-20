@@ -210,7 +210,11 @@ void UniversityList::displayUniversityList()
 
 void UniversityList::displayUniversityListDesc()
 {
-	UniversityNode* temp = tail;
+	UniversityNode* temp = head;
+	while (temp->next != NULL)
+	{
+		temp = temp->next;
+	}
 
 	displayHeader();
 
@@ -219,7 +223,7 @@ void UniversityList::displayUniversityListDesc()
 		std::cout << std::setw(4) << temp->university.rank << "\t"
 			<< std::left << std::setw(90) << temp->university.institution << "\t"
 			<< std::right << std::setw(2) << temp->university.locationCode << "\t"
-			<< std::setw(4) << temp->university.ArScore << "\t"
+			<< std::setw(4) << temp->university.ArScore << "\t" 
 			<< std::setw(4) << temp->university.FsrScore << "\t"
 			<< std::setw(4) << temp->university.ErScore << std::endl;
 		temp = temp->prev;
@@ -229,7 +233,7 @@ void UniversityList::displayUniversityListDesc()
 void UniversityList::displayTop10Uni()
 {
 	UniversityList* copyList = new UniversityList(*this);
-	copyList->mergeSort(1);
+	copyList->mergeSort(5);
 
 	UniversityNode* temp = copyList->head;
 	while (temp->next != NULL)
@@ -281,7 +285,6 @@ void UniversityList::quickSort()
 	copyList->destroyList();
 }
 
-// type: "institution", "ar_score", "fsr_score", "er_score"
 void UniversityList::mergeSort()
 {
 	UniversityList* copyList = new UniversityList(*this);
@@ -302,6 +305,7 @@ void UniversityList::mergeSort()
 	copyList->destroyList();
 }
 
+// type: "0:institution", "1:rank", "2:ar_score", "3:fsr_score", "4:er_score", "5:count
 void UniversityList::mergeSort(int type)
 {
 	if (head != NULL)
@@ -390,15 +394,15 @@ void UniversityList::filterUniversityByValue(UniversityNode* head, int* type, in
 	while (temp != NULL)
 	{
 		bool match = false;
-		if (*type == 3)
+		if (*type == 2)
 		{
 			match = temp->university.ArScore >= minScore && temp->university.ArScore <= maxScore;
 		}
-		else if (*type == 4)
+		else if (*type == 3)
 		{
 			match = temp->university.FsrScore >= minScore && temp->university.FsrScore <= maxScore;
 		}
-		else if (*type == 5)
+		else if (*type == 4)
 		{
 			match = temp->university.ErScore >= minScore && temp->university.ErScore <= maxScore;
 		}
@@ -418,15 +422,18 @@ void UniversityList::filterUniversityByValue(UniversityNode* head, int* type, in
 
 void UniversityList::deleteNode(UniversityNode* node)
 {
+	if (node == nullptr)
+		return; // Handle the case when the node is null
+
 	if (node == head)
 	{
 		head = head->next;
-		head->prev = NULL;
+		head->prev = nullptr;
 	}
 	else if (node == tail)
 	{
 		tail = tail->prev;
-		tail->next = NULL;
+		tail->next = nullptr;
 	}
 	else
 	{

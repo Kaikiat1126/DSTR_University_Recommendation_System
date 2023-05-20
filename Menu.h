@@ -148,7 +148,8 @@ int Menu::loginProcess(){
     while(true)
     {
         std::cout << "> ";
-        std::cin >> password;
+
+		password = encrypPassword();
         if(password == "")
         {
             Message::warning("Password cannot be empty!");

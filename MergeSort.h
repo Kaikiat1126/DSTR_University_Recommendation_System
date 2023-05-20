@@ -41,13 +41,15 @@ UniversityNode* MergeSort::merge(UniversityNode* first, UniversityNode* second)
 		if (sortBy == 0)
 			return a.institution < b.institution;
 		else if (sortBy == 1)
-			return a.count < b.count;
+			return a.rank < b.rank;
+		else if (sortBy == 2)
+			return a.ArRank < b.ArScore;
 		else if (sortBy == 3)
-			return a.ArScore < b.ArScore;
-		else if (sortBy == 4)
 			return a.FsrScore < b.FsrScore;
-		else if (sortBy == 5)
+		else if (sortBy == 4)
 			return a.ErScore < b.ErScore;
+		else if (sortBy == 5)
+			return a.count < b.count;
 		else
 			return a.rank < b.rank;
 	};
@@ -68,7 +70,7 @@ UniversityNode* MergeSort::merge(UniversityNode* first, UniversityNode* second)
 	}
 }
 
-// type: "0:institution", "1:count", "3:ar_score", "4:fsr_score", "5:er_score"
+// type: "0:institution", "1:rank", "2:ar_score", "3:fsr_score", "4:er_score", "5:count
 UniversityNode* MergeSort::mergeSort(UniversityNode* head, int type)
 {
 	sortBy = type;

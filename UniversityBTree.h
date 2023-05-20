@@ -44,6 +44,8 @@ private:
 	void filterUniversityByValue(UniversityBTreeNode* node,int* type, int* range, UniversityList* list);
 	void filterUniversityWithLocation(UniversityBTreeNode* node, std::string& value, UniversityList* list);
 	void filterUniversityWithRank(UniversityBTreeNode* node, int rank, int* pos, UniversityList* list);
+
+	void filterSpecificUniverstiyLocation(UniversityBTreeNode* node, IsVector<std::string>* location);
 		
 public:
 	UniversityBTreeNode* root;
@@ -59,6 +61,7 @@ public:
 	void preOrder();
 	void postOrder();
 	std::string getUniversityNameByRank(int rank);
+	IsVector<std::string> getUniversityLocationCode();
 };
 
 
@@ -659,15 +662,15 @@ void UniversityBTree::filterUniversityByValue(UniversityBTreeNode* node, int* ty
 	for (int i = 1; i <= node->count; i++)
 	{
 		bool match = false;
-		if (*type == 3)
+		if (*type == 2)
 		{
 			match = (node->university[i].ArScore >= minScore && node->university[i].ArScore <= maxScore);
 		}
-		else if (*type == 4)
+		else if (*type == 3)
 		{
 			match = (node->university[i].FsrScore >= minScore && node->university[i].FsrScore <= maxScore);
 		}
-		else if (*type == 5)
+		else if (*type == 4)
 		{
 			match = (node->university[i].ErScore >= minScore && node->university[i].ErScore <= maxScore);
 		}
@@ -750,4 +753,34 @@ std::string UniversityBTree::searchNameByRank(UniversityBTreeNode* node, int ran
 	
 	if (!found)
 		return searchNameByRank(node->child[*pos], rank, pos);
+}
+
+IsVector<std::string> UniversityBTree::getUniversityLocationCode()
+{
+	IsVector<std::string> locationCode;
+	filterSpecificUniverstiyLocation(root, &locationCode);
+	return locationCode;
+}
+
+void UniversityBTree::filterSpecificUniverstiyLocation(UniversityBTreeNode* node, IsVector<std::string>* location)
+{
+	if (!node) return;
+	
+	for (int i = 1; i <= node->count; i++)
+	{
+		bool found = false;
+		for (int j = 0; j < location->getSize(); j++)
+		{
+			if (node->university[i].locationCode == location->at(j))
+			{
+				found = true;
+				break;
+			}
+		}
+		if (!found)
+			location->push_back(node->university[i].locationCode);
+	}
+	
+	for (int i = 0; i <= node->count; i++)
+		filterSpecificUniverstiyLocation(node->child[i], location);
 }

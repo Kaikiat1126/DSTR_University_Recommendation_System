@@ -40,7 +40,7 @@ public:
 	bool checkRankExist(int rank);
 	UniversityList* filterUniversityByValue(int* type, int* range, std::string* value);
 	void updateFavourite(const std::string&, int);
-	void displayInPagination();
+	void displayInPagination(int page);
 };
 
 UniversityList::UniversityList()
@@ -458,15 +458,11 @@ void UniversityList::updateFavourite(const std::string& institution, int count)
 	}
 }
 
-void UniversityList::displayInPagination() 
+void UniversityList::displayInPagination(int page) 
 {
-	
 	UniversityNode* temp = head;
 
 	int count = 1;
-	
-	//int page = Menu::choosePage(getSize()); //Problem ::'Menu' is not a class or namespace name and 'choosePage' identifier not found
-	int page = 28;
 
 	if (!page)
 		return;

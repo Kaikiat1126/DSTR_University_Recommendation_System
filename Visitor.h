@@ -6,6 +6,7 @@
 #include "StatusContainer.h"
 #include "Structure.h"
 #include "UniversityBTree.h"
+#include "Menu.h"
 
 
 class Visitor
@@ -47,12 +48,23 @@ int Visitor::validOption(std::string input, int maxOption)
 
 void Visitor::displayAllUniversity()
 {
-	//StatusContainer::universityList.displayCompleteUniversityList();
-	StatusContainer::universityList.displayInPagination();
+	int listSize = StatusContainer::universityList.getSize();
+	int page = Menu::choosePage(listSize);
+	system("cls");
+
+	StatusContainer::universityList.displayInPagination(page);
+	
+	std::cout << std::endl;
+	Message::notice("Current Page " + std::to_string(page) + " of " + std::to_string(listSize/50));
+	std::cout << std::endl;
 
 	bool isContinue = proceedNext("Do you want to Continue Search");
+
 	if (isContinue)
+	{
+		system("cls");
 		Visitor::displayAllUniversity();
+	}
 }
 
 void Visitor::chooseSearchAlgo(std::string institution)

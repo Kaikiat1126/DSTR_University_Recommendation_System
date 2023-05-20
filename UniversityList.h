@@ -206,7 +206,11 @@ void UniversityList::displayUniversityList()
 
 void UniversityList::displayUniversityListDesc()
 {
-	UniversityNode* temp = tail;
+	UniversityNode* temp = head;
+	while (temp->next != NULL)
+	{
+		temp = temp->next;
+	}
 
 	displayHeader();
 
@@ -386,15 +390,15 @@ void UniversityList::filterUniversityByValue(UniversityNode* head, int* type, in
 	while (temp != NULL)
 	{
 		bool match = false;
-		if (*type == 3)
+		if (*type == 2)
 		{
 			match = temp->university.ArScore >= minScore && temp->university.ArScore <= maxScore;
 		}
-		else if (*type == 4)
+		else if (*type == 3)
 		{
 			match = temp->university.FsrScore >= minScore && temp->university.FsrScore <= maxScore;
 		}
-		else if (*type == 5)
+		else if (*type == 4)
 		{
 			match = temp->university.ErScore >= minScore && temp->university.ErScore <= maxScore;
 		}

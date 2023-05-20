@@ -411,10 +411,13 @@ void go_to_user_search()
 
     if (list == nullptr)
     {
+		//cout << "nullptr" << endl;
         list = new UniversityList();
 		StatusContainer::cacheUniList = list;
 		//cout << StatusContainer::cacheUniList << endl;
         list = StatusContainer::universityBTree.filterUniversityByValue(&type, &range, &value);
+		StatusContainer::cacheUniList = list;
+		//cout << "Size: " << list->getSize() << endl;
     }
     else
     {
@@ -432,7 +435,11 @@ void go_to_user_search()
 	}
 	else
 	{
+		//cout << "Merge Sort" << endl;
         list->mergeSort(type);
+		//cout << "Size: " << list->getSize() << endl;
+        //StatusContainer::cacheUniList->displayUniversityList();
+        //list->displayUniversityList();
         list->displayUniversityListDesc();
         StatusContainer::cacheUniList = list;
 	}

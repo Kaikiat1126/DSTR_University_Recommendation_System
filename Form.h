@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <regex>
+#include <iomanip>
 #include "Message.h"
 #include "Menu.h"
 #include "DateTime.h"
@@ -17,6 +18,7 @@ std::string validInput(std::string, std::string, std::string);
 bool registrationForm();
 bool proceedNext(std::string);
 std::string searchUniByName();
+std::string searchUniByLocationCode();
 
 std::string validateInput(const std::string& prompt, const std::string& hint,const std::string& regexStr) {
     std::string input;
@@ -124,7 +126,6 @@ bool proceedNext(std::string message) {
 
 std::string searchUniByName()
 {
-    std::cout << std::endl;
 	std::string institution;
     std::cout << "Please enter the university institution: " << std::endl;
     while (true)
@@ -143,4 +144,64 @@ std::string searchUniByName()
 	//std::cout << institution << std::endl;
 	std::cout << std::endl;
 	return institution;
+}
+
+void printTable(IsVector<std::string> data, int columns, int rows) {
+    int dataSize = data.getSize();
+    int tableSize = columns * rows;
+
+    // Adjust the table size if it exceeds the available data
+    if (tableSize > dataSize) {
+        tableSize = dataSize;
+    }
+
+    int columnWidth = 4; // Assuming a maximum of 4-character location codes
+
+    // Print top border
+    std::cout << std::string((columnWidth + 1) * columns + 1, '-') << std::endl;
+
+    // Print table rows
+    for (int i = 0; i < tableSize; i++) {
+        if (i % columns == 0 && i != 0) {
+            std::cout << '|' << std::endl;
+        }
+        std::cout << '|' << std::left << std::setw(columnWidth) << data.at(i);
+    }
+    std::cout << '|' << std::endl;
+
+    // Print bottom border
+    std::cout << std::string((columnWidth + 1) * columns + 1, '-') << std::endl;
+}
+
+std::string searchUniByLocationCode()
+{
+	std::string locationCode;
+
+    //print location code table
+    IsVector<std::string> location = StatusContainer::universityBTree.getUniversityLocationCode();
+    printTable(location, 10, 10);
+
+	std::cout << "Please enter the university location code ";
+    Message::notice("(Location code display on table)");
+
+	while (true)
+	{
+		std::cout << "> ";
+		std::cin.ignore();
+		std::getline(std::cin, locationCode);
+		if (locationCode.empty()) {
+			Message::warning("Don't leave empty input!");
+		}
+		if (locationCode.length() != 2) {
+			Message::warning("Location code must be 2 characters!");
+		}
+		else
+		{
+			break;
+		}
+	}
+	std::cout << std::endl;
+	std::transform(locationCode.begin(), locationCode.end(), locationCode.begin(), ::toupper);
+	locationCode.erase(std::remove(locationCode.begin(), locationCode.end(), ' '), locationCode.end());
+	return locationCode;
 }

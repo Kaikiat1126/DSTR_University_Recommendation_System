@@ -13,6 +13,9 @@
 #include "DataHandler.h"
 #include "Visitor.h"
 #include "Admin.h"
+#include "Validation.h"
+#include "UniversityList.h"
+#include "IsUnorderedMap.h"
 
 using namespace std;
 
@@ -28,37 +31,17 @@ void landing_sort();
 void go_to_manage_user();
 void go_to_manage_feedback();
 void go_to_generate_report();
-void go_to_customer_sort();
 void go_to_feedback_page();
 void go_to_user_feedback();
 void go_to_user_favourites();
+void go_to_user_search();
+bool go_to_end_search();
 void go_to_logout();
-
-void testInitData();
 
 int main()
 {    
-    testInitData();
-    //std::cout << "Hello University Recommendatio0n System!\n";
+    readFiletoStruture();
     go_to_main_menu();
-	// go_to_register();
-}
-
-void testInitData()
-{
-    initUserData();
-    //StatusContainer::userList.displayUserList();
-	//StatusContainer::userBTree.traversal();
-
-    //IsVector<UserStruct>* users = new IsVector<UserStruct>();
-    //StatusContainer::userBTree.searchUserMatch(users, "John");
-
-	initUniversityData();
-	//StatusContainer::universityList.displayUniversityList();
-    
-	//StatusContainer::universityBTree.traversal();
-    //StatusContainer::universityBTree.preOrder();
-	//StatusContainer::universityBTree.postOrder();
 }
 
 void go_to_main_menu()
@@ -87,7 +70,6 @@ void go_to_main_menu()
 
 void go_to_search_university()  //Landing page's search university (Vistor Function)
 {
-    // cout << "This is search university page" << endl;
 	Visitor::displayAllUniversity();
     cout << endl;
 	int option = Menu::landingUniMenu();
@@ -112,7 +94,6 @@ void go_to_register()
 	system("cls");
     if (option == 1)
     {
-        //TODOs -> direct register form
 		bool res = registrationForm();
         if (res)
         {
@@ -215,7 +196,9 @@ void go_to_user_menu()
     system("cls");
     if (option == 1) 
     {
-        cout << "Search University" << endl;
+        Menu::searchUniPage();
+        
+        go_to_user_search();
     }
     else if (option == 2) 
     {
@@ -248,7 +231,7 @@ void go_to_admin_menu()
         go_to_generate_report();
     }
     else if (option == 4) {
-        go_to_login();
+        go_to_logout();
     }
 }
 
@@ -305,48 +288,39 @@ void go_to_feedback_page()
     }
 }
 
-//void go_to_manage_feedback()
-//{
-//    cout << "Manage feedback page" << endl;
-//
-//    while (true) {
-//        int option = Menu::manageFeedbackPage();
-//        system("cls");
-//        if (option == 1) {
-//            std::cout << "Reply: ~~~~~~~~~~~~~~~~" << std::endl;
-//        }
-//        else if (option == 2) {
-//            std::cout << "Next: :)))))))))))))))" << std::endl;
-//        }
-//        else if (option == 3) {
-//            std::cout << "Previous: :((((((((((((((" << std::endl;
-//        }
-//        else if (option == 4) {
-//            break;
-//        }
-//    } 
-//    go_to_admin_menu();
-//}
-
-// TODO
 void go_to_manage_feedback()
 {
+    FeedbackNode* latest = StatusContainer::feedbackList.getLatestFeedback();
     while (true)
     {
+        string user = StatusContainer::currentUser->getUsername();
         int option = Menu::manageFeedbackPage();
+        system("cls");
         if (option == 1)
         {
-            cout << "Reply Feedback" << endl;
+            string comment = "";
+            cout << "Reply: ";
+            cin.ignore();
+            getline(cin, comment);
+            
+            StatusContainer::feedbackList.replyFeedback(comment, user);
+            Message::success("Reply Successfully");
         }
         else if (option == 2)
         {
-            cout << "Move Forward" << endl;
+            StatusContainer::feedbackList.getNextFeedback();
         }
         else if (option == 3)
         {
-            cout << "Move Backward" << endl;
+            StatusContainer::feedbackList.getPrevFeedback(); 
         }
         else if (option == 4)
+        {
+            StatusContainer::feedbackList.display();
+            system("pause");
+            system("cls");
+        }
+        else if (option == 5)
         {
             break;
         }
@@ -354,19 +328,25 @@ void go_to_manage_feedback()
     go_to_admin_menu();
 }
 
-// TODO
 void go_to_user_feedback()
 {
+    StatusContainer::feedbackList.getLatestFeedback();
+    StatusContainer::feedbackList.displayCurrent();
     while (true)
     {
         int option = Menu::userFeedbackPage();
+        system("cls");
         if (option == 1)
         {
-			cout << "Move Forward" << endl;
+			//cout << "Move Forward" << endl;
+            StatusContainer::feedbackList.getNextFeedback();
+            StatusContainer::feedbackList.displayCurrent();
 		}
 		else if (option == 2)
 		{
-			cout << "Move Backward" << endl;
+			//cout << "Move Backward" << endl;
+            StatusContainer::feedbackList.getPrevFeedback();
+            StatusContainer::feedbackList.displayCurrent();
 		}
 		else if (option == 3)
 		{
@@ -383,10 +363,23 @@ void go_to_user_favourites()
 	if (option == 1) 
     {
         int index = Menu::deleteFavourite();
-		StatusContainer::currentUser->removeFavourite(index);
+        if (index != -1)
+        {
+            //StatusContainer::currentUser->removeFavourite(index);
 
-        int userID = StatusContainer::currentUser->getUserID();
-		StatusContainer::userBTree.removeUserFavourite(userID, index);
+            int userID = StatusContainer::currentUser->getUserID();
+		    StatusContainer::userBTree.removeUserFavourite(userID, index);
+
+			Message::success("Delete Successfully");
+			Sleep(2000);
+        }
+        
+        if (index == -1)
+        {
+			Message::warning("No favourite can be deleted!");
+            Sleep(2000);
+        }
+		
 		system("cls");
         go_to_user_favourites();
 	}
@@ -396,14 +389,184 @@ void go_to_user_favourites()
 	}
 }
 
-void go_to_generate_report()
+void go_to_user_search()
 {
-    cout << "Generate report page" << endl;
+	UniversityList* list = StatusContainer::cacheUniList;
+    
+    int type = Menu::searchUniOption();
+    int range = 0;
+    string value = "";
+    cout << endl;
+
+    if (type == 5)
+        go_to_user_menu();
+
+
+    if (type == 1)
+        value = searchUniByLocationCode();
+    else
+        range = Menu::selectScoreRange();
+
+	system("cls");
+
+    if (list == nullptr)
+    {
+		//cout << "nullptr" << endl;
+        list = new UniversityList();
+		StatusContainer::cacheUniList = list;
+		//cout << StatusContainer::cacheUniList << endl;
+        list = StatusContainer::universityBTree.filterUniversityByValue(&type, &range, &value);
+		StatusContainer::cacheUniList = list;
+		//cout << "Size: " << list->getSize() << endl;
+    }
+    else
+    {
+		list = StatusContainer::cacheUniList->filterUniversityByValue(&type, &range, &value);
+    }
+
+	if (list->getSize() == 0)
+	{
+		Message::warning("No search result found!");
+		Sleep(1000);
+		system("cls");
+		list = nullptr;
+        Menu::searchUniPage();
+        go_to_user_search();
+	}
+	else
+	{
+		//cout << "Merge Sort" << endl;
+        list->mergeSort(type);
+		//cout << "Size: " << list->getSize() << endl;
+        //StatusContainer::cacheUniList->displayUniversityList();
+        //list->displayUniversityList();
+        list->displayUniversityListDesc();
+        StatusContainer::cacheUniList = list;
+	}
+
+    cout << endl;   
+    bool next = proceedNext("Continue search university with these result");
+    
+    system("cls");
+	if (next)
+	{
+		go_to_user_search();
+	}
+	else
+	{
+        while (true)
+        {
+            bool end = go_to_end_search();
+			if (end)
+			{
+				break;
+			}
+        }
+        system("cls");
+
+        list->destroyList();  // destroy list
+        list = nullptr;    // clear
+		StatusContainer::cacheUniList = nullptr;
+		Message::notice("Search university ended, back to previous menu!");
+		Sleep(1000);
+
+        Menu::searchUniPage();
+        go_to_user_menu();  // back to menu or back to user_search
+	}
 }
 
-void go_to_customer_sort()
+bool go_to_end_search()
 {
-    // TODO
+    if (StatusContainer::cacheUniList == nullptr)
+    {
+        //cout << "Error" << endl;
+        return false;
+    }
+
+    StatusContainer::cacheUniList->displayUniversityList();
+
+    int option = Menu::optionBeforeEndSearch();
+
+    if (option == 1 || option == 2)
+    {
+        string num = validation("Enter university ranking: ", "From result above", NUM_REGEX);
+        bool isExist = StatusContainer::cacheUniList->checkRankExist(stoi(num));
+        string name = StatusContainer::universityBTree.getUniversityNameByRank(stoi(num));
+        bool isFavourite = StatusContainer::currentUser->checkFavouriteExist(name);
+
+        if (!isExist)
+        {
+            Message::error("Input's University ranking does not exist!");
+            Sleep(1000);
+        }
+        else if (isFavourite && option == 1)
+        {
+            Message::notice("This university is already in your favourite list!");
+            Sleep(1000);
+        }
+        else
+        {
+            if (option == 1)
+            {
+                StatusContainer::userBTree.addUserFavourite(StatusContainer::currentUser->getUserID(), name);
+
+                Message::success("Add favourite successfully!");
+                Sleep(1000);
+            }
+            else
+            {
+                string feedback = "";
+                FeedbackNode* node = new FeedbackNode;
+                cout << "Write Feedback: ";
+                cin.ignore();
+                getline(cin, feedback);
+                time_t now = time(0);
+                node->feedback.FeedbackID = now;
+                node->feedback.UserName = StatusContainer::currentUser->getUsername();
+                node->feedback.ReplyTo = -1;
+                node->feedback.Content = feedback;
+                node->feedback.Institution = name;
+                StatusContainer::feedbackList.InsertToFrontOfList(node);
+
+                Message::success("Write Feedback Successfully");
+                Sleep(1000);
+            }
+			system("cls");
+        }
+        return false;
+    }
+    else if (option == 3)
+    {
+        return true;
+    }
+}
+
+void go_to_generate_report()
+{
+    IsVector<std::string> fav = StatusContainer::userBTree.getUsersFavourites();
+    int count = 0;
+
+    for (int i = 0; i < fav.getSize(); i++)
+    {
+        for (int j = 0; j < fav.getSize(); j++)
+        {
+            if (fav.at(i) == fav.at(j))
+                count++;
+        }
+        StatusContainer::universityList.updateFavourite(fav.at(i), count);
+        //cout << fav.at(i) << " " << count << endl;
+        count = 0;
+    }
+
+    cout << string(101, '*') << endl;
+    cout << string(40, ' ') << "Top 10 University" << string(40, ' ') << endl;
+    cout << string(101, '*') << endl;
+    StatusContainer::universityList.displayTop10Uni();
+    cout << endl;
+    
+    system("pause");
+    system("cls");
+    go_to_admin_menu();
 }
 
 void go_to_logout()
@@ -418,3 +581,4 @@ void go_to_logout()
     else
 		verify_second_menu();	
 }
+

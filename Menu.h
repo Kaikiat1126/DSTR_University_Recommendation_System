@@ -7,6 +7,7 @@
 #include "Admin.h"
 #include "Validation.h"
 #include "StatusContainer.h"
+#include "Feedback.h"
 
 class Menu
 {
@@ -23,6 +24,7 @@ public:
 	static int manageFeedbackPage();
 	static void modifyUserPage();
 	static void inactiveUserPage();
+	
 	static int userPage();
 	static void feedbackPage();
 	static int userFeedbackPage();
@@ -30,8 +32,11 @@ public:
 	static int searchUniOption();
 	static int chooseSearchMethod();
 	static int selectScoreRange();
+	static int selectRankingRange();
 	static int userFavouritePage();
 	static int deleteFavourite();
+	static int optionBeforeEndSearch();
+	static int choosePage(int size);
 };
 
 
@@ -144,7 +149,8 @@ int Menu::loginProcess(){
     while(true)
     {
         std::cout << "> ";
-        std::cin >> password;
+
+		password = encrypPassword();
         if(password == "")
         {
             Message::warning("Password cannot be empty!");
@@ -220,7 +226,11 @@ int Menu::adminPage() {
 int Menu::manageUserPage() {
 	std::string input = "";
 
-	Admin::displayAllUser();
+	std::cout << "**************************************************************" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "******                 Manage User Page                 ******" << std::endl;
+	std::cout << "******                                                  ******" << std::endl;
+	std::cout << "**************************************************************" << std::endl;
 
 	std::cout << "Please select an option below:" << std::endl;
 	std::cout << "1. Modify User Details" << std::endl;
@@ -237,13 +247,15 @@ int Menu::manageUserPage() {
 }
 
 void Menu::modifyUserPage() {
-	std::string username = "";
-	bool found = false;
+	std::string userId = "";
 
+	std::cout << "              Existing User                " << std::endl;
+	std::cout << "*******************************************" << std::endl;
 	Admin::displayAllUser();
+	std::cout << "*******************************************" << std::endl;
 
-	username = validation("Modify Existing User Detail", "Enter Username", NAME_REGEX);
-	User user = Admin::searchUser(username);
+	userId = validation("Modify Existing User Detail", "Enter User ID", USER_ID_REGEX);
+	User user = Admin::searchUser(userId);
 
 	if (user.getUsername() != "") {
 		system("cls");
@@ -260,10 +272,10 @@ void Menu::inactiveUserPage()
 {
 	std::string userId = "";
 
-	std::cout << "                        Inactive User                         " << std::endl;
-	std::cout << "**************************************************************" << std::endl;
+	std::cout << "               Inactive User               " << std::endl;
+	std::cout << "*******************************************" << std::endl;
 	Admin::displayInactiveUser();
-	std::cout << "**************************************************************" << std::endl;
+	std::cout << "********************************************" << std::endl;
 
 	userId = validation("Delete Inactive User", "Enter User ID", USER_ID_REGEX);
 
@@ -303,35 +315,30 @@ void Menu::feedbackPage()
 	std::cout << "**************************************************************" << std::endl;
 }
 
-// TODO
 int Menu::manageFeedbackPage() {
 	std::string input = "";
-	
-	//TODO
-	//std::cout << "Call latest function:: display latest feedback" << std::endl;
-
+	feedbackPage();
+		
+	StatusContainer::feedbackList.displayCurrent();
 	std::cout << "Please select an option below:" << std::endl;
 	std::cout << "1. Reply" << std::endl;
 	std::cout << "2. Move Forward" << std::endl;
 	std::cout << "3. Move Backward" << std::endl;
-	std::cout << "4. Back to Admin Menu" << std::endl;
+	std::cout << "4. Display All Feedback" << std::endl;
+	std::cout << "5. Back to Admin Menu" << std::endl;
 
 	while (true) {
 		std::cout << "> ";
 		std::cin >> input;
-		int option = validOption(input, 4);
+		int option = validOption(input, 5);
 		if (option != -1)
 			return option;
 	}
 }
 
-// TODO
 int Menu::userFeedbackPage()
 {
 	std::string input = "";
-
-	//TODO: 2.6) read feedback reply based on latest date
-	// auto display latest feedback
 
 	std::cout << "Please select an option below:" << std::endl;
 	std::cout << "1. Move Forward" << std::endl;
@@ -350,10 +357,13 @@ int Menu::userFeedbackPage()
 int Menu::userFavouritePage()
 {
 	std::string input = "";
-	IsVector<string> favs = StatusContainer::currentUser->getFavourite();
+	//IsVector<string> favs = StatusContainer::currentUser->getFavourite();
+	IsVector<string> favs = StatusContainer::userBTree.getUserFavouritesByID(StatusContainer::currentUser->getUserID());
 	
 	std::cout << "                     Favourite Universities                   " << std::endl;
 	std::cout << "**************************************************************" << std::endl;
+	if (favs.getSize() == 0)
+		std::cout << "\t\tNo result can display" << std::endl;
 	for (int i = 0; i < favs.getSize(); i++)
 	{
 		std::cout << i+1 << "\t" << favs.at(i) << std::endl;
@@ -369,8 +379,10 @@ int Menu::userFavouritePage()
 		std::cout << "> ";
 		std::cin >> input;
 		int option = validOption(input, 2);
-		if (option != -1)
+		if (option != -1 && favs.getSize() != 0)
 			return option;
+		else if (option == 1 && favs.getSize() == 0)
+			return -1;
 	}
 }
 
@@ -416,18 +428,17 @@ void Menu::searchUniPage()
 int Menu::searchUniOption()
 {
 	std::string input = "";
-	std::cout << "Please select an option below:" << std::endl;
-	std::cout << "1. University Ranking" << std::endl;  // unique
-	std::cout << "2. University Location" << std::endl; 
-	std::cout << "3. Academic Reputation Score (AR Score)" << std::endl;
-	std::cout << "4. Faculty Student Score (FSR Score)" << std::endl;
-	std::cout << "5. Employer Reputation Score (ER Score)" << std::endl;
-	std::cout << "6. Back to User Page" << std::endl;
+	std::cout << "Please select an option below:" << std::endl; 
+	std::cout << "1. University Location" << std::endl; 
+	std::cout << "2. Academic Reputation Score (AR Score)" << std::endl;
+	std::cout << "3. Faculty Student Score (FSR Score)" << std::endl;
+	std::cout << "4. Employer Reputation Score (ER Score)" << std::endl;
+	std::cout << "5. Back to User Page" << std::endl;
 
 	while (true) {
 		std::cout << "> ";
 		std::cin >> input;
-		int option = validOption(input, 6);
+		int option = validOption(input, 5);
 		if (option != -1)
 			return option;
 	}
@@ -436,6 +447,7 @@ int Menu::searchUniOption()
 int Menu::selectScoreRange()
 {
 	std::string input = "";
+	std::cout << std::endl;
 	std::cout << "Please select a score range below:" << std::endl;
 	std::cout << "1. 0 - 20" << std::endl;
 	std::cout << "2. 21 - 40" << std::endl;
@@ -447,6 +459,66 @@ int Menu::selectScoreRange()
 		std::cout << "> ";
 		std::cin >> input;
 		int option = validOption(input, 5);
+		if (option != -1)
+			return option;
+	}
+}
+
+int Menu::selectRankingRange()
+{
+	std::string input = "";
+	std::cout << std::endl;
+	std::cout << "Please select a ranking range below:" << std::endl;
+	std::cout << "1. 1 - 100" << std::endl;
+	std::cout << "2. 101 - 300" << std::endl;
+	std::cout << "3. 301 - 500" << std::endl;
+	std::cout << "4. 501 - 800" << std::endl;
+	std::cout << "5. 801 - 1200" << std::endl;
+	std::cout << "6. 1201+" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 6);
+		if (option != -1)
+			return option;
+	}
+}
+
+int Menu::optionBeforeEndSearch()
+{
+	std::string input = "";
+	std::cout << std::endl;
+	std::cout << "Please select an option below:" << std::endl;
+	std::cout << "1. Save Favourite University" << std::endl;
+	std::cout << "2. Send Feedback for Futher Information" << std::endl;
+	std::cout << "3. Quit" << std::endl;
+
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, 3);
+		if (option != -1)
+			return option;
+	}
+}
+
+int Menu::choosePage(int size)
+{
+	int item = size / 50;
+	std::string input = "";
+	
+	if (item > 0) {
+		cout << "Choose Page: ( 1 ~ " << item+1 << " )";
+	}
+	else {
+		Message::warning("No item found");
+		return 0;
+	}
+	while (true) {
+		std::cout << "> ";
+		std::cin >> input;
+		int option = validOption(input, item+1);
 		if (option != -1)
 			return option;
 	}

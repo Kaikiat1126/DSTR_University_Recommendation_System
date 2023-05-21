@@ -6,6 +6,8 @@
 #include "StatusContainer.h"
 #include "Structure.h"
 #include "UniversityBTree.h"
+#include "Menu.h"
+
 
 class Visitor
 {
@@ -46,9 +48,23 @@ int Visitor::validOption(std::string input, int maxOption)
 
 void Visitor::displayAllUniversity()
 {
-	// std::cout << "Display all university" << std::endl;
-	// TODOs
-	StatusContainer::universityList.displayUniversityList();
+	int listSize = StatusContainer::universityList.getSize();
+	int page = Menu::choosePage(listSize);
+	system("cls");
+
+	StatusContainer::universityList.displayInPagination(page);
+	
+	std::cout << std::endl;
+	Message::notice("Current Page " + std::to_string(page) + " of " + std::to_string((listSize / 50)+1));
+	std::cout << std::endl;
+
+	bool isContinue = proceedNext("Do you want to Continue Search by page");
+
+	if (isContinue)
+	{
+		system("cls");
+		Visitor::displayAllUniversity();
+	}
 }
 
 void Visitor::chooseSearchAlgo(std::string institution)
@@ -107,14 +123,12 @@ void Visitor::chooseSortAlgo()
 
 void Visitor::quickAscOrder()
 {
-	// TODOs
-	StatusContainer::universityList.quicksort("institution", true);
+	StatusContainer::universityList.quickSort();
 }
 
 void Visitor::mergeAscOrder()
 {
-	std::cout << "Merge sort in ascending order" << std::endl;
-	// TODOs
+	StatusContainer::universityList.mergeSort();
 }
 
 void Visitor::BTreeSearch(std::string institution)
@@ -129,9 +143,27 @@ void Visitor::RedBlackTreeSearch(std::string institution)
 	std::cout << "Algorithm 2 search" << std::endl;
 
 	int option = Menu::chooseSearchMethod();
+	string msg = "University with name ";
 
-	if (option == 1)
-		StatusContainer::universityRBTree.search(institution);
+	UniversityRBTreeNode* result;
+
+	if (option == 1) {
+		result = StatusContainer::universityRBTree.search(institution);
+	}
+	else {
+		result = StatusContainer::universityRBTree.search(institution, 1);
+	}
+	if (result) {
+		if (result->element) {
+			msg = msg + result->element->institution;
+			Message::success(msg);
+			cout << "Rank: " << result->element->rank << endl;
+		}
+	}
 	else
-		StatusContainer::universityRBTree.search(institution, 1);
+	{
+		msg = msg + institution + " no found";
+		Message::warning(msg);
+	}
 }
+

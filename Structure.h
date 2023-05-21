@@ -40,6 +40,7 @@ struct UniversityStruct : public DataStruct
 		IfrScore, IsrScore, IrnScore, GerScore, ScoreScaled;
 	int ArRank, ErRank, FsrRank, CpfRank, IfrRank,
 		IsrRank, IrnRank, GerRank;
+	int count;
 };
 
 struct UniversityNode
@@ -76,4 +77,21 @@ struct UniversityRBTreeNode {
 	UniversityRBTreeNode* parent;
 	UniversityRBTreeNode(UniversityStruct* e, RBTColor c, UniversityRBTreeNode* l, UniversityRBTreeNode* r, UniversityRBTreeNode* p) :
 		element(e), color(c), leftChild(l), rightChild(r), parent(p) {};
+};
+
+struct Feedback {
+	long FeedbackID;
+	std::string UserName;
+	long ReplyTo;
+	std::string Content;
+	std::string Institution;
+};
+
+struct FeedbackNode {
+	Feedback feedback;
+	FeedbackNode* NextAddress;
+	FeedbackNode* PrevAddress;
+	FeedbackNode* ChildAddress;
+	FeedbackNode(): NextAddress(nullptr), PrevAddress(nullptr), ChildAddress(nullptr) {};
+	FeedbackNode(Feedback f) : feedback(f), NextAddress(nullptr), PrevAddress(nullptr), ChildAddress(nullptr) {};
 };

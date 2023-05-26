@@ -434,9 +434,7 @@ void UniversityBTree::searchUniversityByName(const std::string& institution)
 	{
 		msg = msg + institution + "\" found!";
 		Message::success(msg);
-
 		displayUniveristies(list);
-
 		auto start = Timer::getCurrentTime();
 		traversalSearchNameOnly(root, institution);
 		auto end = Timer::getCurrentTime();
@@ -616,31 +614,6 @@ void UniversityBTree::getUniversityWithStr(UniversityBTreeNode* node, int* type,
 	for (int i = 0; i <= node->count; i++)
 		getUniversityWithStr(node->child[i], type, value, universities);
 }
-
-// range: "1 = 1-100", "2 = 101-300", "3 = 301-500", "4 = 501-800", "5 = 801-1200", "6 = 1201+"
-//void UniversityBTree::getUniversityByRankRange(UniversityBTreeNode* node, int* min, int* max, IsVector<UniversityStruct>& universities)
-//{
-//	if (!node) return;
-//	
-//	for (int i = 1; i <= node->count; i++)
-//	{
-//		/*if (node->university[i].rank >= *min && node->university[i].rank <= *max)
-//		{
-//			universities.push_back(node->university[i]);
-//		}*/
-//		if (node->university[i].rank > *max)
-//			break;
-//
-//		if (node->university[i].rank >= *min)
-//		{
-//			universities.push_back(node->university[i]);
-//		}
-//	}
-//	
-//	for (int i = 0; i <= node->count; i++)
-//		getUniversityByRankRange(node->child[i], min, max, universities);
-//
-//}
 
 UniversityList* UniversityBTree::filterUniversityByValue(int* type, int* range, std::string* value)
 {

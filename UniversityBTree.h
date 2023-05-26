@@ -402,7 +402,12 @@ void UniversityBTree::searchUniversityByName(std::string institution)
 	universityList.clear();
 	UniversityBTreeNode* cursor = root;
 
+
+	auto start = Timer::getCurrentTime();
 	traversalSearchName(cursor, institution);
+	auto end = Timer::getCurrentTime();
+
+	std::cout << "Search time: " << Timer::getRunTime(start, end) << std::endl;
 
 	std::string msg = "University with name ";
 	
@@ -418,9 +423,34 @@ void UniversityBTree::searchUniversityByName(std::string institution)
 		Message::success(msg);
 
 		UniversityStruct university = universityList.at(0);
+
+		std::cout << "Rank           :" << university.rank << '\t';
+		std::cout << "Institution    :" << university.institution << '\n';
+		std::cout << "Location code  :" << university.locationCode << '\t';
+		std::cout << "Location       :" << university.location << '\n';
+		std::cout << "ArScore        :" << university.ArScore << '\t';
+		std::cout << "ArRank         :" << university.ArRank << '\t';
+		std::cout << "ErScore        :" << university.ErScore << '\t';
+		std::cout << "ErRank         :" << university.ErRank << '\t';
+		std::cout << "FsrScore       :" << university.FsrScore << '\t';
+		std::cout << "FsrRank        :" << university.FsrRank << '\n';
+		std::cout << "CpfScore       :" << university.CpfScore << '\t';
+		std::cout << "CpfRank        :" << university.CpfRank << '\t';
+		std::cout << "IfrScore       :" << university.IfrScore << '\t';
+		std::cout << "IfrRank        :" << university.IfrRank << '\t';
+		std::cout << "IsrScore       :" << university.IsrScore << '\t';
+		std::cout << "IsrRank        :" << university.IsrRank << '\n';
+		std::cout << "IrnScore       :" << university.IrnScore << '\t';
+		std::cout << "IrnRank        :" << university.IrnRank << '\t';
+		std::cout << "GerScore       :" << university.GerScore << '\t';
+		std::cout << "GerRank        :" << university.GerRank << '\t';
+		std::cout << "ScoreScaled    :" << university.ScoreScaled << std::endl;
 		std::cout << std::endl;
+
+
+		/*std::cout << std::endl;
 		std::cout << "Rank \tInstitution \t\tLocationCode \tLocation \tArScore ArRank " <<
-			" ErScore ErRank FsrScore FsrRank CpfScore CpfRank IfrScore IfrRank IsrScore IsrRank IrnScore IrnRank GerScore GerRank ScoreScaled" << std::endl;
+			" ErScore ErRank FsrScore FsrRank CpfScore CpfRank IfrScore IfrRank IsrScore IsrRank IrnScore IrnRank GerScore GerRank ScoreScaled" << std::endl;*/
 
 		//check each of the rank of the university is Null or not, if null then fill with '-'
 		/*std::string IfrScore = university.IfrScore == NULL ? "-" : std::to_string(university.IfrScore);
@@ -431,14 +461,14 @@ void UniversityBTree::searchUniversityByName(std::string institution)
 		std::string IrnRank = university.IrnRank == NULL ? "-" : std::to_string(university.IrnRank);
 		std::string GerScore = university.GerScore == NULL ? "-" : std::to_string(university.GerScore);
 		std::string GerRank = university.GerRank == NULL ? "-" : std::to_string(university.GerRank);*/
-		std::string ScoreScaled = university.ScoreScaled == NULL ? "-" : std::to_string(university.ScoreScaled);
+		/*std::string ScoreScaled = university.ScoreScaled == NULL ? "-" : std::to_string(university.ScoreScaled);
 		
 		
 		std::cout << university.rank << "\t" << university.institution << "\t" << university.locationCode << "\t\t"
 			<< university.location << "\t\t" << university.ArScore << "\t" << university.ArRank << "\t" << university.ErScore
 			<< "\t" << university.ErRank << "\t" << university.FsrScore << "\t" << university.FsrRank << "\t" << university.CpfScore << "\t" << university.CpfRank
 			<< "\t" << university.IfrScore << "\t" << university.IfrRank << "\t" << university.IsrScore << "\t" << university.IsrRank << "\t" << university.IrnScore
-			<< "\t" << university.IrnRank << "\t" << university.GerScore << "\t" << university.GerRank << "\t" << ScoreScaled << std::endl;
+			<< "\t" << university.IrnRank << "\t" << university.GerScore << "\t" << university.GerRank << "\t" << ScoreScaled << std::endl;*/
 	}
 }
 

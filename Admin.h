@@ -14,7 +14,8 @@ private:
 	static void displayUser(IsVector<UserStruct>);
 public:
     Admin(std::string username, std::string password);
-	Admin(int userID, std::string username, std::string password, std::string email, std::string contactNum, std::string role);
+	Admin(int userID, std::string username, std::string password, 
+		std::string email, std::string contactNum, std::string role);
 
 	static void displayAllUser();
 	static void displayInactiveUser();

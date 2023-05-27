@@ -30,9 +30,8 @@ std::string validateInput(const std::string& prompt, const std::string& hint,con
             Message::notice(" (" + hint + ") ");
         if(prompt == "Email") std::cout << std::endl;
         std::cout << "> ";
-        //std::cin >> input;
         std::cin.ignore();
-		std::getline(std::cin, input);
+        std::cin >> input;
 
         if (input == "Q" || input == "quit" || input == "q" || input == "Quit" || input == "QUIT") {
             Message::notice("You have quit the registration process...");
@@ -67,7 +66,7 @@ bool registrationForm()
         return false;
     }
 
-    std::string contactNum = validateInput("Contact Number", "only 9 digits allowed",CONTACT_NUM_REGEX);
+    std::string contactNum = validateInput("Contact Number", "only 8 digits allowed",CONTACT_NUM_REGEX);
     if (contactNum.empty()) {
         return false;
     }
@@ -79,10 +78,14 @@ bool registrationForm()
 
 	Message::success("Registration successful!");
     std::cout << std::endl;
-	// std::cout << "Name: " << username << std::endl;
-	// std::cout << "Email: " << email << std::endl;
-	// std::cout << "Contact Number: " << contactNum << std::endl;
-	// std::cout << "Password: " << password << std::endl;
+    
+	std::cout << "************************************" << std::endl;
+	std::cout << "Name            : " << username << std::endl;
+	std::cout << "Email           : " << email << std::endl;
+	std::cout << "Contact Number  : " << contactNum << std::endl;
+	std::cout << "Password        : " << password << std::endl;
+    std::cout << "************************************" << std::endl;
+    std::cout << std::endl;
 
     UserStruct newUser;
     newUser.userID = (StatusContainer::userBTree.getTreeNodeCount() + 1);
@@ -92,14 +95,14 @@ bool registrationForm()
 	newUser.password = password;
 	newUser.role = "user";
 	newUser.lastModifyDate = DateTime::getCurrentDateTime();
-    newUser.favourite = {};
+    newUser.favourite = NULL;
     
     //store data
 	StatusContainer::userBTree.insertValueInBTree(newUser);
 
     if(proceedNext("Proceed to login")) {
         
-        StatusContainer::currentUser = new User(newUser.userID, newUser.username, newUser.password, newUser.email, newUser.contactNum, newUser.role, newUser.favourite);
+        StatusContainer::currentUser = new Customer(newUser.userID, newUser.username, newUser.password, newUser.email, newUser.contactNum, newUser.role, newUser.favourite);
         //StatusContainer::currentUser->setDetails(username, email, contactNum, password);
         
         return true;

@@ -13,7 +13,8 @@ private:
 	IsVector<std::string> favourite;
 public:
 	Customer(std::string username, std::string password);
-	Customer(int userID, std::string username, std::string password, std::string email, std::string contactNum, std::string role, IsVector<std::string> favourite);
+	Customer(int userID, std::string username, std::string password, std::string email,
+		std::string contactNum, std::string role, IsVector<std::string> favourite);
 	IsVector<std::string> getFavourite();
 	void setFavourite(IsVector<std::string> favourite);
 	void removeFavourite(int index) override;

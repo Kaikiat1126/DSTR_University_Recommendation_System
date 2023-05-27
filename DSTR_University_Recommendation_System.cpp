@@ -387,6 +387,13 @@ void go_to_user_favourites()
     {
 		go_to_user_menu();
 	}
+    else if (option == -2)
+    {
+		cout << "No favourite can be deleted!" << endl;
+		Sleep(1000);
+		system("cls");
+		go_to_user_menu();
+    }
 }
 
 void go_to_user_search()

@@ -15,6 +15,7 @@ private:
 	UniversityNode* head = NULL;
 	UniversityNode* tail = NULL;
 	int size = 0;
+	UniversityNode* createNewNode(UniversityStruct university);
 	void filterUniversityWithLocation(UniversityNode* head, std::string& value);
 	void filterUniversityByValue(UniversityNode* head, int* type, int* range);
 	void deleteNode(UniversityNode* node);
@@ -23,8 +24,6 @@ private:
 public:
 	UniversityList();
 	UniversityList(const UniversityList& copy);
-	~UniversityList();
-	UniversityNode* createNewNode(UniversityStruct university);
 	void insertToEndOfList(UniversityStruct university);
 	UniversityNode* searchByRank(int rank);
 	UniversityNode* searchByInstitution(std::string institution);
@@ -62,11 +61,6 @@ UniversityList::UniversityList(const UniversityList& copy)
 		insertToEndOfList(temp->university);
 		temp = temp->next;
 	}
-}
-
-UniversityList::~UniversityList()
-{
-	//destroy
 }
 
 UniversityNode* UniversityList::createNewNode(UniversityStruct university)

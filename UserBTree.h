@@ -16,6 +16,7 @@
 class UserBTree : public BTree
 {
 private:
+	UserBTreeNode* root;
 	int nodeCount;
 	IsVector<UserStruct> userList;
 	void traversal(UserBTreeNode* node);
@@ -44,9 +45,7 @@ private:
 	void traversalGetUserFavourite(UserBTreeNode* node, IsVector<std::string>* favourites, int id, int* pos);
 	
 public:
-	UserBTreeNode* root;
 	UserBTree();
-	~UserBTree();
 	void insertValueInBTree(UserStruct user);
 	void deleteValueFromBTree(int id);
 	void searchUserMatch(IsVector<UserStruct>* users, const std::string& username);
@@ -68,8 +67,6 @@ UserBTree::UserBTree()
 	root = nullptr;
 	nodeCount = 0;
 }
-
-UserBTree::~UserBTree() {}
 
 void UserBTree::traversal()
 {

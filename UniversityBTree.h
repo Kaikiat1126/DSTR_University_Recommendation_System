@@ -17,13 +17,14 @@
 class UniversityBTree : public BTree
 {
 private:
-
+	UniversityBTreeNode* root;
 	void traversal(UniversityBTreeNode* node);
 	void preOrder(UniversityBTreeNode* node);
 	void postOrder(UniversityBTreeNode* node);
 	UniversityBTreeNode* createNode(UniversityStruct university, UniversityBTreeNode* child);
 	void addValueToNode(UniversityStruct university, int pos, UniversityBTreeNode* node, UniversityBTreeNode* child);
-	void splitNode(UniversityStruct university, UniversityStruct* pval, int pos, UniversityBTreeNode* node, UniversityBTreeNode* child, UniversityBTreeNode** newNode);
+	void splitNode(UniversityStruct university, UniversityStruct* pval, int pos, UniversityBTreeNode* node, 
+		UniversityBTreeNode* child, UniversityBTreeNode** newNode);
 	int setValueIntoNode(UniversityStruct university, UniversityStruct* pval, UniversityBTreeNode* node, UniversityBTreeNode** child);
 	void copySuccessor(UniversityBTreeNode* node, int pos);
 	void rightShift(UniversityBTreeNode* node, int pos);
@@ -50,9 +51,7 @@ private:
 	void displayUniveristies(IsVector<UniversityStruct>& universities);
 		
 public:
-	UniversityBTreeNode* root;
 	UniversityBTree();
-	~UniversityBTree();
 	void insertValueInBTree(UniversityStruct university);
 	void searchUniversityByRank(int rank);
 	IsVector<UniversityStruct> getUniversityByRank(int rank);
@@ -71,8 +70,6 @@ UniversityBTree::UniversityBTree()
 {
 	root = nullptr;
 }
-
-UniversityBTree::~UniversityBTree() {}
 
 void UniversityBTree::traversal()
 {

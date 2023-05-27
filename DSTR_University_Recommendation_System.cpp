@@ -330,29 +330,82 @@ void go_to_manage_feedback()
 
 void go_to_user_feedback()
 {
+    string user = StatusContainer::currentUser->getUsername();
+    FeedbackNode* current = nullptr;
+    FeedbackNode* temp = nullptr;
+    boolean hasFeedback = false;
+
     StatusContainer::feedbackList.getLatestFeedback();
-    StatusContainer::feedbackList.displayCurrent();
-    while (true)
-    {
-        int option = Menu::userFeedbackPage();
-        system("cls");
-        if (option == 1)
-        {
-			//cout << "Move Forward" << endl;
-            StatusContainer::feedbackList.getNextFeedback();
-            StatusContainer::feedbackList.displayCurrent();
-		}
-		else if (option == 2)
-		{
-			//cout << "Move Backward" << endl;
-            StatusContainer::feedbackList.getPrevFeedback();
-            StatusContainer::feedbackList.displayCurrent();
-		}
-		else if (option == 3)
-		{
-			break;
+    while (true) {
+        temp = StatusContainer::feedbackList.getNextFeedback();
+        if (user == StatusContainer::feedbackList.getCurrentFeedback()->feedback.UserName) {
+            current = StatusContainer::feedbackList.getCurrentFeedback();
+            hasFeedback = true;
+            break;
+        }
+        if (temp->NextAddress == nullptr) {
+            Message::warning("There is no feedback here!");
+            system("pause");
+            break;
         }
     }
+    if (hasFeedback) {
+        current = StatusContainer::feedbackList.getCurrentFeedback();
+        StatusContainer::feedbackList.displayCurrent();
+
+        while (true)
+        {
+            int option = Menu::userFeedbackPage();
+            system("cls");
+            if (option == 1)
+            {
+                do {
+                    temp = StatusContainer::feedbackList.getNextFeedback();
+                    if (user == StatusContainer::feedbackList.getCurrentFeedback()->feedback.UserName) {
+                        current = StatusContainer::feedbackList.getCurrentFeedback();
+                        break;
+                    }
+                    if (temp->NextAddress == nullptr) {
+                        StatusContainer::feedbackList.getNextFeedback();
+                        break;
+                    }
+                } while (true);
+
+
+                if (user != StatusContainer::feedbackList.getCurrentFeedback()->feedback.UserName) {
+                    StatusContainer::feedbackList.setCurrentFeedback(current);
+                }
+
+                StatusContainer::feedbackList.displayCurrent();
+            }
+            else if (option == 2)
+            {
+                do {
+                    temp = StatusContainer::feedbackList.getPrevFeedback();
+                    if (user == StatusContainer::feedbackList.getCurrentFeedback()->feedback.UserName) {
+                        current = StatusContainer::feedbackList.getCurrentFeedback();
+                        break;
+                    }
+                    if (temp->PrevAddress == nullptr) {
+                        StatusContainer::feedbackList.getPrevFeedback();
+                        break;
+                    }
+                } while (true);
+
+
+                if (user != StatusContainer::feedbackList.getCurrentFeedback()->feedback.UserName) {
+                    StatusContainer::feedbackList.setCurrentFeedback(current);
+                }
+
+                StatusContainer::feedbackList.displayCurrent();
+            }
+            else if (option == 3)
+            {
+                break;
+            }
+        }
+    }
+    
 	go_to_user_menu();
 }
 

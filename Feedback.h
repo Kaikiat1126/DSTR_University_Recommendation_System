@@ -25,6 +25,7 @@ public:
     void display();
     void displayCurrent();
     FeedbackNode* getCurrentFeedback();
+    void setCurrentFeedback(FeedbackNode* node);
 
     FeedbackNode* isReplyTo(FeedbackNode* node);
 
@@ -169,4 +170,9 @@ void FeedbackList::displayCurrent() {
 FeedbackNode* FeedbackList::getCurrentFeedback()
 {
     return current;
+}
+
+void FeedbackList::setCurrentFeedback(FeedbackNode* node)
+{
+    current = node;
 }

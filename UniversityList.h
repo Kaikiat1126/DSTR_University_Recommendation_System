@@ -39,6 +39,9 @@ public:
 	UniversityList* filterUniversityByValue(int* type, int* range, std::string* value);
 	void updateFavourite(const std::string&, int);
 	void displayInPagination(int page);
+
+	void traversalLinkedList();
+	void searchUniByRank(int);
 };
 
 UniversityList::UniversityList()
@@ -416,6 +419,54 @@ void UniversityList::updateFavourite(const std::string& institution, int count)
 		}
 		current = current->next;
 	}
+}
+
+void UniversityList::traversalLinkedList() {
+	auto start = Timer::getCurrentTime();
+
+	UniversityNode* temp = head;
+	while (temp != NULL)
+	{
+		temp = temp->next;
+	}
+
+	auto end = Timer::getCurrentTime();
+	std::cout << "Linkedlist Traversal time: " << Timer::getRunTime(start, end) << std::endl;
+}
+
+void UniversityList::searchUniByRank(int rank)
+{
+	auto start = Timer::getCurrentTime();
+
+	if (rank > size / 2)
+	{
+		UniversityNode* temp = tail;
+		while (temp != NULL)
+		{
+			if (temp->university.rank == rank)
+			{
+				//std::cout << "University found: " << temp->university.institution << std::endl;
+				break;
+			}
+			temp = temp->prev;
+		}
+	}
+	else
+	{
+		UniversityNode* temp = head;
+		while (temp != NULL)
+		{
+			if (temp->university.rank == rank)
+			{
+				//std::cout << "University found: " << temp->university.institution << std::endl;
+				break;
+			}
+			temp = temp->next;
+		}
+	}
+
+	auto end = Timer::getCurrentTime();
+	std::cout << "Linkedlist Search By Rank's Time: " << Timer::getRunTime(start, end) << std::endl;
 }
 
 void UniversityList::displayInPagination(int page) 

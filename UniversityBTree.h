@@ -76,7 +76,7 @@ void UniversityBTree::traversal()
 	auto start = Timer::getCurrentTime();
 	traversal(root);
 	auto end = Timer::getCurrentTime();
-	std::cout << "Traversal time: " << Timer::getRunTime(start, end) << std::endl;
+	std::cout << "BTree Traversal time: " << Timer::getRunTime(start, end) << std::endl;
 }
 
 void UniversityBTree::traversal(UniversityBTreeNode* node)
@@ -445,7 +445,7 @@ void UniversityBTree::searchUniversityByRank(int rank)
 	auto start = Timer::getCurrentTime();
 	searchByRankInBTree(rank, &rank, root);
 	auto end = Timer::getCurrentTime();
-	std::cout << "Search By Rank's Time: " << Timer::getRunTime(start, end) << std::endl;
+	std::cout << "BTree Search By Rank's Time: " << Timer::getRunTime(start, end) << std::endl;
 }
 
 void UniversityBTree::searchByRankInBTree(int rank, int* pos, UniversityBTreeNode* node)
@@ -464,7 +464,7 @@ void UniversityBTree::searchByRankInBTree(int rank, int* pos, UniversityBTreeNod
 	{
 		//std::string msg = "University with Rank ";
 		for (*pos = node->count; (rank < node->university[*pos].rank && *pos > 1); (*pos)--);
-		UniversityStruct data = node->university[*pos];
+		//UniversityStruct data = node->university[*pos];
 		if (rank == node->university[*pos].rank)
 		{
 			found = true;

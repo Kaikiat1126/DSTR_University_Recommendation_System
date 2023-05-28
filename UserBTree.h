@@ -18,7 +18,6 @@ class UserBTree : public BTree
 private:
 	UserBTreeNode* root;
 	int nodeCount;
-	IsVector<UserStruct> userList;
 	void traversal(UserBTreeNode* node);
 	void preOrder(UserBTreeNode* node);
 	void postOrder(UserBTreeNode* node);

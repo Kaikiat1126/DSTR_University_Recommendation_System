@@ -79,13 +79,13 @@ bool registrationForm()
 	Message::success("Registration successful!");
     std::cout << std::endl;
     
-	std::cout << "************************************" << std::endl;
+	/*std::cout << "************************************" << std::endl;
 	std::cout << "Name            : " << username << std::endl;
 	std::cout << "Email           : " << email << std::endl;
 	std::cout << "Contact Number  : " << contactNum << std::endl;
 	std::cout << "Password        : " << password << std::endl;
     std::cout << "************************************" << std::endl;
-    std::cout << std::endl;
+    std::cout << std::endl;*/
 
     UserStruct newUser;
     newUser.userID = (StatusContainer::userBTree.getTreeNodeCount() + 1);
@@ -100,11 +100,8 @@ bool registrationForm()
     //store data
 	StatusContainer::userBTree.insertValueInBTree(newUser);
 
-    if(proceedNext("Proceed to login")) {
-        
-        StatusContainer::currentUser = new Customer(newUser.userID, newUser.username, newUser.password, newUser.email, newUser.contactNum, newUser.role, newUser.favourite);
-        //StatusContainer::currentUser->setDetails(username, email, contactNum, password);
-        
+    if(proceedNext("Proceed to login")) {      
+        StatusContainer::currentUser = new Customer(newUser.userID, newUser.username, newUser.password, newUser.email, newUser.contactNum, newUser.role, newUser.favourite);       
         return true;
     } 
     else 

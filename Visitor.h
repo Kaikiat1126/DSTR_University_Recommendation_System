@@ -146,10 +146,10 @@ void Visitor::RedBlackTreeSearch(std::string institution)
 	UniversityRBTreeNode* result;
 
 	if (option == 1) {
-		result = StatusContainer::universityRBTree.search(institution);
+		result = StatusContainer::universityRBTree.searchInstitution(institution);
 	}
 	else {
-		result = StatusContainer::universityRBTree.search(institution, 1);
+		result = StatusContainer::universityRBTree.searchInstitution(institution, 1);
 	}
 	if (result) {
 		if (result->element) {

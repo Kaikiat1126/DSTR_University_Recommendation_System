@@ -16,7 +16,9 @@ public:
 
     void insert(UniversityStruct* element, string key);
     void remove(string institution);
-    UniversityRBTreeNode* search(string institution, int method = 0);
+    UniversityRBTreeNode* searchInstitution(string institution, int method = 0);
+    void searchByARScore(double start, double end);
+    void searchByRank(int start, int end);
     void print();
     void preOrder();
     void inOrder();
@@ -34,8 +36,10 @@ private:
     void remove(UniversityRBTreeNode*& root, UniversityRBTreeNode* node);
     void removeBalance(UniversityRBTreeNode*& root, UniversityRBTreeNode* node, UniversityRBTreeNode* parent);
 
-    UniversityRBTreeNode* recursiveSearch(UniversityRBTreeNode* node, string institution) const;
-    UniversityRBTreeNode* iterativeSearch(UniversityRBTreeNode* node, string institution) const;
+    UniversityRBTreeNode* recursiveSearchInstitution(UniversityRBTreeNode* node, string institution) const;
+    UniversityRBTreeNode* iterativeSearchInstitution(UniversityRBTreeNode* node, string institution) const;
+    void searchByARScore(UniversityRBTreeNode* node, double start, double end);
+    void searchByRank(UniversityRBTreeNode* node, double start, double end);
     void print(UniversityRBTreeNode* node) const;
     void preOrderTraversal(UniversityRBTreeNode* tree) const;
     void inOrderTraversal(UniversityRBTreeNode* tree) const;
@@ -44,6 +48,7 @@ private:
     void setTextColor(const string& color = "WHITE");
     string getNodeColor(const UniversityRBTreeNode* node);
     void printRedBlackTree(UniversityRBTreeNode* node, const std::string& prefix, bool isLeft);
+    void displayHeader();
 };
 
 UniversityRBTree::UniversityRBTree() :root(nullptr) {}
@@ -122,6 +127,21 @@ void UniversityRBTree::insert(UniversityRBTreeNode*& root, UniversityRBTreeNode*
         node->color = Red;
         insertBalance(root, node);
     }
+    //else if (key == "Rank") {
+    //    while (x) {
+    //        y = x;
+    //        if (node->element->rank > x->element->rank) x = x->rightChild;
+    //        else x = x->leftChild;
+    //    }
+    //    node->parent = y;
+    //    if (y) {
+    //        if (node->element->rank > y->element->rank) y->rightChild = node;
+    //        else y->leftChild = node;
+    //    }
+    //    else root = node;
+    //    node->color = Red;
+    //    insertBalance(root, node);
+    //}
 }
 
 void UniversityRBTree::insertBalance(UniversityRBTreeNode*& root, UniversityRBTreeNode* node) {
@@ -173,7 +193,7 @@ void UniversityRBTree::insertBalance(UniversityRBTreeNode*& root, UniversityRBTr
 }
 
 void UniversityRBTree::remove(string institution) {
-    UniversityRBTreeNode* deleteNode = recursiveSearch(root, institution);
+    UniversityRBTreeNode* deleteNode = recursiveSearchInstitution(root, institution);
     if (deleteNode) remove(root, deleteNode);
 };
 
@@ -296,33 +316,74 @@ void UniversityRBTree::removeBalance(UniversityRBTreeNode*& root, UniversityRBTr
     if (node) node->color = Black;
 }
 
-UniversityRBTreeNode* UniversityRBTree::search(string institution, int method) {
+UniversityRBTreeNode* UniversityRBTree::searchInstitution(string institution, int method) {
     UniversityRBTreeNode* node = nullptr;
     auto start = Timer::getCurrentTime();
     if (!method) {
-        node = recursiveSearch(root, institution);
+        node = recursiveSearchInstitution(root, institution);
         auto end = Timer::getCurrentTime();
         cout << "Recursive search time: " << Timer::getRunTime(start, end) << endl;
         return node;
     }
     else
     {
-        node = iterativeSearch(root, institution);
+        node = iterativeSearchInstitution(root, institution);
         auto end = Timer::getCurrentTime();
         cout << "Iterative search time: " << Timer::getRunTime(start, end) << endl;
         return node;
     }
 }
 
-UniversityRBTreeNode* UniversityRBTree::recursiveSearch(UniversityRBTreeNode* node, string institution) const {
-    if (!node || node->element->institution == institution) return node;
-    else {
-        if (institution > node->element->institution) return recursiveSearch(node->rightChild, institution);
-        else return recursiveSearch(node->leftChild, institution);
+void UniversityRBTree::searchByARScore(double start, double end)
+{
+    //displayHeader();
+    auto begin = Timer::getCurrentTime();
+    searchByARScore(root, start, end);
+    auto finish = Timer::getCurrentTime();
+    cout << "Time taken by search ArScore: " << Timer::getRunTime(begin, finish) << endl;
+}
+
+void UniversityRBTree::searchByRank(int start, int end)
+{
+    //displayHeader();
+    auto begin = Timer::getCurrentTime();
+    searchByRank(root, start, end);
+    auto finish = Timer::getCurrentTime();
+    cout << "Time taken by search Rank: " << Timer::getRunTime(begin, finish) << endl;
+}
+
+void UniversityRBTree::searchByARScore(UniversityRBTreeNode* node, double start, double end)
+{
+    if (node) {
+        searchByARScore(node->leftChild, start, end);
+        if (node->element->ArScore >= start && node->element->ArScore <= end) {
+            //displayInfo(node);
+        }
+        searchByARScore(node->rightChild, start, end);
     }
 }
 
-UniversityRBTreeNode* UniversityRBTree::iterativeSearch(UniversityRBTreeNode* node, string institution) const {
+void UniversityRBTree::searchByRank(UniversityRBTreeNode* node, double start, double end)
+{
+    if (node) {
+        searchByRank(node->leftChild, start, end);
+        if (node->element->rank >= start && node->element->rank <= end) {
+            //displayInfo(node);
+        }
+        searchByRank(node->rightChild, start, end);
+    }
+}
+
+
+UniversityRBTreeNode* UniversityRBTree::recursiveSearchInstitution(UniversityRBTreeNode* node, string institution) const {
+    if (!node || node->element->institution == institution) return node;
+    else {
+        if (institution > node->element->institution) return recursiveSearchInstitution(node->rightChild, institution);
+        else return recursiveSearchInstitution(node->leftChild, institution);
+    }
+}
+
+UniversityRBTreeNode* UniversityRBTree::iterativeSearchInstitution(UniversityRBTreeNode* node, string institution) const {
     while (node && (node->element->institution != institution)) {
         if (institution < node->element->institution) node = node->leftChild;
         else node = node->rightChild;
@@ -388,10 +449,12 @@ void UniversityRBTree::postOrderTraversal(UniversityRBTreeNode* tree) const {
 }
 
 void UniversityRBTree::displayInfo(UniversityRBTreeNode* tree) const {
-    cout << std::left << setw(8) << tree->element->rank;
-    cout << std::left << setw(55) << tree->element->institution;
-    cout << std::left << setw(5) << tree->element->locationCode;
-    cout << std::left << setw(10) << tree->element->location << endl;
+    std::cout << std::setw(4) << tree->element->rank << "\t"
+        << std::left << std::setw(90) << tree->element->institution << "\t"
+        << std::right << std::setw(2) << tree->element->locationCode << "\t"
+        << std::setw(4) << tree->element->ArScore << "\t"
+        << std::setw(4) << tree->element->FsrScore << "\t"
+        << std::setw(4) << tree->element->ErScore << std::endl;
 }
 
 void UniversityRBTree::destroy(UniversityRBTreeNode*& root) {
@@ -462,6 +525,16 @@ void UniversityRBTree::printRedBlackTree(UniversityRBTreeNode* node, const strin
     const string newPrefix = prefix + (isLeft ? "©¦   " : "    ");
     printRedBlackTree(node->leftChild, newPrefix, true);
     printRedBlackTree(node->rightChild, newPrefix, false);
+}
+
+void UniversityRBTree::displayHeader()
+{
+    std::cout << std::setw(4) << "Rank" << "\t"
+        << std::left << std::setw(90) << "Institution" << "\t"
+        << std::right << std::setw(2) << "Loc" << "\t"
+        << std::setw(4) << "AR" << "\t"
+        << std::setw(4) << "FSR" << "\t"
+        << std::setw(4) << "ER" << std::endl;
 }
 
 void UniversityRBTree::printTreeShape() {

@@ -6,7 +6,6 @@
 #include <locale>
 #include <codecvt>
 #include "Structure.h"
-#include "UserList.h"
 #include "UniversityList.h"
 #include "StatusContainer.h"
 #include "IsVector.h"
@@ -81,7 +80,6 @@ void initUserData()
         
         if(field != "")
         {
-            //StatusContainer::userList.insertToEndOfList(user);
 			StatusContainer::userBTree.insertValueInBTree(user);
 	    }
 
@@ -147,8 +145,6 @@ void initUniversityData()
 			university.ScoreScaled = NULL;
 
         university.count = 0;
-        //std::cout << university.rank << " " << university.ScoreScaled << std::endl;
-		//std::cout << university.institution << " : " << university.ArScore << std::endl;
         StatusContainer::universityList.insertToEndOfList(university);
 		StatusContainer::universityBTree.insertValueInBTree(university);
 

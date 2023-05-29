@@ -16,8 +16,8 @@
 class UserBTree : public BTree
 {
 private:
+	UserBTreeNode* root;
 	int nodeCount;
-	IsVector<UserStruct> userList;
 	void traversal(UserBTreeNode* node);
 	void preOrder(UserBTreeNode* node);
 	void postOrder(UserBTreeNode* node);
@@ -33,7 +33,7 @@ private:
 	void adjustNode(UserBTreeNode* node, int pos);
 	int deleteValueFromNode(int id, UserBTreeNode* node);
 	void traversalSearchUserMatch(UserBTreeNode* node, IsVector<UserStruct>* users, const std::string& username);
-	void updateValueByID(UserBTreeNode* node, int id, int* pos, std::string type, std::string value);
+	void updateValueByID(UserBTreeNode* node, int id, int* pos, int flag, const std::string& value);
 	void traversalGetUserList(UserBTreeNode* node, IsVector<UserStruct>* users);
 	void traversalGetUsersFavourites(UserBTreeNode* node, IsVector<IsVector<std::string>>* favourites);
 	void selectUserByID(UserBTreeNode* node, IsVector<UserStruct>* users, int id, int* pos);
@@ -44,9 +44,7 @@ private:
 	void traversalGetUserFavourite(UserBTreeNode* node, IsVector<std::string>* favourites, int id, int* pos);
 	
 public:
-	UserBTreeNode* root;
 	UserBTree();
-	~UserBTree();
 	void insertValueInBTree(UserStruct user);
 	void deleteValueFromBTree(int id);
 	void searchUserMatch(IsVector<UserStruct>* users, const std::string& username);
@@ -69,8 +67,6 @@ UserBTree::UserBTree()
 	nodeCount = 0;
 }
 
-UserBTree::~UserBTree() {}
-
 void UserBTree::traversal()
 {
 	auto start = Timer::getCurrentTime();
@@ -87,14 +83,14 @@ void UserBTree::traversal(UserBTreeNode* node)
 		for (i = 0;i < node->count;i++)
 		{
 			traversal(node->child[i]);
-			UserStruct user = node->user[i + 1];
-			std::cout << user.userID << " " << user.username << " " << user.email << " " << user.contactNum << " " << user.password << " " << user.lastModifyDate << " " << user.role << " ";
+			// UserStruct user = node->user[i + 1];
+			// std::cout << user.userID << " " << user.username << " " << user.email << " " << user.contactNum << " " << user.password << " " << user.lastModifyDate << " " << user.role << " ";
 			
-			for (int j = 0;j < user.favourite.getSize();j++)
-			{
-				std::cout << user.favourite.at(j) << " ";
-			}
-			std::cout << std::endl;
+			// for (int j = 0;j < user.favourite.getSize();j++)
+			// {
+			// 	std::cout << user.favourite.at(j) << " ";
+			// }
+			// std::cout << std::endl;
 		}
 		traversal(node->child[i]);
 	}
@@ -495,24 +491,30 @@ void UserBTree::traversalSearchUserMatch(UserBTreeNode* node, IsVector<UserStruc
 // type: "date", "contact", "email"
 void UserBTree::updateValueByID(int id, std::string type, std::string value)
 {
+	int flag = 0;
 	if (type != "date" && type != "contact" && type != "email")
 	{
 		Message::error("Invalid update type");
 		return;
 	}
-	//start time
-	updateValueByID(root, id, &id, type, value);
-	//end time
+	if (type == "date") flag = 1;
+	if (type == "contact") flag = 2;
+	if (type == "email") flag = 3;
+	
+	//auto start = Timer::getCurrentTime();
+	updateValueByID(root, id, &id, flag, value);
+	std::cout << std::endl;
+	/*auto end = Timer::getCurrentTime();
+	std::cout << "Times taken: " << Timer::getRunTime(start, end) << std::endl;*/
 }
 
-void UserBTree::updateValueByID(UserBTreeNode* node, int id, int* pos, std::string type, std::string value)
+void UserBTree::updateValueByID(UserBTreeNode* node, int id, int* pos, int flag, const std::string& value)
 {
 	bool found = false;
 
 	if (!node) 
 	{
-		std::string msg = "User with ID " + std::to_string(id) + " not found";
-		Message::error(msg);
+		Message::error("User with ID " + std::to_string(id) + " not found");
 		return;
 	}
 
@@ -523,23 +525,22 @@ void UserBTree::updateValueByID(UserBTreeNode* node, int id, int* pos, std::stri
 		for (*pos = node->count; (id < node->user[*pos].userID && *pos > 1); (*pos)--);
 		if (id == node->user[*pos].userID)
 		{
-			std::string msg = "User with ID " + std::to_string(id) + "'s details updated";
-			if(type == "date")
-				node->user[*pos].lastModifyDate = value;
-			else if (type == "contact")
-				node->user[*pos].contactNum = value;
-			else if (type == "email")
-				node->user[*pos].email = value;
 			found = true;
-			Message::notice(msg);
-			std::cout << std::endl;
+			if(flag == 1)
+				node->user[*pos].lastModifyDate = value;
+			else if (flag == 2)
+				node->user[*pos].contactNum = value;
+			else if (flag == 3)
+				node->user[*pos].email = value;
+			
+			Message::notice("User with ID " + std::to_string(id) + "'s details updated");
 			return;
 		}
 	}
 
 	if (found) return;
 
-	updateValueByID(node->child[*pos], id, pos, type, value);
+	updateValueByID(node->child[*pos], id, pos, flag, value);
 }
 
 IsVector<UserStruct> UserBTree::getUserList()
@@ -589,9 +590,9 @@ void UserBTree::traversalGetUsersFavourites(UserBTreeNode* node, IsVector<IsVect
 
 	for (int i = 0; i <= node->count; i++)
 	{
-		std::string role = node->user[i].role;
+		//std::string role = node->user[i].role;
 
-		if (role == "user")
+		if (node->user[i].role == "user")
 		{
 			favourites->push_back(node->user[i].favourite);
 		}
@@ -656,9 +657,7 @@ void UserBTree::selectUserByName(UserBTreeNode* node, IsVector<UserStruct>* user
 
 	for (int i = 1; i <= node->count; i++)
 	{
-		std::string data = node->user[i].username;
-		std::string role = node->user[i].role;
-		if (data == username && role == "user")
+		if (node->user[i].username == username && node->user[i].role == "user")
 		{
 			found = true;
 			users->push_back(node->user[i]);
@@ -674,23 +673,17 @@ void UserBTree::selectUserByName(UserBTreeNode* node, IsVector<UserStruct>* user
 
 void UserBTree::selectUserByDate(UserBTreeNode* node, IsVector<UserStruct>* users)
 {
-	bool found = false;
 	if (!node) return;
 
 	for (int i = 1; i <= node->count; i++)
 	{
-		std::string data = node->user[i].lastModifyDate;
-		std::string role = node->user[i].role;
 		//get active user(last login < 6 month)
-		if (data < DateTime::getCurrentMinusMonths(6) && role == "user")
+		if (node->user[i].lastModifyDate < DateTime::getCurrentMinusMonths(6) && node->user[i].role == "user")
 		{
-			found = true;
 			users->push_back(node->user[i]);
-			break;
 		}
 	}
 
-	if (found) return;
 
 	for (int i = 0; i <= node->count; i++)
 		selectUserByDate(node->child[i], users);

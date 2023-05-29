@@ -140,24 +140,43 @@ void Visitor::BTreeSearch(std::string institution)
 
 void Visitor::RedBlackTreeSearch(std::string institution)
 {
-	std::cout << "Algorithm 2 search" << std::endl;
-
 	int option = Menu::chooseSearchMethod();
 	string msg = "University with name ";
 
 	UniversityRBTreeNode* result;
 
 	if (option == 1) {
-		result = StatusContainer::universityRBTree.search(institution);
+		result = StatusContainer::universityRBTree.searchInstitution(institution);
 	}
 	else {
-		result = StatusContainer::universityRBTree.search(institution, 1);
+		result = StatusContainer::universityRBTree.searchInstitution(institution, 1);
 	}
 	if (result) {
 		if (result->element) {
 			msg = msg + result->element->institution;
-			Message::success(msg);
-			cout << "Rank: " << result->element->rank << endl;
+			Message::success(msg + "found");
+			std::cout << "Rank           :" << result->element->rank << '\t';
+			std::cout << "Institution    :" << result->element->institution << '\n';
+			std::cout << "Location code  :" << result->element->locationCode << '\t';
+			std::cout << "Location       :" << result->element->location << '\n';
+			std::cout << "ArScore        :" << result->element->ArScore << '\t';
+			std::cout << "ArRank         :" << result->element->ArRank << '\t';
+			std::cout << "ErScore        :" << result->element->ErScore << '\t';
+			std::cout << "ErRank         :" << result->element->ErRank << '\t';
+			std::cout << "FsrScore       :" << result->element->FsrScore << '\t';
+			std::cout << "FsrRank        :" << result->element->FsrRank << '\n';
+			std::cout << "CpfScore       :" << result->element->CpfScore << '\t';
+			std::cout << "CpfRank        :" << result->element->CpfRank << '\t';
+			std::cout << "IfrScore       :" << result->element->IfrScore << '\t';
+			std::cout << "IfrRank        :" << result->element->IfrRank << '\t';
+			std::cout << "IsrScore       :" << result->element->IsrScore << '\t';
+			std::cout << "IsrRank        :" << result->element->IsrRank << '\n';
+			std::cout << "IrnScore       :" << result->element->IrnScore << '\t';
+			std::cout << "IrnRank        :" << result->element->IrnRank << '\t';
+			std::cout << "GerScore       :" << result->element->GerScore << '\t';
+			std::cout << "GerRank        :" << result->element->GerRank << '\t';
+			std::cout << "ScoreScaled    :" << result->element->ScoreScaled << std::endl;
+			std::cout << std::endl;
 		}
 	}
 	else

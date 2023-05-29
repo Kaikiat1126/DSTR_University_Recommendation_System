@@ -25,6 +25,7 @@ public:
     void display();
     void displayCurrent();
     FeedbackNode* getCurrentFeedback();
+    void setCurrentFeedback(FeedbackNode* node);
 
     FeedbackNode* isReplyTo(FeedbackNode* node);
 
@@ -124,15 +125,15 @@ void FeedbackList::display() {
     FeedbackNode* child = nullptr;
 
     cout << left << setw(15) << "FeedbackID" << setw(15) << "UserName"
-         << setw(15) << "ReplyTo" << setw(25) << "Content" << "Institution" << endl;
+         << setw(15) << "ReplyTo" << setw(63) << "Content" << "Institution" << endl;
 
     while (node) {
         cout << setw(15) << node->feedback.FeedbackID << setw(15) << node->feedback.UserName
-            << setw(15) << node->feedback.ReplyTo << setw(25) << node->feedback.Content << node->feedback.Institution << endl;
+            << setw(15) << node->feedback.ReplyTo << setw(63) << node->feedback.Content << node->feedback.Institution << endl;
         child = node->ChildAddress;
         while (child) {
             cout << " ©¸©¤©¤ " << left << setw(15) << child->feedback.FeedbackID << setw(15) << child->feedback.UserName
-                << setw(15) << child->feedback.ReplyTo << setw(25) << child->feedback.Content << child->feedback.Institution << endl;
+                << setw(15) << child->feedback.ReplyTo << setw(63) << child->feedback.Content << child->feedback.Institution << endl;
             child = child->ChildAddress;
         }
         cout << endl;
@@ -169,4 +170,9 @@ void FeedbackList::displayCurrent() {
 FeedbackNode* FeedbackList::getCurrentFeedback()
 {
     return current;
+}
+
+void FeedbackList::setCurrentFeedback(FeedbackNode* node)
+{
+    current = node;
 }

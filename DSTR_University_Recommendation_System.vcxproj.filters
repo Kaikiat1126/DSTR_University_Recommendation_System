@@ -68,9 +68,6 @@
     <ClInclude Include="Visitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UserList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Validation.h">
       <Filter>Header Files</Filter>
     </ClInclude>

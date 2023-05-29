@@ -11,8 +11,6 @@ private:
     std::string email;
     std::string contactNum;
     std::string role;
-	//std::string role = "user";
-    //std::string role = "admin";
 
 	IsVector<std::string> favourite;
 
@@ -21,8 +19,10 @@ protected:
     
 public:
     User(std::string username, std::string password);
-    User(int userID, std::string username, std::string password, std::string email, std::string contactNum, std::string role);
-	User(int userID, std::string username, std::string password, std::string email, std::string contactNum, std::string role, IsVector<std::string> favourite);
+    User(int userID, std::string username, std::string password, std::string email, 
+        std::string contactNum, std::string role);
+	User(int userID, std::string username, std::string password, std::string email, 
+        std::string contactNum, std::string role, IsVector<std::string> favourite);
     int getUserID();
     std::string getUsername();
     std::string getPassword();

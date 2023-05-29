@@ -1,6 +1,5 @@
 #pragma once
 #include "User.h"
-#include "UserList.h"
 #include "UniversityList.h"
 #include "IsUnorderedMap.h"
 #include "BTree.h"
@@ -13,7 +12,6 @@ class StatusContainer
 {
 public:
 	static User* currentUser;
-	static UserList userList;
 	static UserBTree userBTree;
 	static UniversityList universityList;
 	static UniversityList* cacheUniList;
@@ -24,7 +22,6 @@ public:
 };
 
 User* StatusContainer::currentUser = nullptr;
-UserList StatusContainer::userList = UserList();
 UserBTree StatusContainer::userBTree = UserBTree();
 UniversityList StatusContainer::universityList = UniversityList();
 UniversityList* StatusContainer::cacheUniList = nullptr;

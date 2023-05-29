@@ -305,6 +305,8 @@ void go_to_manage_feedback()
             
             StatusContainer::feedbackList.replyFeedback(comment, user);
             Message::success("Reply Successfully");
+            system("pause");
+            system("cls");
         }
         else if (option == 2)
         {
@@ -330,29 +332,82 @@ void go_to_manage_feedback()
 
 void go_to_user_feedback()
 {
+    string user = StatusContainer::currentUser->getUsername();
+    FeedbackNode* current = nullptr;
+    FeedbackNode* temp = nullptr;
+    boolean hasFeedback = false;
+
     StatusContainer::feedbackList.getLatestFeedback();
-    StatusContainer::feedbackList.displayCurrent();
-    while (true)
-    {
-        int option = Menu::userFeedbackPage();
-        system("cls");
-        if (option == 1)
-        {
-			//cout << "Move Forward" << endl;
-            StatusContainer::feedbackList.getNextFeedback();
-            StatusContainer::feedbackList.displayCurrent();
-		}
-		else if (option == 2)
-		{
-			//cout << "Move Backward" << endl;
-            StatusContainer::feedbackList.getPrevFeedback();
-            StatusContainer::feedbackList.displayCurrent();
-		}
-		else if (option == 3)
-		{
-			break;
+    while (true) {
+        temp = StatusContainer::feedbackList.getNextFeedback();
+        if (user == StatusContainer::feedbackList.getCurrentFeedback()->feedback.UserName) {
+            current = StatusContainer::feedbackList.getCurrentFeedback();
+            hasFeedback = true;
+            break;
+        }
+        if (temp->NextAddress == nullptr) {
+            Message::warning("There is no feedback here!");
+            system("pause");
+            break;
         }
     }
+    if (hasFeedback) {
+        current = StatusContainer::feedbackList.getCurrentFeedback();
+        StatusContainer::feedbackList.displayCurrent();
+
+        while (true)
+        {
+            int option = Menu::userFeedbackPage();
+            system("cls");
+            if (option == 1)
+            {
+                do {
+                    temp = StatusContainer::feedbackList.getNextFeedback();
+                    if (user == StatusContainer::feedbackList.getCurrentFeedback()->feedback.UserName) {
+                        current = StatusContainer::feedbackList.getCurrentFeedback();
+                        break;
+                    }
+                    if (temp->NextAddress == nullptr) {
+                        StatusContainer::feedbackList.getNextFeedback();
+                        break;
+                    }
+                } while (true);
+
+
+                if (user != StatusContainer::feedbackList.getCurrentFeedback()->feedback.UserName) {
+                    StatusContainer::feedbackList.setCurrentFeedback(current);
+                }
+
+                StatusContainer::feedbackList.displayCurrent();
+            }
+            else if (option == 2)
+            {
+                do {
+                    temp = StatusContainer::feedbackList.getPrevFeedback();
+                    if (user == StatusContainer::feedbackList.getCurrentFeedback()->feedback.UserName) {
+                        current = StatusContainer::feedbackList.getCurrentFeedback();
+                        break;
+                    }
+                    if (temp->PrevAddress == nullptr) {
+                        StatusContainer::feedbackList.getPrevFeedback();
+                        break;
+                    }
+                } while (true);
+
+
+                if (user != StatusContainer::feedbackList.getCurrentFeedback()->feedback.UserName) {
+                    StatusContainer::feedbackList.setCurrentFeedback(current);
+                }
+
+                StatusContainer::feedbackList.displayCurrent();
+            }
+            else if (option == 3)
+            {
+                break;
+            }
+        }
+    }
+    
 	go_to_user_menu();
 }
 
@@ -387,6 +442,13 @@ void go_to_user_favourites()
     {
 		go_to_user_menu();
 	}
+    else if (option == -2)
+    {
+		cout << "No favourite can be deleted!" << endl;
+		Sleep(1000);
+		system("cls");
+		go_to_user_menu();
+    }
 }
 
 void go_to_user_search()
@@ -411,13 +473,10 @@ void go_to_user_search()
 
     if (list == nullptr)
     {
-		//cout << "nullptr" << endl;
         list = new UniversityList();
 		StatusContainer::cacheUniList = list;
-		//cout << StatusContainer::cacheUniList << endl;
         list = StatusContainer::universityBTree.filterUniversityByValue(&type, &range, &value);
 		StatusContainer::cacheUniList = list;
-		//cout << "Size: " << list->getSize() << endl;
     }
     else
     {
@@ -430,16 +489,13 @@ void go_to_user_search()
 		Sleep(1000);
 		system("cls");
 		list = nullptr;
+		StatusContainer::cacheUniList = nullptr;
         Menu::searchUniPage();
         go_to_user_search();
 	}
 	else
 	{
-		//cout << "Merge Sort" << endl;
         list->mergeSort(type);
-		//cout << "Size: " << list->getSize() << endl;
-        //StatusContainer::cacheUniList->displayUniversityList();
-        //list->displayUniversityList();
         list->displayUniversityListDesc();
         StatusContainer::cacheUniList = list;
 	}
@@ -498,11 +554,13 @@ bool go_to_end_search()
         {
             Message::error("Input's University ranking does not exist!");
             Sleep(1000);
+            system("cls");
         }
         else if (isFavourite && option == 1)
         {
             Message::notice("This university is already in your favourite list!");
             Sleep(1000);
+            system("cls");
         }
         else
         {

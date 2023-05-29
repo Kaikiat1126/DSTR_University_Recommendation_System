@@ -15,6 +15,7 @@ private:
 	UniversityNode* head = NULL;
 	UniversityNode* tail = NULL;
 	int size = 0;
+	UniversityNode* createNewNode(UniversityStruct university);
 	void filterUniversityWithLocation(UniversityNode* head, std::string& value);
 	void filterUniversityByValue(UniversityNode* head, int* type, int* range);
 	void deleteNode(UniversityNode* node);
@@ -23,8 +24,6 @@ private:
 public:
 	UniversityList();
 	UniversityList(const UniversityList& copy);
-	~UniversityList();
-	UniversityNode* createNewNode(UniversityStruct university);
 	void insertToEndOfList(UniversityStruct university);
 	UniversityNode* searchByRank(int rank);
 	UniversityNode* searchByInstitution(std::string institution);
@@ -40,6 +39,9 @@ public:
 	UniversityList* filterUniversityByValue(int* type, int* range, std::string* value);
 	void updateFavourite(const std::string&, int);
 	void displayInPagination(int page);
+
+	void traversalLinkedList();
+	void searchUniByRank(int);
 };
 
 UniversityList::UniversityList()
@@ -62,11 +64,6 @@ UniversityList::UniversityList(const UniversityList& copy)
 		insertToEndOfList(temp->university);
 		temp = temp->next;
 	}
-}
-
-UniversityList::~UniversityList()
-{
-	//destroy
 }
 
 UniversityNode* UniversityList::createNewNode(UniversityStruct university)
@@ -356,6 +353,8 @@ void UniversityList::filterUniversityByValue(UniversityNode* head, int* type, in
 	UniversityNode* temp = head;
 	int minScore = (*range - 1) * 20;
 	int maxScore = *range * 20;
+
+	bool end = false;
 	
 	while (temp != NULL)
 	{
@@ -387,14 +386,23 @@ void UniversityList::filterUniversityByValue(UniversityNode* head, int* type, in
 }
 
 void UniversityList::deleteNode(UniversityNode* node)
-{
+{	
 	if (node == nullptr)
+	{
 		return; // Handle the case when the node is null
+	}
 
 	if (node == head)
 	{
-		head = head->next;
-		head->prev = nullptr;
+		if (head->next != nullptr)   // check the head->next is null or not
+		{
+			head = head->next;
+			head->prev = nullptr;
+		}
+		else
+		{
+			head = nullptr;  // handle the case when head->next is null
+		}
 	}
 	else if (node == tail)
 	{
@@ -422,6 +430,54 @@ void UniversityList::updateFavourite(const std::string& institution, int count)
 		}
 		current = current->next;
 	}
+}
+
+void UniversityList::traversalLinkedList() {
+	auto start = Timer::getCurrentTime();
+
+	UniversityNode* temp = head;
+	while (temp != NULL)
+	{
+		temp = temp->next;
+	}
+
+	auto end = Timer::getCurrentTime();
+	std::cout << "Linkedlist Traversal time: " << Timer::getRunTime(start, end) << std::endl;
+}
+
+void UniversityList::searchUniByRank(int rank)
+{
+	auto start = Timer::getCurrentTime();
+
+	if (rank > size / 2)
+	{
+		UniversityNode* temp = tail;
+		while (temp != NULL)
+		{
+			if (temp->university.rank == rank)
+			{
+				//std::cout << "University found: " << temp->university.institution << std::endl;
+				break;
+			}
+			temp = temp->prev;
+		}
+	}
+	else
+	{
+		UniversityNode* temp = head;
+		while (temp != NULL)
+		{
+			if (temp->university.rank == rank)
+			{
+				//std::cout << "University found: " << temp->university.institution << std::endl;
+				break;
+			}
+			temp = temp->next;
+		}
+	}
+
+	auto end = Timer::getCurrentTime();
+	std::cout << "Linkedlist Search By Rank's Time: " << Timer::getRunTime(start, end) << std::endl;
 }
 
 void UniversityList::displayInPagination(int page) 

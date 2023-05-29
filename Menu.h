@@ -379,10 +379,13 @@ int Menu::userFavouritePage()
 		std::cout << "> ";
 		std::cin >> input;
 		int option = validOption(input, 2);
-		if (option != -1 && favs.getSize() != 0)
+		// if favs.size is 0 and option is 1, return -2(no favourite can remove)
+		// if favs.size not 0 and option is 1, return option
+		// if option is 2, return option
+		if (option != -1 && option == 2 || option == 1 && favs.getSize() != 0)
 			return option;
 		else if (option == 1 && favs.getSize() == 0)
-			return -1;
+			return -2;
 	}
 }
 

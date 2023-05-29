@@ -305,6 +305,8 @@ void go_to_manage_feedback()
             
             StatusContainer::feedbackList.replyFeedback(comment, user);
             Message::success("Reply Successfully");
+            system("pause");
+            system("cls");
         }
         else if (option == 2)
         {

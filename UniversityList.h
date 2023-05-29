@@ -353,6 +353,8 @@ void UniversityList::filterUniversityByValue(UniversityNode* head, int* type, in
 	UniversityNode* temp = head;
 	int minScore = (*range - 1) * 20;
 	int maxScore = *range * 20;
+
+	bool end = false;
 	
 	while (temp != NULL)
 	{
@@ -384,14 +386,23 @@ void UniversityList::filterUniversityByValue(UniversityNode* head, int* type, in
 }
 
 void UniversityList::deleteNode(UniversityNode* node)
-{
+{	
 	if (node == nullptr)
+	{
 		return; // Handle the case when the node is null
+	}
 
 	if (node == head)
 	{
-		head = head->next;
-		head->prev = nullptr;
+		if (head->next != nullptr)   // check the head->next is null or not
+		{
+			head = head->next;
+			head->prev = nullptr;
+		}
+		else
+		{
+			head = nullptr;  // handle the case when head->next is null
+		}
 	}
 	else if (node == tail)
 	{

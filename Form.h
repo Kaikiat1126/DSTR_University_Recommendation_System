@@ -186,18 +186,22 @@ std::string searchUniByLocationCode()
 
 	while (true)
 	{
-		std::cout << "> ";
-		std::cin.ignore();
-		std::getline(std::cin, locationCode);
+        std::cout << "> ";
+        std::cin.ignore();
+        std::cin >> locationCode;
 		if (locationCode.empty()) {
 			Message::warning("Don't leave empty input!");
 		}
 		if (locationCode.length() != 2) {
 			Message::warning("Location code must be 2 characters!");
 		}
+        
+		if (location.contains(locationCode)) {
+			break;
+		}
 		else
 		{
-			break;
+			Message::error("Location code not found! Please try again.");
 		}
 	}
 	std::cout << std::endl;

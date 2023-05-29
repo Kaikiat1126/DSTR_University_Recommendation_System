@@ -22,6 +22,7 @@ public:
 	int getSize();
 	T at(int index);
 	bool empty();
+	bool contains(T element);
 };
 
 template <class T>
@@ -142,4 +143,17 @@ template <class T>
 bool IsVector<T>::empty()
 {
 	return size == 0;
+}
+
+template <class T>
+bool IsVector<T>::contains(T element) 
+{
+	for (int i = 0; i < size; i++)
+	{
+		if (arr[i] == element)
+		{
+			return true;
+		}
+	}
+	return false;
 }

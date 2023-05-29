@@ -687,7 +687,6 @@ void UserBTree::selectUserByDate(UserBTreeNode* node, IsVector<UserStruct>* user
 		{
 			found = true;
 			users->push_back(node->user[i]);
-			break;
 		}
 	}
 

@@ -473,13 +473,10 @@ void go_to_user_search()
 
     if (list == nullptr)
     {
-		//cout << "nullptr" << endl;
         list = new UniversityList();
 		StatusContainer::cacheUniList = list;
-		//cout << StatusContainer::cacheUniList << endl;
         list = StatusContainer::universityBTree.filterUniversityByValue(&type, &range, &value);
 		StatusContainer::cacheUniList = list;
-		//cout << "Size: " << list->getSize() << endl;
     }
     else
     {
@@ -492,16 +489,13 @@ void go_to_user_search()
 		Sleep(1000);
 		system("cls");
 		list = nullptr;
+		StatusContainer::cacheUniList = nullptr;
         Menu::searchUniPage();
         go_to_user_search();
 	}
 	else
 	{
-		//cout << "Merge Sort" << endl;
         list->mergeSort(type);
-		//cout << "Size: " << list->getSize() << endl;
-        //StatusContainer::cacheUniList->displayUniversityList();
-        //list->displayUniversityList();
         list->displayUniversityListDesc();
         StatusContainer::cacheUniList = list;
 	}
@@ -560,11 +554,13 @@ bool go_to_end_search()
         {
             Message::error("Input's University ranking does not exist!");
             Sleep(1000);
+            system("cls");
         }
         else if (isFavourite && option == 1)
         {
             Message::notice("This university is already in your favourite list!");
             Sleep(1000);
+            system("cls");
         }
         else
         {

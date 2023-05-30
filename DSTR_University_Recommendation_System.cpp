@@ -337,20 +337,25 @@ void go_to_user_feedback()
     FeedbackNode* temp = nullptr;
     boolean hasFeedback = false;
 
-    StatusContainer::feedbackList.getLatestFeedback();
-    while (true) {
-        temp = StatusContainer::feedbackList.getNextFeedback();
-        if (user == StatusContainer::feedbackList.getCurrentFeedback()->feedback.UserName) {
-            current = StatusContainer::feedbackList.getCurrentFeedback();
-            hasFeedback = true;
-            break;
-        }
-        if (temp->NextAddress == nullptr) {
-            Message::warning("There is no feedback here!");
-            system("pause");
-            break;
+    if (user == StatusContainer::feedbackList.getLatestFeedback()->feedback.UserName) {
+        hasFeedback = true;
+    }
+    else {
+        while (true) {
+            temp = StatusContainer::feedbackList.getNextFeedback();
+            if (user == StatusContainer::feedbackList.getCurrentFeedback()->feedback.UserName) {
+                current = StatusContainer::feedbackList.getCurrentFeedback();
+                hasFeedback = true;
+                break;
+            }
+            if (temp->NextAddress == nullptr) {
+                Message::warning("There is no feedback here!");
+                system("pause");
+                break;
+            }
         }
     }
+    
     if (hasFeedback) {
         current = StatusContainer::feedbackList.getCurrentFeedback();
         StatusContainer::feedbackList.displayCurrent();

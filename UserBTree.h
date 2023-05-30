@@ -83,14 +83,14 @@ void UserBTree::traversal(UserBTreeNode* node)
 		for (i = 0;i < node->count;i++)
 		{
 			traversal(node->child[i]);
-			UserStruct user = node->user[i + 1];
-			std::cout << user.userID << " " << user.username << " " << user.email << " " << user.contactNum << " " << user.password << " " << user.lastModifyDate << " " << user.role << " ";
+			// UserStruct user = node->user[i + 1];
+			// std::cout << user.userID << " " << user.username << " " << user.email << " " << user.contactNum << " " << user.password << " " << user.lastModifyDate << " " << user.role << " ";
 			
-			for (int j = 0;j < user.favourite.getSize();j++)
-			{
-				std::cout << user.favourite.at(j) << " ";
-			}
-			std::cout << std::endl;
+			// for (int j = 0;j < user.favourite.getSize();j++)
+			// {
+			// 	std::cout << user.favourite.at(j) << " ";
+			// }
+			// std::cout << std::endl;
 		}
 		traversal(node->child[i]);
 	}
@@ -657,8 +657,6 @@ void UserBTree::selectUserByName(UserBTreeNode* node, IsVector<UserStruct>* user
 
 	for (int i = 1; i <= node->count; i++)
 	{
-		//std::string data = node->user[i].username;
-		//std::string role = node->user[i].role;
 		if (node->user[i].username == username && node->user[i].role == "user")
 		{
 			found = true;
@@ -675,23 +673,17 @@ void UserBTree::selectUserByName(UserBTreeNode* node, IsVector<UserStruct>* user
 
 void UserBTree::selectUserByDate(UserBTreeNode* node, IsVector<UserStruct>* users)
 {
-	bool found = false;
 	if (!node) return;
 
 	for (int i = 1; i <= node->count; i++)
 	{
-		/*std::string data = node->user[i].lastModifyDate;
-		std::string role = node->user[i].role;
-		get active user(last login < 6 month)*/
+		//get active user(last login < 6 month)
 		if (node->user[i].lastModifyDate < DateTime::getCurrentMinusMonths(6) && node->user[i].role == "user")
 		{
-			found = true;
 			users->push_back(node->user[i]);
-			break;
 		}
 	}
 
-	if (found) return;
 
 	for (int i = 0; i <= node->count; i++)
 		selectUserByDate(node->child[i], users);

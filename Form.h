@@ -8,6 +8,7 @@
 #include "DateTime.h"
 #include "StatusContainer.h"
 #include "Structure.h"
+#include "IsVector.h"
 
 #define NAME_REGEX "^[a-zA-Z0-9]{4,}$"
 #define EMAIL_REGEX "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
@@ -95,7 +96,8 @@ bool registrationForm()
 	newUser.password = password;
 	newUser.role = "user";
 	newUser.lastModifyDate = DateTime::getCurrentDateTime();
-    newUser.favourite = NULL;
+    IsVector<std::string>* vector = new IsVector<std::string>;
+    newUser.favourite = *vector;
     
     //store data
 	StatusContainer::userBTree.insertValueInBTree(newUser);
